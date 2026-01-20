@@ -77,6 +77,10 @@ export default {
           warning: "hsl(var(--catalog-warning))",
           danger: "hsl(var(--catalog-danger))",
         },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
