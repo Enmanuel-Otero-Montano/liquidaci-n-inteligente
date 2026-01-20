@@ -71,6 +71,12 @@ export default {
           DEFAULT: "hsl(var(--discount-badge))",
           foreground: "hsl(var(--discount-badge-foreground))",
         },
+        catalog: {
+          primary: "hsl(var(--catalog-primary))",
+          accent: "hsl(var(--catalog-accent))",
+          warning: "hsl(var(--catalog-warning))",
+          danger: "hsl(var(--catalog-danger))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
