@@ -58,6 +58,10 @@
     --catalog-accent: 142 76% 36%;
     --catalog-warning: 38 92% 50%;
     --catalog-danger: 0 72% 51%;
+
+    /* Warning color for stock alerts */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
   }
 
   .dark {
