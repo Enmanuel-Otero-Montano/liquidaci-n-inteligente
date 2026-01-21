@@ -47,6 +47,7 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
       {/* CTAs */}
       <ProductActions 
         product={product}
+        seller={seller || undefined}
         sellerPhone={seller?.telefono}
         disabled={product.stock_qty === 0}
       />

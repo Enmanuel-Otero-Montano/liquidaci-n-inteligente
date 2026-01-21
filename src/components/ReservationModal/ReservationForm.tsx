@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,7 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { Product } from '@/types/product';
+import { Seller } from '@/types/seller';
 import { useToast } from '@/hooks/use-toast';
 import { useCreateLead } from '@/hooks/useCreateLead';
 import { Loader2, Send } from 'lucide-react';
@@ -41,11 +43,13 @@ type ReservationFormData = z.infer<ReturnType<typeof createReservationSchema>>;
 
 interface ReservationFormProps {
   product: Product;
+  seller?: Seller;
   onSuccess: () => void;
 }
 
-export function ReservationForm({ product, onSuccess }: ReservationFormProps) {
+export function ReservationForm({ product, seller, onSuccess }: ReservationFormProps) {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const createLead = useCreateLead();
 
   const reservationSchema = createReservationSchema(product.stock_qty);
@@ -62,7 +66,7 @@ export function ReservationForm({ product, onSuccess }: ReservationFormProps) {
 
   const onSubmit = async (data: ReservationFormData) => {
     try {
-      await createLead.mutateAsync({
+      const lead = await createLead.mutateAsync({
         product_id: product.id,
         buyer_name: data.buyer_name,
         buyer_contact: data.buyer_contact,
@@ -72,11 +76,20 @@ export function ReservationForm({ product, onSuccess }: ReservationFormProps) {
       
       toast({
         title: '¡Reserva enviada!',
-        description: 'El vendedor se pondrá en contacto contigo pronto.',
+        description: 'Redirigiendo...',
       });
       
       form.reset();
       onSuccess();
+
+      // Navigate to confirmation page with state
+      navigate('/reserva-ok', {
+        state: {
+          lead,
+          product,
+          seller,
+        },
+      });
     } catch {
       toast({
         title: 'Error al enviar',
