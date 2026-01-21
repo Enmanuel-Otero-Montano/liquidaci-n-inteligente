@@ -6,10 +6,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Product } from '@/types/product';
+import { Seller } from '@/types/seller';
 import { ReservationForm } from './ReservationForm';
 
 interface ReservationModalProps {
   product: Product;
+  seller?: Seller;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -21,7 +23,7 @@ function formatPrice(price: number): string {
   }).format(price);
 }
 
-export function ReservationModal({ product, isOpen, onClose }: ReservationModalProps) {
+export function ReservationModal({ product, seller, isOpen, onClose }: ReservationModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -47,7 +49,7 @@ export function ReservationModal({ product, isOpen, onClose }: ReservationModalP
           </div>
         </div>
 
-        <ReservationForm product={product} onSuccess={onClose} />
+        <ReservationForm product={product} seller={seller} onSuccess={onClose} />
       </DialogContent>
     </Dialog>
   );

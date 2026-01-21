@@ -1,0 +1,1 @@
+export { ReservationConfirmationPage } from './ReservationConfirmationPage';

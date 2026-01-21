@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { MessageCircle, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/types/product';
+import { Seller } from '@/types/seller';
 import { ReservationModal } from '@/components/ReservationModal/ReservationModal';
 
 interface ProductActionsProps {
   product: Product;
+  seller?: Seller;
   sellerPhone?: string;
   disabled?: boolean;
 }
@@ -17,7 +19,7 @@ function formatPrice(price: number): string {
   }).format(price);
 }
 
-export function ProductActions({ product, sellerPhone, disabled }: ProductActionsProps) {
+export function ProductActions({ product, seller, sellerPhone, disabled }: ProductActionsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const whatsappMessage = encodeURIComponent(
@@ -69,6 +71,7 @@ export function ProductActions({ product, sellerPhone, disabled }: ProductAction
 
       <ReservationModal 
         product={product}
+        seller={seller}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
