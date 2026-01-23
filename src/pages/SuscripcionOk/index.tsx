@@ -1,0 +1,1 @@
+export { SuscripcionOkPage } from './SuscripcionOkPage';
