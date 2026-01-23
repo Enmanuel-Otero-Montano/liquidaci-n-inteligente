@@ -26,6 +26,30 @@ export const FRECUENCIAS = [
   { value: 'mejores', label: 'Solo las mejores ofertas (>40% OFF)' },
 ] as const;
 
+export const REPORT_REASONS = [
+  { 
+    value: 'descuento_enganoso', 
+    label: 'Descuento engañoso', 
+    description: 'El descuento anunciado no parece ser real'
+  },
+  { 
+    value: 'producto_no_coincide', 
+    label: 'Producto no coincide', 
+    description: 'Las fotos o descripción no coinciden con el producto'
+  },
+  { 
+    value: 'stock_inexistente', 
+    label: 'Stock inexistente', 
+    description: 'El vendedor dice no tener el producto disponible'
+  },
+  { 
+    value: 'otro', 
+    label: 'Otro motivo', 
+    description: 'Otro problema con la publicación'
+  },
+] as const;
+
 export type CategoriaValue = typeof CATEGORIAS[number]['value'];
 export type ZonaValue = typeof ZONAS_URUGUAY[number]['value'];
 export type FrecuenciaValue = typeof FRECUENCIAS[number]['value'];
+export type ReportReasonValue = typeof REPORT_REASONS[number]['value'];
