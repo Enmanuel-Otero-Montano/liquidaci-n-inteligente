@@ -1,4 +1,7 @@
+import { useState } from 'react';
+import { Flag } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Product } from '@/types/product';
 import { Seller } from '@/types/seller';
@@ -7,6 +10,7 @@ import { StockBadge } from './StockBadge';
 import { TrustBadge } from './TrustBadge';
 import { SellerInfo } from './SellerInfo';
 import { ProductActions } from './ProductActions';
+import { ReportModal } from '@/components/ReportModal';
 
 interface ProductInfoProps {
   product: Product;
@@ -15,6 +19,8 @@ interface ProductInfoProps {
 }
 
 export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoProps) {
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Categoría */}
@@ -65,6 +71,27 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
         seller={seller}
         location={product.location}
         isLoading={isSellerLoading}
+      />
+
+      {/* Reportar publicación */}
+      <Separator />
+      <div className="flex justify-center">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          className="text-muted-foreground hover:text-destructive"
+          onClick={() => setIsReportModalOpen(true)}
+        >
+          <Flag className="h-4 w-4 mr-1" />
+          Reportar publicación
+        </Button>
+      </div>
+
+      <ReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        productId={product.id}
+        productTitle={product.title}
       />
     </div>
   );
