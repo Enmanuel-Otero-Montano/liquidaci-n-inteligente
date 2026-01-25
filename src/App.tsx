@@ -11,6 +11,7 @@ import { ReservationConfirmationPage } from "./pages/ReservationConfirmation";
 import { SuscripcionPage } from "./pages/Suscripcion";
 import { SuscripcionOkPage } from "./pages/SuscripcionOk";
 import { SellerLoginPage } from "./pages/vendedor/Login";
+import { SellerRegisterPage } from "./pages/vendedor/Register";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
             
             {/* Auth vendedor */}
             <Route path="/vendedor/login" element={<SellerLoginPage />} />
+            <Route path="/vendedor/registro" element={<SellerRegisterPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

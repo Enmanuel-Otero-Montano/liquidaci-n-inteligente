@@ -8,8 +8,19 @@ interface AuthState {
   isLoading: boolean;
 }
 
+interface RegisterInput {
+  nombre_comercial: string;
+  responsable: string;
+  email: string;
+  telefono: string;
+  zona: string;
+  direccion?: string;
+  password: string;
+}
+
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
+  register: (data: RegisterInput) => Promise<void>;
   logout: () => void;
 }
 
@@ -59,6 +70,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const register = async (data: RegisterInput) => {
+    const { mockRegister } = await import('@/mocks/auth');
+    const result = await mockRegister(data);
+    
+    const authData = { user: result.user, token: result.token };
+    localStorage.setItem('seller_auth', JSON.stringify(authData));
+    
+    setState({
+      user: result.user,
+      token: result.token,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+  };
+
   const logout = () => {
     localStorage.removeItem('seller_auth');
     setState({
@@ -70,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, logout }}>
+    <AuthContext.Provider value={{ ...state, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
