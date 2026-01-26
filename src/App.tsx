@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import { CatalogPage } from "./pages/Catalog";
 import { ProductDetailPage } from "./pages/ProductDetail";
@@ -12,6 +13,7 @@ import { SuscripcionPage } from "./pages/Suscripcion";
 import { SuscripcionOkPage } from "./pages/SuscripcionOk";
 import { SellerLoginPage } from "./pages/vendedor/Login";
 import { SellerRegisterPage } from "./pages/vendedor/Register";
+import { SellerDashboardPage } from "./pages/vendedor/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,16 @@ const App = () => (
             {/* Auth vendedor */}
             <Route path="/vendedor/login" element={<SellerLoginPage />} />
             <Route path="/vendedor/registro" element={<SellerRegisterPage />} />
+            
+            {/* Rutas protegidas vendedor */}
+            <Route 
+              path="/vendedor" 
+              element={
+                <ProtectedRoute>
+                  <SellerDashboardPage />
+                </ProtectedRoute>
+              } 
+            />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
