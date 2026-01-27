@@ -1,3 +1,5 @@
+export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled';
+
 export interface Product {
   id: string;
   slug: string;
@@ -11,7 +13,7 @@ export interface Product {
   location: string;
   images: string[];
   seller_id: string;
-  status: 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled';
+  status: ProductStatus;
   created_at: string;
   updated_at: string;
 }
@@ -34,3 +36,10 @@ export type DiscountOption = {
   value: number;
   label: string;
 };
+
+export interface SellerProductFilters {
+  status?: ProductStatus | 'all';
+  search?: string;
+  sortBy?: 'title' | 'discount_pct' | 'stock_qty' | 'created_at';
+  sortOrder?: 'asc' | 'desc';
+}
