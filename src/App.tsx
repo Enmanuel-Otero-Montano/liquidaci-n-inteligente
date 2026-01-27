@@ -14,6 +14,7 @@ import { SuscripcionOkPage } from "./pages/SuscripcionOk";
 import { SellerLoginPage } from "./pages/vendedor/Login";
 import { SellerRegisterPage } from "./pages/vendedor/Register";
 import { SellerDashboardPage } from "./pages/vendedor/Dashboard";
+import { SellerProductsPage } from "./pages/vendedor/Products";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <SellerDashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/vendedor/productos" 
+              element={
+                <ProtectedRoute>
+                  <SellerProductsPage />
                 </ProtectedRoute>
               } 
             />

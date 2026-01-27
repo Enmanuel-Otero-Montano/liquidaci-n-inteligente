@@ -275,6 +275,79 @@ export const mockProducts: Product[] = [
   }
 ];
 
+// Additional products for seller-1 with various statuses
+export const sellerProducts: Product[] = [
+  ...mockProducts,
+  {
+    id: "17",
+    slug: "chaqueta-cuero-vintage",
+    title: "Chaqueta de Cuero Vintage - Talle L",
+    description: "Chaqueta de cuero genuino, estilo retro, excelente estado.",
+    category: "Ropa",
+    price_before: 80000,
+    price_now: 48000,
+    discount_pct: 40,
+    stock_qty: 1,
+    location: "Montevideo",
+    images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop"],
+    seller_id: "seller-1",
+    status: "draft",
+    created_at: "2024-01-20T10:00:00Z",
+    updated_at: "2024-01-20T10:00:00Z"
+  },
+  {
+    id: "18",
+    slug: "gorra-adidas-running",
+    title: "Gorra Adidas Aeroready - Running",
+    description: "Gorra deportiva con tecnología de secado rápido.",
+    category: "Deportes",
+    price_before: 3500,
+    price_now: 2100,
+    discount_pct: 40,
+    stock_qty: 10,
+    location: "Montevideo",
+    images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop"],
+    seller_id: "seller-1",
+    status: "pending",
+    created_at: "2024-01-19T14:00:00Z",
+    updated_at: "2024-01-19T14:00:00Z"
+  },
+  {
+    id: "19",
+    slug: "remera-algodon-premium",
+    title: "Pack 3 Remeras Algodón Premium - Varios Colores",
+    description: "Remeras de algodón peinado, alta durabilidad.",
+    category: "Ropa",
+    price_before: 4500,
+    price_now: 2700,
+    discount_pct: 40,
+    stock_qty: 0,
+    location: "Montevideo",
+    images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop"],
+    seller_id: "seller-1",
+    status: "rejected",
+    created_at: "2024-01-18T09:00:00Z",
+    updated_at: "2024-01-18T09:00:00Z"
+  },
+  {
+    id: "20",
+    slug: "bolso-deportivo-nike",
+    title: "Bolso Deportivo Nike Brasilia - 60L",
+    description: "Bolso amplio con compartimento para zapatillas.",
+    category: "Deportes",
+    price_before: 12000,
+    price_now: 7200,
+    discount_pct: 40,
+    stock_qty: 5,
+    location: "Montevideo",
+    images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"],
+    seller_id: "seller-1",
+    status: "disabled",
+    created_at: "2024-01-17T16:00:00Z",
+    updated_at: "2024-01-17T16:00:00Z"
+  },
+];
+
 export const categories = [
   { label: "Ropa", slug: "ropa" },
   { label: "Electrónica", slug: "electronica" },
@@ -305,3 +378,94 @@ export const sortOptions = [
   { value: "newest" as const, label: "Más nuevos" },
   { value: "price_asc" as const, label: "Precio menor" },
 ];
+
+// Mock function to get seller products
+export const mockGetSellerProducts = async (
+  sellerId: string,
+  filters?: {
+    status?: string;
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  }
+): Promise<Product[]> => {
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
+  let products = sellerProducts.filter(p => p.seller_id === sellerId);
+  
+  // Apply status filter
+  if (filters?.status && filters.status !== 'all') {
+    products = products.filter(p => p.status === filters.status);
+  }
+  
+  // Apply search filter
+  if (filters?.search) {
+    const searchLower = filters.search.toLowerCase();
+    products = products.filter(p => 
+      p.title.toLowerCase().includes(searchLower) ||
+      p.category.toLowerCase().includes(searchLower)
+    );
+  }
+  
+  // Apply sorting
+  if (filters?.sortBy) {
+    products = [...products].sort((a, b) => {
+      const order = filters.sortOrder === 'desc' ? -1 : 1;
+      switch (filters.sortBy) {
+        case 'title':
+          return order * a.title.localeCompare(b.title);
+        case 'discount_pct':
+          return order * (a.discount_pct - b.discount_pct);
+        case 'stock_qty':
+          return order * (a.stock_qty - b.stock_qty);
+        case 'created_at':
+          return order * (new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+        default:
+          return 0;
+      }
+    });
+  }
+  
+  return products;
+};
+
+// Mock function to duplicate a product
+export const mockDuplicateProduct = async (productId: string): Promise<Product> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  const product = sellerProducts.find(p => p.id === productId);
+  if (!product) {
+    throw new Error('Producto no encontrado');
+  }
+  
+  const newProduct: Product = {
+    ...product,
+    id: `product-${Date.now()}`,
+    slug: `${product.slug}-copia`,
+    title: `${product.title} (Copia)`,
+    status: 'draft',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+  
+  sellerProducts.push(newProduct);
+  return newProduct;
+};
+
+// Mock function to toggle product status
+export const mockToggleProductStatus = async (
+  productId: string, 
+  newStatus: 'approved' | 'disabled'
+): Promise<Product> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  const product = sellerProducts.find(p => p.id === productId);
+  if (!product) {
+    throw new Error('Producto no encontrado');
+  }
+  
+  product.status = newStatus;
+  product.updated_at = new Date().toISOString();
+  
+  return product;
+};
