@@ -469,3 +469,114 @@ export const mockToggleProductStatus = async (
   
   return product;
 };
+
+// Helper to generate slug from title
+const generateSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+};
+
+// Mock function to get a product for editing
+export const mockGetProductForEdit = async (productId: string): Promise<Product | null> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  return sellerProducts.find(p => p.id === productId) || null;
+};
+
+// Mock function to create a product
+export const mockCreateProduct = async (
+  data: {
+    title: string;
+    category: string;
+    description: string;
+    images: string[];
+    liquidation_reason: string;
+    stock_qty: number;
+    price_before: number;
+    price_now: number;
+    pickup_address?: string;
+    pickup_hours?: string;
+    offers_shipping: boolean;
+    shipping_cost?: number;
+    evidence_url?: string;
+    status: 'draft' | 'pending';
+  },
+  sellerId: string
+): Promise<Product> => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  const discount_pct = Math.round(((data.price_before - data.price_now) / data.price_before) * 100);
+  
+  const newProduct: Product = {
+    id: `product-${Date.now()}`,
+    slug: generateSlug(data.title),
+    title: data.title,
+    description: data.description,
+    category: data.category,
+    price_before: data.price_before,
+    price_now: data.price_now,
+    discount_pct,
+    stock_qty: data.stock_qty,
+    location: 'Montevideo', // Default, would come from seller
+    images: data.images,
+    seller_id: sellerId,
+    status: data.status,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+  
+  sellerProducts.push(newProduct);
+  return newProduct;
+};
+
+// Mock function to update a product
+export const mockUpdateProduct = async (
+  productId: string,
+  data: Partial<{
+    title: string;
+    category: string;
+    description: string;
+    images: string[];
+    liquidation_reason: string;
+    stock_qty: number;
+    price_before: number;
+    price_now: number;
+    pickup_address?: string;
+    pickup_hours?: string;
+    offers_shipping: boolean;
+    shipping_cost?: number;
+    evidence_url?: string;
+    status: 'draft' | 'pending';
+  }>
+): Promise<Product> => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  const productIndex = sellerProducts.findIndex(p => p.id === productId);
+  if (productIndex === -1) {
+    throw new Error('Producto no encontrado');
+  }
+  
+  const product = sellerProducts[productIndex];
+  
+  // Calculate new discount if prices changed
+  let discount_pct = product.discount_pct;
+  if (data.price_before !== undefined && data.price_now !== undefined) {
+    discount_pct = Math.round(((data.price_before - data.price_now) / data.price_before) * 100);
+  }
+  
+  const updatedProduct: Product = {
+    ...product,
+    ...data,
+    discount_pct,
+    slug: data.title ? generateSlug(data.title) : product.slug,
+    updated_at: new Date().toISOString(),
+  };
+  
+  sellerProducts[productIndex] = updatedProduct;
+  return updatedProduct;
+};
