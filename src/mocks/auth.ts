@@ -1,4 +1,4 @@
-import { Seller } from '@/types/seller';
+import { Seller, UpdateProfileInput } from '@/types/seller';
 import { mockSellers } from './sellers';
 
 interface LoginResult {
@@ -117,4 +117,81 @@ export const mockRegister = async (data: RegisterInput): Promise<RegisterResult>
 
 export const mockLogout = async (): Promise<void> => {
   await new Promise(resolve => setTimeout(resolve, 300));
+};
+
+export const mockUpdateProfile = async (
+  sellerId: string,
+  data: UpdateProfileInput
+): Promise<Seller> => {
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
+  // Try to find in mock sellers first
+  const mockSellerIndex = mockSellers.findIndex(s => s.id === sellerId);
+  if (mockSellerIndex !== -1) {
+    // For mock sellers, we can't really update them, but we simulate success
+    const updatedSeller: Seller = {
+      ...mockSellers[mockSellerIndex],
+      ...data,
+    };
+    return updatedSeller;
+  }
+  
+  // Try to find in registered sellers
+  const storedSellers = JSON.parse(localStorage.getItem(REGISTERED_SELLERS_KEY) || '[]');
+  const registeredIndex = storedSellers.findIndex(
+    (s: Seller) => s.id === sellerId
+  );
+  
+  if (registeredIndex === -1) {
+    throw new Error('Vendedor no encontrado');
+  }
+  
+  // Update the seller
+  storedSellers[registeredIndex] = {
+    ...storedSellers[registeredIndex],
+    ...data,
+  };
+  localStorage.setItem(REGISTERED_SELLERS_KEY, JSON.stringify(storedSellers));
+  
+  const { password, ...sellerWithoutPassword } = storedSellers[registeredIndex];
+  return sellerWithoutPassword;
+};
+
+export const mockChangePassword = async (
+  sellerId: string,
+  currentPassword: string,
+  newPassword: string
+): Promise<{ success: boolean }> => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Check if it's a mock seller
+  const mockSeller = mockSellers.find(s => s.id === sellerId);
+  if (mockSeller) {
+    if (currentPassword !== '123456') {
+      throw new Error('La contraseña actual es incorrecta');
+    }
+    // Mock sellers can't really change password, but we simulate success
+    return { success: true };
+  }
+  
+  // Check registered sellers
+  const storedSellers = JSON.parse(localStorage.getItem(REGISTERED_SELLERS_KEY) || '[]');
+  const registeredIndex = storedSellers.findIndex(
+    (s: Seller) => s.id === sellerId
+  );
+  
+  if (registeredIndex === -1) {
+    throw new Error('Vendedor no encontrado');
+  }
+  
+  if (storedSellers[registeredIndex].password !== currentPassword) {
+    throw new Error('La contraseña actual es incorrecta');
+  }
+  
+  // Update password
+  storedSellers[registeredIndex].password = newPassword;
+  storedSellers[registeredIndex].password_changed_at = new Date().toISOString();
+  localStorage.setItem(REGISTERED_SELLERS_KEY, JSON.stringify(storedSellers));
+  
+  return { success: true };
 };

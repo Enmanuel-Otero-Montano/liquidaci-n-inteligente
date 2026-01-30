@@ -22,6 +22,7 @@ interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterInput) => Promise<void>;
   logout: () => void;
+  updateUser: (data: Partial<Seller>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,8 +96,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const updateUser = (data: Partial<Seller>) => {
+    if (!state.user) return;
+    
+    const updatedUser = { ...state.user, ...data };
+    const authData = { user: updatedUser, token: state.token };
+    localStorage.setItem('seller_auth', JSON.stringify(authData));
+    
+    setState(prev => ({
+      ...prev,
+      user: updatedUser,
+    }));
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
+    <AuthContext.Provider value={{ ...state, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
