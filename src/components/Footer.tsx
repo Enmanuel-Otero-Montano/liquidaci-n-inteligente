@@ -18,6 +18,12 @@ const Footer = () => {
           {/* Links */}
           <nav className="flex flex-wrap items-center justify-center gap-6 text-sm" aria-label="Enlaces del pie de página">
             <a 
+              href="/ayuda" 
+              className="text-background/70 hover:text-background transition-colors"
+            >
+              Ayuda
+            </a>
+            <a 
               href="/terminos" 
               className="text-background/70 hover:text-background transition-colors"
             >
