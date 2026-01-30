@@ -1,4 +1,4 @@
-export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled';
+export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled' | 'changes_requested';
 
 export interface Product {
   id: string;
