@@ -22,6 +22,7 @@ import { ReservationsPage } from "./pages/vendedor/Reservations";
 import { ProfilePage } from "./pages/vendedor/Profile";
 import { AdminLoginPage } from "./pages/admin/Login";
 import { ModerationPage } from "./pages/admin/Moderation";
+import { SellersPage } from "./pages/admin/Sellers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -104,6 +105,14 @@ const App = () => (
                 element={
                   <AdminProtectedRoute>
                     <ModerationPage />
+                  </AdminProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/vendedores" 
+                element={
+                  <AdminProtectedRoute>
+                    <SellersPage />
                   </AdminProtectedRoute>
                 } 
               />
