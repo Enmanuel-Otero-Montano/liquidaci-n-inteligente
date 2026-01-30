@@ -1,5 +1,15 @@
 import { Seller, UpdateProfileInput } from '@/types/seller';
+import { Admin } from '@/types/admin';
 import { mockSellers } from './sellers';
+
+// Mock admin credentials
+const MOCK_ADMIN = {
+  id: 'admin-1',
+  email: 'admin@liquidaciones.uy',
+  password: 'Admin123!',
+  name: 'Administrador',
+  role: 'admin' as const,
+};
 
 interface LoginResult {
   success: boolean;
@@ -194,4 +204,20 @@ export const mockChangePassword = async (
   localStorage.setItem(REGISTERED_SELLERS_KEY, JSON.stringify(storedSellers));
   
   return { success: true };
+};
+
+// Admin login
+export const mockAdminLogin = async (email: string, password: string): Promise<Admin> => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  if (email === MOCK_ADMIN.email && password === MOCK_ADMIN.password) {
+    return {
+      id: MOCK_ADMIN.id,
+      email: MOCK_ADMIN.email,
+      name: MOCK_ADMIN.name,
+      role: MOCK_ADMIN.role,
+    };
+  }
+  
+  throw new Error('Credenciales inválidas');
 };
