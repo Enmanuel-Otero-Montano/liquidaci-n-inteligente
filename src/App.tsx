@@ -16,6 +16,7 @@ import { SellerRegisterPage } from "./pages/vendedor/Register";
 import { SellerDashboardPage } from "./pages/vendedor/Dashboard";
 import { SellerProductsPage } from "./pages/vendedor/Products";
 import { ProductFormPage } from "./pages/vendedor/ProductForm";
+import { ReservationsPage } from "./pages/vendedor/Reservations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -70,6 +71,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <ProductFormPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/vendedor/reservas" 
+              element={
+                <ProtectedRoute>
+                  <ReservationsPage />
                 </ProtectedRoute>
               } 
             />
