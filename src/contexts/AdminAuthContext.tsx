@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Admin } from '@/types/admin';
-import { mockAdminLogin } from '@/mocks/auth';
 
 const ADMIN_STORAGE_KEY = 'admin_session';
 
@@ -33,6 +32,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    const { mockAdminLogin } = await import('@/mocks/auth');
     const result = await mockAdminLogin(email, password);
     setAdmin(result);
     localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify({ 
