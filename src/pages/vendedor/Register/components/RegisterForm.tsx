@@ -66,7 +66,9 @@ const registerSchema = z.object({
   password: z
     .string()
     .min(1, 'La contraseña es requerida')
-    .min(6, 'La contraseña debe tener al menos 6 caracteres'),
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .regex(/[A-Z]/, 'Debe contener al menos una mayúscula')
+    .regex(/[0-9]/, 'Debe contener al menos un número'),
   
   confirmPassword: z
     .string()
@@ -290,7 +292,7 @@ export function RegisterForm() {
             <Input
               id="password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Mínimo 8 caracteres"
               className="pl-10 pr-10"
               disabled={isSubmitting}
               {...register('password')}
