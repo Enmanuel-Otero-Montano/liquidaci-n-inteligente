@@ -23,6 +23,7 @@ import { ProfilePage } from "./pages/vendedor/Profile";
 import { AdminLoginPage } from "./pages/admin/Login";
 import { ModerationPage } from "./pages/admin/Moderation";
 import { SellersPage } from "./pages/admin/Sellers";
+import { ReportsPage } from "./pages/admin/Reports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -113,6 +114,14 @@ const App = () => (
                 element={
                   <AdminProtectedRoute>
                     <SellersPage />
+                  </AdminProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/reportes" 
+                element={
+                  <AdminProtectedRoute>
+                    <ReportsPage />
                   </AdminProtectedRoute>
                 } 
               />
