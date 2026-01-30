@@ -24,7 +24,7 @@ import { AdminLoginPage } from "./pages/admin/Login";
 import { ModerationPage } from "./pages/admin/Moderation";
 import { SellersPage } from "./pages/admin/Sellers";
 import { ReportsPage } from "./pages/admin/Reports";
-import { TerminosPage } from "./pages/Legal";
+import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +46,7 @@ const App = () => (
               <Route path="/suscribirme" element={<SuscripcionPage />} />
               <Route path="/suscripcion-ok" element={<SuscripcionOkPage />} />
               <Route path="/terminos" element={<TerminosPage />} />
+              <Route path="/privacidad" element={<PrivacidadPage />} />
               
               {/* Auth vendedor */}
               <Route path="/vendedor/login" element={<SellerLoginPage />} />
