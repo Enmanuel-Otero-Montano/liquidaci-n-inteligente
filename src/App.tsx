@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AdminProtectedRoute } from "@/components/AdminProtectedRoute";
 import Index from "./pages/Index";
 import { CatalogPage } from "./pages/Catalog";
 import { ProductDetailPage } from "./pages/ProductDetail";
@@ -20,6 +21,7 @@ import { ProductFormPage } from "./pages/vendedor/ProductForm";
 import { ReservationsPage } from "./pages/vendedor/Reservations";
 import { ProfilePage } from "./pages/vendedor/Profile";
 import { AdminLoginPage } from "./pages/admin/Login";
+import { ModerationPage } from "./pages/admin/Moderation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -97,6 +99,14 @@ const App = () => (
               
               {/* Auth admin */}
               <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route 
+                path="/admin/moderacion" 
+                element={
+                  <AdminProtectedRoute>
+                    <ModerationPage />
+                  </AdminProtectedRoute>
+                } 
+              />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

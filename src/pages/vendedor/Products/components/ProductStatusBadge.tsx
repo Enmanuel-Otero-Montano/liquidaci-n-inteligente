@@ -27,6 +27,10 @@ const statusConfig: Record<ProductStatus, { label: string; className: string }> 
     label: 'Desactivado', 
     className: 'border border-input bg-background text-muted-foreground' 
   },
+  changes_requested: {
+    label: 'Cambios requeridos',
+    className: 'bg-amber-500/20 text-amber-700 border border-amber-500/30 hover:bg-amber-500/30'
+  },
 };
 
 export function ProductStatusBadge({ status }: ProductStatusBadgeProps) {
