@@ -1,0 +1,1 @@
+export { AyudaPage } from './AyudaPage';
