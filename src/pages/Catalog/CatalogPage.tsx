@@ -10,6 +10,7 @@ import { EmptyState } from './components/EmptyState';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { Percent } from 'lucide-react';
+import Header from '@/components/Header';
 
 export function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,12 +73,15 @@ export function CatalogPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header Banner */}
-      <div className="bg-catalog-primary text-white py-3">
+      {/* Header */}
+      <Header />
+
+      {/* Promo Banner */}
+      <div className="bg-primary text-primary-foreground py-3">
         <div className="container mx-auto px-4 flex items-center justify-center gap-2 text-sm md:text-base">
           <Percent className="h-4 w-4" />
           <span className="font-medium">Todo ≥25% OFF real</span>
-          <span className="text-white/80">• Descuentos verificados</span>
+          <span className="opacity-80">• Descuentos verificados</span>
         </div>
       </div>
 
@@ -130,7 +134,7 @@ export function CatalogPage() {
             <p className="text-destructive mb-4">Error al cargar los productos</p>
             <button 
               onClick={() => refetch()}
-              className="text-catalog-primary hover:underline"
+              className="text-primary hover:underline"
             >
               Reintentar
             </button>
