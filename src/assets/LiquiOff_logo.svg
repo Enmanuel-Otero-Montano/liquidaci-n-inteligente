@@ -1,0 +1,26 @@
+<svg width="64" height="80" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(8, 6) rotate(12, 24, 32)">
+    <path d="M0 0 L48 0 L48 52 L24 68 L0 52 Z" fill="#10B981"/>
+    <circle cx="24" cy="12" r="5" fill="white"/>
+
+    <!-- Palo -->
+    <path
+      d="M24 24 L24 44"
+      stroke="white"
+      stroke-width="4"
+      stroke-linecap="round"
+      fill="none"
+    />
+
+    <!-- Punta -->
+    <path
+      d="M16 36 L24 44 L32 36"
+      stroke="white"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </g>
+</svg>
+

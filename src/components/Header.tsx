@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Tag } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import LiquiOffLogo from "@/assets/LiquiOff_logo.svg";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,9 +12,7 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2" aria-label="Ir al inicio">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <Tag className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-9 w-auto" />
             <span className="text-xl font-bold text-foreground">LiquiMarket</span>
           </a>
 
