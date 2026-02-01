@@ -1,4 +1,4 @@
-import { Tag } from "lucide-react";
+import LiquiOffLogo from "@/assets/LiquiOff_logo.svg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,9 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2" aria-label="Ir al inicio">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Tag className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-8 w-auto" />
             <span className="text-lg font-bold">LiquiMarket</span>
           </a>
 
