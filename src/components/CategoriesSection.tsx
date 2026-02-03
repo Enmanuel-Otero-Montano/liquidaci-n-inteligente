@@ -40,7 +40,7 @@ const CategoriesSection = ({ minDiscount = 25, categories = defaultCategories }:
           {categories.map((category, index) => (
             <a
               key={category.slug}
-              href={`/liquidaciones?cat=${category.slug}`}
+              href={`/liquidaciones?category=${category.label}`}
               className="category-card group animate-fade-in"
               style={{ animationDelay: `${index * 50}ms` }}
               aria-label={`Ver liquidaciones de ${category.label}`}
