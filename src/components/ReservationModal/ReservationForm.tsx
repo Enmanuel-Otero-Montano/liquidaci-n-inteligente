@@ -75,8 +75,8 @@ export function ReservationForm({ product, seller, onSuccess }: ReservationFormP
       });
       
       toast({
-        title: '¡Reserva enviada!',
-        description: 'Redirigiendo...',
+        title: '¡Reserva enviada con éxito!',
+        description: 'El vendedor recibirá tu solicitud.',
       });
       
       form.reset();
