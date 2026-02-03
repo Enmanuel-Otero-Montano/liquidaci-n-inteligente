@@ -38,7 +38,7 @@ export function ProductFormPage() {
       description: '',
       images: [],
       liquidation_reason: undefined,
-      stock_qty: undefined,
+      stock_qty: 1,
       price_before: undefined,
       price_now: undefined,
       pickup_address: '',
