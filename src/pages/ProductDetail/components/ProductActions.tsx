@@ -22,8 +22,16 @@ function formatPrice(price: number): string {
 export function ProductActions({ product, seller, sellerPhone, disabled }: ProductActionsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const productUrl = `${window.location.origin}/p/${product.slug}`;
+  
   const whatsappMessage = encodeURIComponent(
-    `Hola! Me interesa el producto: ${product.title} ($${formatPrice(product.price_now)})`
+    `¡Hola! 👋\n\n` +
+    `Me interesa este producto de LiquiOff:\n\n` +
+    `📦 *${product.title}*\n` +
+    `💰 Precio: $${formatPrice(product.price_now)} (antes $${formatPrice(product.price_before)})\n` +
+    `🏷️ ${product.discount_pct}% OFF\n\n` +
+    `🔗 Ver producto: ${productUrl}\n\n` +
+    `¿Está disponible?`
   );
   
   const whatsappUrl = sellerPhone 
