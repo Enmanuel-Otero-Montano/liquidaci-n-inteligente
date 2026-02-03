@@ -23,6 +23,7 @@ export function CatalogPage() {
       ? parseInt(searchParams.get('min_discount')!) 
       : 25,
     location: searchParams.get('location') || undefined,
+    delivery_type: (searchParams.get('delivery_type') as CatalogFilters['delivery_type']) || undefined,
     sort_by: (searchParams.get('sort_by') as CatalogFilters['sort_by']) || 'discount_desc',
   }), [searchParams]);
 
@@ -67,6 +68,7 @@ export function CatalogPage() {
     if (filters.category) count++;
     if (filters.min_discount && filters.min_discount > 25) count++;
     if (filters.location) count++;
+    if (filters.delivery_type && filters.delivery_type !== 'all') count++;
     if (filters.sort_by && filters.sort_by !== 'discount_desc') count++;
     return count;
   }, [filters]);
