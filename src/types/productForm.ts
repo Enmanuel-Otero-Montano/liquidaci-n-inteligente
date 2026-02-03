@@ -28,7 +28,11 @@ export const productFormSchema = z.object({
   stock_qty: z.number({
     required_error: 'El stock es requerido',
     invalid_type_error: 'Ingresá un número válido',
-  }).min(1, 'Mínimo 1 unidad'),
+  })
+    .int('El stock debe ser un número entero')
+    .min(1, 'Mínimo 1 unidad')
+    .max(9999, 'Máximo 9999 unidades')
+    .default(1),
   price_before: z.number({
     required_error: 'El precio anterior es requerido',
     invalid_type_error: 'Ingresá un número válido',
