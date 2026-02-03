@@ -32,27 +32,7 @@ import { Lock, Loader2, Save, Key, MessageSquare, MapPin, User, Building } from 
 import { Seller, UpdateProfileInput } from '@/types/seller';
 import { useUpdateProfile } from '@/hooks/useProfile';
 
-const URUGUAY_DEPARTMENTS = [
-  'Montevideo',
-  'Canelones',
-  'Maldonado',
-  'Rocha',
-  'Colonia',
-  'San José',
-  'Flores',
-  'Florida',
-  'Lavalleja',
-  'Treinta y Tres',
-  'Cerro Largo',
-  'Rivera',
-  'Artigas',
-  'Salto',
-  'Paysandú',
-  'Río Negro',
-  'Soriano',
-  'Durazno',
-  'Tacuarembó',
-];
+import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
 const profileSchema = z.object({
   nombre_comercial: z.string().min(2, 'Mínimo 2 caracteres'),
@@ -224,8 +204,8 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {URUGUAY_DEPARTMENTS.map((dept) => (
-                        <SelectItem key={dept} value={dept.toLowerCase()}>
+                      {DEPARTAMENTOS_URUGUAY.map((dept) => (
+                        <SelectItem key={dept} value={dept}>
                           {dept}
                         </SelectItem>
                       ))}

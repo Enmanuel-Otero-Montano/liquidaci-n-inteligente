@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Product, CatalogFilters } from '@/types/product';
 import { mockProducts } from '@/mocks/products';
+import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
 // Simulated API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -87,10 +88,9 @@ export function useLocations() {
     queryKey: ['locations'],
     queryFn: async () => {
       await delay(200);
-      const uniqueLocations = [...new Set(mockProducts.map(p => p.location))];
-      return uniqueLocations.map(loc => ({
-        label: loc,
-        slug: loc.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      return DEPARTAMENTOS_URUGUAY.map(dep => ({
+        label: dep,
+        slug: dep.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
       }));
     },
     staleTime: 1000 * 60 * 60, // 1 hour
