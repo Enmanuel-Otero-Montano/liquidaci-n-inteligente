@@ -1,4 +1,5 @@
 import { Product } from '@/types/product';
+import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
 export const mockProducts: Product[] = [
   {
@@ -358,13 +359,10 @@ export const categories = [
   { label: "Accesorios", slug: "accesorios" },
 ];
 
-export const locations = [
-  { label: "Montevideo", slug: "montevideo" },
-  { label: "Canelones", slug: "canelones" },
-  { label: "Maldonado", slug: "maldonado" },
-  { label: "Salto", slug: "salto" },
-  { label: "Paysandú", slug: "paysandu" },
-];
+export const locations = DEPARTAMENTOS_URUGUAY.map((dep) => ({
+  label: dep,
+  slug: dep.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
+}));
 
 export const discountOptions = [
   { value: 25, label: "≥25% OFF" },

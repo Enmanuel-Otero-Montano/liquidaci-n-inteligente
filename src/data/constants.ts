@@ -9,16 +9,35 @@ export const CATEGORIAS = [
   { value: 'todas', label: 'Todas las categorías' },
 ] as const;
 
-export const ZONAS_URUGUAY = [
-  { value: 'montevideo', label: 'Montevideo' },
-  { value: 'canelones', label: 'Canelones' },
-  { value: 'maldonado', label: 'Maldonado' },
-  { value: 'colonia', label: 'Colonia' },
-  { value: 'paysandu', label: 'Paysandú' },
-  { value: 'salto', label: 'Salto' },
-  { value: 'rivera', label: 'Rivera' },
-  { value: 'otro', label: 'Otro departamento' },
+export const DEPARTAMENTOS_URUGUAY = [
+  'Artigas',
+  'Canelones',
+  'Cerro Largo',
+  'Colonia',
+  'Durazno',
+  'Flores',
+  'Florida',
+  'Lavalleja',
+  'Maldonado',
+  'Montevideo',
+  'Paysandú',
+  'Río Negro',
+  'Rivera',
+  'Rocha',
+  'Salto',
+  'San José',
+  'Soriano',
+  'Tacuarembó',
+  'Treinta y Tres',
 ] as const;
+
+export type Departamento = typeof DEPARTAMENTOS_URUGUAY[number];
+
+// Alias para retrocompatibilidad
+export const ZONAS_URUGUAY = DEPARTAMENTOS_URUGUAY.map((dep) => ({
+  value: dep,
+  label: dep,
+}));
 
 export const FRECUENCIAS = [
   { value: 'inmediato', label: 'Cada vez que haya algo nuevo' },
