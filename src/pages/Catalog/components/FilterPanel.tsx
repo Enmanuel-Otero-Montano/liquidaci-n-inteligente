@@ -1,4 +1,4 @@
-import { SlidersHorizontal, X } from 'lucide-react';
+import { SlidersHorizontal, X, Truck, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { CatalogFilters } from '@/types/product';
-import { discountOptions, sortOptions } from '@/mocks/products';
+import { discountOptions, sortOptions, deliveryOptions } from '@/mocks/products';
 
 interface FilterPanelProps {
   filters: CatalogFilters;
@@ -82,6 +82,7 @@ export function FilterPanel({
           }
         >
           <SelectTrigger className="w-[140px] h-9 bg-background" aria-label="Filtrar por zona">
+            <MapPin className="h-3.5 w-3.5 mr-1 opacity-50" />
             <SelectValue placeholder="Zona" />
           </SelectTrigger>
           <SelectContent>
@@ -89,6 +90,26 @@ export function FilterPanel({
             {locations.map((loc) => (
               <SelectItem key={loc.slug} value={loc.label}>
                 {loc.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Delivery Type Filter */}
+        <Select
+          value={filters.delivery_type || "all"}
+          onValueChange={(value) => 
+            onFilterChange('delivery_type', value === 'all' ? undefined : value)
+          }
+        >
+          <SelectTrigger className="w-[170px] h-9 bg-background" aria-label="Filtrar por modalidad de entrega">
+            <Truck className="h-3.5 w-3.5 mr-1 opacity-50" />
+            <SelectValue placeholder="Entrega" />
+          </SelectTrigger>
+          <SelectContent>
+            {deliveryOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
               </SelectItem>
             ))}
           </SelectContent>

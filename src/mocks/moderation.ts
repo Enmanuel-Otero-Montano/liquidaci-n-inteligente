@@ -22,7 +22,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-1',
     status: 'pending',
-    created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+    delivery_type: 'shipping',
+    shipping_cost: 150,
+    created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -41,7 +43,8 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-2',
     status: 'pending',
-    created_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago
+    delivery_type: 'pickup',
+    created_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -61,7 +64,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-3',
     status: 'pending',
-    created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+    delivery_type: 'both',
+    shipping_cost: 200,
+    created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -80,7 +85,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-5',
     status: 'pending',
-    created_at: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(), // 2 days ago
+    delivery_type: 'shipping',
+    shipping_cost: 350,
+    created_at: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -99,7 +106,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-4',
     status: 'pending',
-    created_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
+    delivery_type: 'both',
+    shipping_cost: 100,
+    created_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -119,7 +128,8 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-3',
     status: 'pending',
-    created_at: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString(), // 3 days ago
+    delivery_type: 'pickup',
+    created_at: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -138,7 +148,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-2',
     status: 'pending',
-    created_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(), // 1 hour ago
+    delivery_type: 'both',
+    shipping_cost: 500,
+    created_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -157,7 +169,9 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-1',
     status: 'pending',
-    created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(), // 30 min ago
+    delivery_type: 'shipping',
+    shipping_cost: 120,
+    created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
   },
   {
@@ -176,7 +190,8 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-2',
     status: 'pending',
-    created_at: new Date(Date.now() - 96 * 60 * 60 * 1000).toISOString(), // 4 days ago
+    delivery_type: 'pickup',
+    created_at: new Date(Date.now() - 96 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 96 * 60 * 60 * 1000).toISOString(),
   },
   {
@@ -195,7 +210,8 @@ const pendingProductsData: Omit<Product, 'seller'>[] = [
     ],
     seller_id: 'seller-5',
     status: 'pending',
-    created_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(), // 12 hours ago
+    delivery_type: 'pickup',
+    created_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
   },
 ];

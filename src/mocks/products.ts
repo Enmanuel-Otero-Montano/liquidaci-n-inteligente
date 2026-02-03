@@ -1,4 +1,4 @@
-import { Product } from '@/types/product';
+import { Product, DeliveryType } from '@/types/product';
 import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
 export const mockProducts: Product[] = [
@@ -16,6 +16,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 350,
     created_at: "2024-01-15T10:00:00Z",
     updated_at: "2024-01-15T10:00:00Z"
   },
@@ -33,6 +35,7 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
     status: "approved",
+    delivery_type: "pickup",
     created_at: "2024-01-14T15:30:00Z",
     updated_at: "2024-01-14T15:30:00Z"
   },
@@ -50,6 +53,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "approved",
+    delivery_type: "shipping",
+    shipping_cost: 200,
     created_at: "2024-01-13T09:00:00Z",
     updated_at: "2024-01-13T09:00:00Z"
   },
@@ -67,6 +72,7 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
     status: "approved",
+    delivery_type: "pickup",
     created_at: "2024-01-12T11:00:00Z",
     updated_at: "2024-01-12T11:00:00Z"
   },
@@ -84,6 +90,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 150,
     created_at: "2024-01-11T14:00:00Z",
     updated_at: "2024-01-11T14:00:00Z"
   },
@@ -101,6 +109,7 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
     status: "approved",
+    delivery_type: "pickup",
     created_at: "2024-01-10T16:00:00Z",
     updated_at: "2024-01-10T16:00:00Z"
   },
@@ -118,6 +127,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 500,
     created_at: "2024-01-09T10:30:00Z",
     updated_at: "2024-01-09T10:30:00Z"
   },
@@ -135,6 +146,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
     status: "approved",
+    delivery_type: "shipping",
+    shipping_cost: 300,
     created_at: "2024-01-08T09:00:00Z",
     updated_at: "2024-01-08T09:00:00Z"
   },
@@ -152,6 +165,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 100,
     created_at: "2024-01-07T12:00:00Z",
     updated_at: "2024-01-07T12:00:00Z"
   },
@@ -169,6 +184,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
     status: "approved",
+    delivery_type: "shipping",
+    shipping_cost: 450,
     created_at: "2024-01-06T08:00:00Z",
     updated_at: "2024-01-06T08:00:00Z"
   },
@@ -186,6 +203,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 180,
     created_at: "2024-01-05T14:00:00Z",
     updated_at: "2024-01-05T14:00:00Z"
   },
@@ -203,6 +222,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
     status: "approved",
+    delivery_type: "shipping",
+    shipping_cost: 150,
     created_at: "2024-01-04T11:00:00Z",
     updated_at: "2024-01-04T11:00:00Z"
   },
@@ -220,6 +241,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "approved",
+    delivery_type: "both",
+    shipping_cost: 200,
     created_at: "2024-01-03T10:00:00Z",
     updated_at: "2024-01-03T10:00:00Z"
   },
@@ -237,6 +260,7 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
     status: "approved",
+    delivery_type: "pickup",
     created_at: "2024-01-02T09:00:00Z",
     updated_at: "2024-01-02T09:00:00Z"
   },
@@ -254,6 +278,8 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
     status: "approved",
+    delivery_type: "shipping",
+    shipping_cost: 120,
     created_at: "2024-01-01T15:00:00Z",
     updated_at: "2024-01-01T15:00:00Z"
   },
@@ -271,6 +297,7 @@ export const mockProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
     status: "approved",
+    delivery_type: "pickup",
     created_at: "2023-12-30T10:00:00Z",
     updated_at: "2023-12-30T10:00:00Z"
   }
@@ -293,6 +320,8 @@ export const sellerProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "draft",
+    delivery_type: "both",
+    shipping_cost: 250,
     created_at: "2024-01-20T10:00:00Z",
     updated_at: "2024-01-20T10:00:00Z"
   },
@@ -310,6 +339,8 @@ export const sellerProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "pending",
+    delivery_type: "shipping",
+    shipping_cost: 100,
     created_at: "2024-01-19T14:00:00Z",
     updated_at: "2024-01-19T14:00:00Z"
   },
@@ -327,6 +358,7 @@ export const sellerProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "rejected",
+    delivery_type: "pickup",
     created_at: "2024-01-18T09:00:00Z",
     updated_at: "2024-01-18T09:00:00Z"
   },
@@ -344,6 +376,8 @@ export const sellerProducts: Product[] = [
     images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
     status: "disabled",
+    delivery_type: "both",
+    shipping_cost: 180,
     created_at: "2024-01-17T16:00:00Z",
     updated_at: "2024-01-17T16:00:00Z"
   },
@@ -375,6 +409,12 @@ export const sortOptions = [
   { value: "discount_desc" as const, label: "Más descuento" },
   { value: "newest" as const, label: "Más nuevos" },
   { value: "price_asc" as const, label: "Precio menor" },
+];
+
+export const deliveryOptions = [
+  { value: "all", label: "Todas las modalidades" },
+  { value: "pickup", label: "Solo retiro en persona" },
+  { value: "shipping", label: "Con envío disponible" },
 ];
 
 // Mock function to get seller products
@@ -510,6 +550,14 @@ export const mockCreateProduct = async (
   
   const discount_pct = Math.round(((data.price_before - data.price_now) / data.price_before) * 100);
   
+  // Determine delivery type
+  let delivery_type: DeliveryType = 'pickup';
+  if (data.offers_shipping && data.pickup_address) {
+    delivery_type = 'both';
+  } else if (data.offers_shipping) {
+    delivery_type = 'shipping';
+  }
+  
   const newProduct: Product = {
     id: `product-${Date.now()}`,
     slug: generateSlug(data.title),
@@ -524,6 +572,8 @@ export const mockCreateProduct = async (
     images: data.images,
     seller_id: sellerId,
     status: data.status,
+    delivery_type,
+    shipping_cost: data.offers_shipping ? data.shipping_cost : undefined,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
@@ -567,10 +617,24 @@ export const mockUpdateProduct = async (
     discount_pct = Math.round(((data.price_before - data.price_now) / data.price_before) * 100);
   }
   
+  // Determine delivery type if shipping info changed
+  let delivery_type = product.delivery_type;
+  if (data.offers_shipping !== undefined) {
+    if (data.offers_shipping && data.pickup_address) {
+      delivery_type = 'both';
+    } else if (data.offers_shipping) {
+      delivery_type = 'shipping';
+    } else {
+      delivery_type = 'pickup';
+    }
+  }
+  
   const updatedProduct: Product = {
     ...product,
     ...data,
     discount_pct,
+    delivery_type,
+    shipping_cost: data.offers_shipping ? data.shipping_cost : product.shipping_cost,
     slug: data.title ? generateSlug(data.title) : product.slug,
     updated_at: new Date().toISOString(),
   };

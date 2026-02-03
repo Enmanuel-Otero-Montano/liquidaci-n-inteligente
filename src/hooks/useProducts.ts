@@ -39,6 +39,21 @@ async function fetchProducts(filters: CatalogFilters): Promise<Product[]> {
     );
   }
 
+  // Delivery type filter
+  if (filters.delivery_type && filters.delivery_type !== 'all') {
+    if (filters.delivery_type === 'shipping') {
+      // Show products that offer shipping (shipping or both)
+      filteredProducts = filteredProducts.filter(p => 
+        p.delivery_type === 'shipping' || p.delivery_type === 'both'
+      );
+    } else if (filters.delivery_type === 'pickup') {
+      // Show products that are pickup only
+      filteredProducts = filteredProducts.filter(p => 
+        p.delivery_type === 'pickup'
+      );
+    }
+  }
+
   // Sorting
   switch (filters.sort_by) {
     case 'discount_desc':

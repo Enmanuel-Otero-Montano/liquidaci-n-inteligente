@@ -1,5 +1,7 @@
 export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled' | 'changes_requested';
 
+export type DeliveryType = 'pickup' | 'shipping' | 'both';
+
 export interface Product {
   id: string;
   slug: string;
@@ -14,6 +16,8 @@ export interface Product {
   images: string[];
   seller_id: string;
   status: ProductStatus;
+  delivery_type: DeliveryType;
+  shipping_cost?: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -23,7 +27,7 @@ export interface CatalogFilters {
   category?: string;
   min_discount?: number;
   location?: string;
-  delivery_type?: 'pickup' | 'shipping' | 'both';
+  delivery_type?: 'pickup' | 'shipping' | 'both' | 'all';
   sort_by?: 'discount_desc' | 'newest' | 'price_asc';
 }
 
