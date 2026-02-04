@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Product } from '@/types/product';
 import { ArrowRight, AlertTriangle, Tag } from 'lucide-react';
+import { SellerAvatar } from '@/components/seller/SellerAvatar';
 
 interface ProductCardProps {
   product: Product;
@@ -46,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.quantityPromo && (
             <Badge 
               variant="secondary" 
-              className="absolute top-3 left-3 bg-purple-100 text-purple-700 border border-purple-300 font-medium text-xs px-1.5 py-0.5 shadow-sm"
+              className="absolute top-3 left-3 bg-secondary text-secondary-foreground border border-border font-medium text-xs px-1.5 py-0.5 shadow-sm"
             >
               <Tag className="h-3 w-3 mr-1" />
               {product.quantityPromo.badgeText}
@@ -79,6 +80,18 @@ export function ProductCard({ product }: ProductCardProps) {
               <AlertTriangle className="h-3 w-3 mr-1" />
               {product.stock_qty === 1 ? 'Última unidad' : `Últimas ${product.stock_qty} unidades`}
             </Badge>
+          )}
+
+          {/* Seller Avatar */}
+          {product.seller && (
+            <div className="pt-1">
+              <SellerAvatar
+                image={product.seller.profile_image}
+                name={product.seller.nombre_comercial}
+                size="sm"
+                showName={true}
+              />
+            </div>
           )}
 
           {/* Location */}

@@ -1,4 +1,5 @@
 import { PromoQuantityType } from './productForm';
+import { Seller } from './seller';
 
 export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled' | 'changes_requested';
 
@@ -29,6 +30,7 @@ export interface Product {
   location: string;
   images: string[];
   seller_id: string;
+  seller?: Pick<Seller, 'id' | 'nombre_comercial' | 'profile_image' | 'zona' | 'status'>;
   status: ProductStatus;
   delivery_type: DeliveryType;
   shipping_cost?: number | null;
