@@ -79,7 +79,7 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
         <Button 
           variant="ghost" 
           size="sm"
-          className="text-muted-foreground hover:text-destructive"
+          className="text-destructive border border-transparent hover:border-destructive hover:bg-destructive/5"
           onClick={() => setIsReportModalOpen(true)}
         >
           <Flag className="h-4 w-4 mr-1" />
