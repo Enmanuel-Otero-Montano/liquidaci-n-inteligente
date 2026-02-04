@@ -11,6 +11,7 @@ import { TrustBadge } from './TrustBadge';
 import { SellerInfo } from './SellerInfo';
 import { ProductActions } from './ProductActions';
 import { ReportModal } from '@/components/ReportModal';
+import { QuantityPromoDetail } from '@/components/product/QuantityPromoDetail';
 
 interface ProductInfoProps {
   product: Product;
@@ -47,6 +48,14 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
 
       {/* Stock */}
       <StockBadge quantity={product.stock_qty} />
+
+      {/* Promoción por cantidad */}
+      {product.quantityPromo && (
+        <QuantityPromoDetail 
+          promo={product.quantityPromo} 
+          priceNow={product.price_now} 
+        />
+      )}
 
       <Separator />
 

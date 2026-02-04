@@ -10,6 +10,16 @@ export const LIQUIDATION_REASONS = [
 
 export type LiquidationReason = typeof LIQUIDATION_REASONS[number]['value'];
 
+export const PROMO_QUANTITY_TYPES = [
+  { value: 'none', label: 'Sin promoción por cantidad' },
+  { value: '2x1', label: '2x1 (llevás 2, pagás 1)' },
+  { value: '3x2', label: '3x2 (llevás 3, pagás 2)' },
+  { value: 'pack_price', label: 'Precio especial por pack' },
+  { value: 'quantity_discount', label: 'Descuento a partir de X unidades' },
+] as const;
+
+export type PromoQuantityType = typeof PROMO_QUANTITY_TYPES[number]['value'];
+
 export const productFormSchema = z.object({
   title: z.string()
     .min(1, 'El título es requerido')
@@ -47,9 +57,45 @@ export const productFormSchema = z.object({
   offers_shipping: z.boolean().default(false),
   shipping_cost: z.number().optional(),
   evidence_url: z.string().url('Ingresá una URL válida').optional().or(z.literal('')),
+  // Promoción por cantidad
+  has_quantity_promo: z.boolean().default(false),
+  quantity_promo_type: z.enum(['none', '2x1', '3x2', 'pack_price', 'quantity_discount']).default('none'),
+  pack_quantity: z.number().min(2, 'Mínimo 2 unidades').optional(),
+  pack_price: z.number().min(1, 'El precio debe ser mayor a 0').optional(),
+  min_quantity_for_discount: z.number().min(2, 'Mínimo 2 unidades').optional(),
+  quantity_discount_percent: z.number().min(25, 'Mínimo 25%').max(100, 'Máximo 100%').optional(),
 }).refine(
   (data) => data.price_now < data.price_before,
   { message: 'El precio de liquidación debe ser menor al anterior', path: ['price_now'] }
+).refine(
+  (data) => {
+    // Validar campos requeridos para pack_price
+    if (data.has_quantity_promo && data.quantity_promo_type === 'pack_price') {
+      return data.pack_quantity !== undefined && data.pack_price !== undefined;
+    }
+    return true;
+  },
+  { message: 'Completá la cantidad y el precio del pack', path: ['pack_price'] }
+).refine(
+  (data) => {
+    // Validar campos requeridos para quantity_discount
+    if (data.has_quantity_promo && data.quantity_promo_type === 'quantity_discount') {
+      return data.min_quantity_for_discount !== undefined && data.quantity_discount_percent !== undefined;
+    }
+    return true;
+  },
+  { message: 'Completá la cantidad mínima y el porcentaje de descuento', path: ['quantity_discount_percent'] }
+).refine(
+  (data) => {
+    // Validar que el descuento del pack sea >= 25%
+    if (data.has_quantity_promo && data.quantity_promo_type === 'pack_price' && data.pack_quantity && data.pack_price && data.price_before) {
+      const pricePerUnitInPack = data.pack_price / data.pack_quantity;
+      const effectiveDiscount = ((data.price_before - pricePerUnitInPack) / data.price_before) * 100;
+      return effectiveDiscount >= 25;
+    }
+    return true;
+  },
+  { message: 'El precio del pack debe representar al menos 25% de descuento', path: ['pack_price'] }
 );
 
 export type ProductFormData = z.infer<typeof productFormSchema>;
@@ -69,6 +115,13 @@ export interface CreateProductInput {
   shipping_cost?: number;
   evidence_url?: string;
   status: 'draft' | 'pending';
+  // Promoción por cantidad
+  has_quantity_promo?: boolean;
+  quantity_promo_type?: PromoQuantityType;
+  pack_quantity?: number;
+  pack_price?: number;
+  min_quantity_for_discount?: number;
+  quantity_discount_percent?: number;
 }
 
 export interface UpdateProductInput extends Partial<CreateProductInput> {
