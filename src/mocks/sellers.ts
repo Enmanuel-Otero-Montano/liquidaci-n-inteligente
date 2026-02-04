@@ -4,46 +4,64 @@ export const mockSellers: Seller[] = [
   {
     id: "seller-1",
     nombre_comercial: "Norte Sports",
+    responsable: "Juan Pérez",
     email: "contacto@nortesports.com",
     telefono: "59899123456",
     zona: "Montevideo",
+    direccion: "Av. 18 de Julio 1234",
     politicas: "Retiro en local con documento. No se aceptan devoluciones en liquidación.",
-    horario_retiro: "Lunes a Viernes 10:00 - 18:00, Sábados 10:00 - 14:00"
+    horario_retiro: "Lunes a Viernes 10:00 - 18:00, Sábados 10:00 - 14:00",
+    status: 'active',
+    profile_image: null, // Sin imagen - mostrará iniciales "NS"
+    whatsapp_message: "Hola, vi tu producto en LiquiOff",
   },
   {
     id: "seller-2",
     nombre_comercial: "TecnoHogar",
+    responsable: "María García",
     email: "ventas@tecnohogar.com",
     telefono: "59898765432",
     zona: "Canelones",
     politicas: "Productos con garantía limitada. Retiro coordinado previamente.",
-    horario_retiro: "Lunes a Viernes 9:00 - 17:00"
+    horario_retiro: "Lunes a Viernes 9:00 - 17:00",
+    status: 'active',
+    // Con imagen de ejemplo (usar placeholder)
+    profile_image: 'https://api.dicebear.com/7.x/initials/svg?seed=TH&backgroundColor=10b981',
   },
   {
     id: "seller-3",
     nombre_comercial: "Casa Design",
+    responsable: "Ana López",
     email: "info@casadesign.com",
     telefono: "59897654321",
     zona: "Maldonado",
     politicas: "Envíos disponibles con costo adicional. Retiro previa cita.",
-    horario_retiro: "Martes a Sábado 11:00 - 19:00"
+    horario_retiro: "Martes a Sábado 11:00 - 19:00",
+    status: 'pending',
+    profile_image: null,
   },
   {
     id: "seller-4",
     nombre_comercial: "Beauty Corner",
+    responsable: "Carolina Fernández",
     email: "hola@beautycorner.com",
     telefono: "59896543210",
     zona: "Montevideo",
     politicas: "Productos sellados, sin devolución. Verificar fecha de vencimiento.",
-    horario_retiro: "Lunes a Sábado 10:00 - 20:00"
+    horario_retiro: "Lunes a Sábado 10:00 - 20:00",
+    status: 'active',
+    profile_image: 'https://api.dicebear.com/7.x/initials/svg?seed=BC&backgroundColor=8b5cf6',
   },
   {
     id: "seller-5",
     nombre_comercial: "Deportes Plus",
+    responsable: "Roberto Martínez",
     email: "contacto@deportesplus.com",
     telefono: "59895432109",
     zona: "Paysandú",
     politicas: "Cambios solo por talle dentro de 48hs con etiqueta.",
-    horario_retiro: "Lunes a Viernes 8:00 - 12:00 y 14:00 - 18:00"
+    horario_retiro: "Lunes a Viernes 8:00 - 12:00 y 14:00 - 18:00",
+    status: 'active',
+    profile_image: null,
   }
 ];

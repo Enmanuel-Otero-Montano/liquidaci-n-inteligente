@@ -28,9 +28,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
-import { Lock, Loader2, Save, Key, MessageSquare, MapPin, User, Building } from 'lucide-react';
+import { Lock, Loader2, Save, Key, MessageSquare, MapPin, Building } from 'lucide-react';
 import { Seller, UpdateProfileInput } from '@/types/seller';
 import { useUpdateProfile } from '@/hooks/useProfile';
+import { ProfileImageUpload } from './ProfileImageUpload';
 
 import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
@@ -43,6 +44,7 @@ const profileSchema = z.object({
   direccion: z.string().optional(),
   whatsapp_message: z.string().max(500, 'Máximo 500 caracteres').optional(),
   politicas: z.string().max(1000, 'Máximo 1000 caracteres').optional(),
+  profile_image: z.string().nullable().optional(),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -66,6 +68,7 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
       direccion: user.direccion || '',
       whatsapp_message: user.whatsapp_message || '',
       politicas: user.politicas || '',
+      profile_image: user.profile_image || null,
     },
   });
 
@@ -79,9 +82,16 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
 
   // Preview del mensaje de WhatsApp
   const whatsappMessage = form.watch('whatsapp_message');
+  const nombreComercial = form.watch('nombre_comercial');
+  const profileImage = form.watch('profile_image');
   const previewMessage = (whatsappMessage || 'Hola! Te escribo por tu producto {producto} en LiquiMarket...')
     .replace('{producto}', 'iPhone 13 Pro')
     .replace('{precio}', '$28.000');
+
+  // Handler para la imagen
+  const handleImageChange = (imageUrl: string | null) => {
+    form.setValue('profile_image', imageUrl, { shouldDirty: true });
+  };
 
   const onSubmit = async (data: ProfileFormData) => {
     const input: UpdateProfileInput = {
@@ -92,6 +102,7 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
       direccion: data.direccion,
       whatsapp_message: data.whatsapp_message,
       politicas: data.politicas,
+      profile_image: data.profile_image,
     };
     
     await updateProfile.mutateAsync(input);
@@ -102,6 +113,14 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Imagen de perfil */}
+        <ProfileImageUpload
+          currentImage={profileImage}
+          storeName={nombreComercial || 'Tu Tienda'}
+          onImageChange={handleImageChange}
+          disabled={updateProfile.isPending}
+        />
+
         {/* Información básica */}
         <Card>
           <CardHeader>
