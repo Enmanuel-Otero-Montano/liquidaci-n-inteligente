@@ -12,6 +12,7 @@ import { LiquidationSection } from './components/LiquidationSection';
 import { PricingSection } from './components/PricingSection';
 import { DeliverySection } from './components/DeliverySection';
 import { EvidenceSection } from './components/EvidenceSection';
+import { QuantityPromoSection } from './components/QuantityPromoSection';
 import { FormActions } from './components/FormActions';
 import { productFormSchema, ProductFormData } from '@/types/productForm';
 import { useProductForEdit, useCreateProduct, useUpdateProduct } from '@/hooks/useProductForm';
@@ -47,6 +48,12 @@ export function ProductFormPage() {
       offers_shipping: false,
       shipping_cost: undefined,
       evidence_url: '',
+      has_quantity_promo: false,
+      quantity_promo_type: 'none',
+      pack_quantity: undefined,
+      pack_price: undefined,
+      min_quantity_for_discount: undefined,
+      quantity_discount_percent: undefined,
     },
   });
 
@@ -69,6 +76,12 @@ export function ProductFormPage() {
         offers_shipping: false,
         shipping_cost: undefined,
         evidence_url: '',
+        has_quantity_promo: !!existingProduct.quantityPromo,
+        quantity_promo_type: existingProduct.quantityPromo?.type || 'none',
+        pack_quantity: existingProduct.quantityPromo?.packQuantity,
+        pack_price: existingProduct.quantityPromo?.packPrice,
+        min_quantity_for_discount: existingProduct.quantityPromo?.minQuantity,
+        quantity_discount_percent: existingProduct.quantityPromo?.discountPercent,
       });
     }
   }, [existingProduct, form]);
@@ -183,6 +196,7 @@ export function ProductFormPage() {
             <ImageUploader form={form} />
             <LiquidationSection form={form} />
             <PricingSection form={form} />
+            <QuantityPromoSection form={form} />
             <DeliverySection form={form} />
             <EvidenceSection form={form} />
             

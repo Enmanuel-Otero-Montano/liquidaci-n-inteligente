@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Product } from '@/types/product';
-import { ArrowRight, AlertTriangle } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Tag } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -41,6 +41,17 @@ export function ProductCard({ product }: ProductCardProps) {
           >
             -{product.discount_pct}%
           </Badge>
+
+          {/* Quantity Promo Badge */}
+          {product.quantityPromo && (
+            <Badge 
+              variant="secondary" 
+              className="absolute top-3 left-3 bg-purple-100 text-purple-700 border border-purple-300 font-medium text-xs px-1.5 py-0.5 shadow-sm"
+            >
+              <Tag className="h-3 w-3 mr-1" />
+              {product.quantityPromo.badgeText}
+            </Badge>
+          )}
         </div>
 
         <CardContent className="p-4 space-y-3">

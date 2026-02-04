@@ -1,4 +1,4 @@
-import { Product, DeliveryType } from '@/types/product';
+import { Product, DeliveryType, QuantityPromoInfo } from '@/types/product';
 import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
 
 export const mockProducts: Product[] = [
@@ -18,6 +18,12 @@ export const mockProducts: Product[] = [
     status: "approved",
     delivery_type: "both",
     shipping_cost: 350,
+    quantityPromo: {
+      type: '2x1',
+      effectiveDiscountPercent: 50,
+      displayText: 'Llevás 2, pagás 1',
+      badgeText: '2x1',
+    },
     created_at: "2024-01-15T10:00:00Z",
     updated_at: "2024-01-15T10:00:00Z"
   },
@@ -92,6 +98,15 @@ export const mockProducts: Product[] = [
     status: "approved",
     delivery_type: "both",
     shipping_cost: 150,
+    quantityPromo: {
+      type: 'pack_price',
+      effectiveDiscountPercent: 40,
+      packQuantity: 3,
+      packPrice: 32400,
+      pricePerUnitInPack: 10800,
+      displayText: '3 unidades por $32.400',
+      badgeText: '3x$32.400',
+    },
     created_at: "2024-01-11T14:00:00Z",
     updated_at: "2024-01-11T14:00:00Z"
   },
@@ -186,6 +201,12 @@ export const mockProducts: Product[] = [
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 450,
+    quantityPromo: {
+      type: '3x2',
+      effectiveDiscountPercent: 33.33,
+      displayText: 'Llevás 3, pagás 2',
+      badgeText: '3x2',
+    },
     created_at: "2024-01-06T08:00:00Z",
     updated_at: "2024-01-06T08:00:00Z"
   },
@@ -261,6 +282,14 @@ export const mockProducts: Product[] = [
     seller_id: "seller-3",
     status: "approved",
     delivery_type: "pickup",
+    quantityPromo: {
+      type: 'quantity_discount',
+      effectiveDiscountPercent: 35,
+      minQuantity: 2,
+      discountPercent: 35,
+      displayText: '35% OFF comprando 2+ unidades',
+      badgeText: '35% x2+',
+    },
     created_at: "2024-01-02T09:00:00Z",
     updated_at: "2024-01-02T09:00:00Z"
   },

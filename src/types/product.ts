@@ -1,6 +1,20 @@
+import { PromoQuantityType } from './productForm';
+
 export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled' | 'changes_requested';
 
 export type DeliveryType = 'pickup' | 'shipping' | 'both';
+
+export interface QuantityPromoInfo {
+  type: PromoQuantityType;
+  effectiveDiscountPercent: number;
+  packQuantity?: number;
+  packPrice?: number;
+  pricePerUnitInPack?: number;
+  minQuantity?: number;
+  discountPercent?: number;
+  displayText: string;
+  badgeText: string;
+}
 
 export interface Product {
   id: string;
@@ -18,6 +32,7 @@ export interface Product {
   status: ProductStatus;
   delivery_type: DeliveryType;
   shipping_cost?: number | null;
+  quantityPromo?: QuantityPromoInfo;
   created_at: string;
   updated_at: string;
 }
