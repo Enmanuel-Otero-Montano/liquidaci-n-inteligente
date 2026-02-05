@@ -47,9 +47,9 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.quantityPromo && (
             <Badge 
               variant="secondary" 
-              className="absolute top-3 left-3 bg-secondary text-secondary-foreground border border-border font-medium text-xs px-1.5 py-0.5 shadow-sm"
+              className="absolute top-3 left-3 bg-purple-100 text-purple-700 border border-purple-300 font-bold text-sm px-2.5 py-1 shadow-md"
             >
-              <Tag className="h-3 w-3 mr-1" />
+              <Tag className="h-3.5 w-3.5 mr-1" />
               {product.quantityPromo.badgeText}
             </Badge>
           )}
