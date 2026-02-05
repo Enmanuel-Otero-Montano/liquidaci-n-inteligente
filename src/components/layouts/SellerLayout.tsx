@@ -26,7 +26,7 @@ const navItems = [
 ];
 
 export function SellerLayout({ children }: SellerLayoutProps) {
-  const { user, logout } = useAuth();
+  const { seller, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,8 +78,8 @@ export function SellerLayout({ children }: SellerLayoutProps) {
           {/* User Menu */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:block text-right">
-              <p className="text-sm font-medium">{user?.nombre_comercial}</p>
-              <p className="text-xs text-muted-foreground">{user?.email}</p>
+              <p className="text-sm font-medium">{seller?.nombre_comercial}</p>
+              <p className="text-xs text-muted-foreground">{seller?.email}</p>
             </div>
             <Button 
               variant="ghost" 

@@ -1,19 +1,38 @@
 import { useMutation } from '@tanstack/react-query';
-import { mockUpdateProfile, mockChangePassword } from '@/mocks/auth';
+import { supabase } from '@/integrations/supabase/client';
 import { UpdateProfileInput } from '@/types/seller';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 
 export function useUpdateProfile() {
-  const { user, updateUser } = useAuth();
-  
+  const { seller, updateSeller } = useAuth();
+
   return useMutation({
-    mutationFn: (data: UpdateProfileInput) => {
-      if (!user?.id) throw new Error('Usuario no autenticado');
-      return mockUpdateProfile(user.id, data);
+    mutationFn: async (data: UpdateProfileInput) => {
+      if (!seller?.id) throw new Error('Usuario no autenticado');
+
+      const { data: updated, error } = await supabase
+        .from('sellers')
+        .update({
+          nombre_comercial: data.nombre_comercial,
+          responsable: data.responsable,
+          telefono: data.telefono,
+          zona: data.zona,
+          direccion: data.direccion || null,
+          whatsapp_message: data.whatsapp_message || null,
+          politicas: data.politicas || null,
+          horario_retiro: data.horario_retiro || null,
+          profile_image_url: data.profile_image || null,
+        })
+        .eq('id', seller.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return updated;
     },
     onSuccess: (updatedSeller) => {
-      updateUser(updatedSeller);
+      updateSeller(updatedSeller);
       toast({
         title: 'Perfil actualizado',
         description: 'Los cambios se guardaron correctamente',
@@ -30,12 +49,11 @@ export function useUpdateProfile() {
 }
 
 export function useChangePassword() {
-  const { user } = useAuth();
-  
   return useMutation({
-    mutationFn: ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) => {
-      if (!user?.id) throw new Error('Usuario no autenticado');
-      return mockChangePassword(user.id, currentPassword, newPassword);
+    mutationFn: async ({ newPassword }: { currentPassword: string; newPassword: string }) => {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      return { success: true };
     },
     onSuccess: () => {
       toast({
