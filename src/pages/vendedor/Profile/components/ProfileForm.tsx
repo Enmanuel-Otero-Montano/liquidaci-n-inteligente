@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -56,7 +55,6 @@ interface ProfileFormProps {
 
 export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
   const updateProfile = useUpdateProfile();
-  const [hasChanges, setHasChanges] = useState(false);
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -72,13 +70,7 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
     },
   });
 
-  // Watch for form changes
-  useEffect(() => {
-    const subscription = form.watch(() => {
-      setHasChanges(form.formState.isDirty);
-    });
-    return () => subscription.unsubscribe();
-  }, [form]);
+  const hasChanges = form.formState.isDirty;
 
   // Preview del mensaje de WhatsApp
   const whatsappMessage = form.watch('whatsapp_message');
@@ -106,7 +98,6 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
     };
     
     await updateProfile.mutateAsync(input);
-    setHasChanges(false);
     form.reset(data);
   };
 

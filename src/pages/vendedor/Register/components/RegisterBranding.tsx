@@ -1,4 +1,5 @@
 import { Check, Rocket } from 'lucide-react';
+import { usePlatformStats } from '@/hooks/usePlatformStats';
 
 const benefits = [
   'Alta en minutos',
@@ -7,12 +8,11 @@ const benefits = [
   'Control total de tu tienda',
 ];
 
-const stats = [
-  { value: '+150', label: 'vendedores activos' },
-  { value: '+2,500', label: 'productos publicados' },
-];
-
 export function RegisterBranding() {
+  const { data: stats } = usePlatformStats();
+
+  const showStats = stats && (stats.sellers > 0 || stats.products > 0);
+
   return (
     <div className="hidden lg:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-primary/5 via-primary/10 to-accent/5 rounded-3xl">
       <div className="max-w-sm text-center">
@@ -39,22 +39,30 @@ export function RegisterBranding() {
           ))}
         </ul>
 
-        <div className="flex items-center justify-center gap-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-2xl font-bold text-primary">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+        {showStats && (
+          <div className="flex items-center justify-center gap-8">
+            {stats.sellers > 0 && (
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">{stats.sellers}</div>
+                <div className="text-sm text-muted-foreground">vendedores activos</div>
+              </div>
+            )}
+            {stats.products > 0 && (
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">{stats.products}</div>
+                <div className="text-sm text-muted-foreground">productos publicados</div>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="mt-10 p-4 bg-background/50 rounded-xl border border-border/50">
           <div className="text-sm text-muted-foreground mb-2 font-medium">
             ¿Por qué elegirnos?
           </div>
           <p className="text-sm text-foreground/80">
-            Somos el marketplace especializado en liquidaciones. 
-            Tus productos llegan a compradores que buscan exactamente 
+            Somos el marketplace especializado en liquidaciones.
+            Tus productos llegan a compradores que buscan exactamente
             lo que vendés: stock con descuentos reales.
           </p>
         </div>

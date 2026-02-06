@@ -1,6 +1,7 @@
 import { Link, Navigate } from 'react-router-dom';
-import { Tag, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import LiquiOffLogo from '@/assets/LiquiOff_logo.svg';
 import { RegisterForm } from './components/RegisterForm';
 import { RegisterBranding } from './components/RegisterBranding';
 
@@ -18,8 +19,7 @@ export function RegisterPage() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <Tag className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">Liquidaciones</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-8" />
           </Link>
           <Link 
             to="/" 

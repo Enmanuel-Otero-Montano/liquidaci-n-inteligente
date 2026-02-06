@@ -2,16 +2,16 @@ import { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ClipboardList, 
-  User, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  Package,
+  ClipboardList,
+  User,
+  LogOut,
   Menu,
   X,
-  Tag
 } from 'lucide-react';
+import LiquiOffLogo from '@/assets/LiquiOff_logo.svg';
 import { cn } from '@/lib/utils';
 
 interface SellerLayoutProps {
@@ -50,10 +50,7 @@ export function SellerLayout({ children }: SellerLayoutProps) {
         <div className="flex items-center justify-between h-16 px-4 md:px-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Tag className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-lg hidden sm:inline">Liquidaciones</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-8" />
           </Link>
 
           {/* Desktop Nav */}
