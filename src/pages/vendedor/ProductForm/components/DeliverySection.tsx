@@ -19,7 +19,7 @@ interface DeliverySectionProps {
 }
 
 export function DeliverySection({ form }: DeliverySectionProps) {
-  const { user } = useAuth();
+  const { seller } = useAuth();
   const useSellerAddress = form.watch('use_seller_address');
   const offersShipping = form.watch('offers_shipping');
 
@@ -42,9 +42,9 @@ export function DeliverySection({ form }: DeliverySectionProps) {
               </FormControl>
               <FormLabel className="font-normal cursor-pointer">
                 Usar mi dirección registrada
-                {user?.direccion && (
+                {seller?.direccion && (
                   <span className="text-muted-foreground ml-1">
-                    ({user.direccion})
+                    ({seller.direccion})
                   </span>
                 )}
               </FormLabel>

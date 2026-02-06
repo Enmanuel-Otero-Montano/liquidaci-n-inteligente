@@ -1,5 +1,19 @@
-import { Product, DeliveryType } from '@/types/product';
+import { Product, DeliveryType, QuantityPromoInfo } from '@/types/product';
 import { DEPARTAMENTOS_URUGUAY } from '@/data/constants';
+import { mockSellers } from './sellers';
+
+// Helper para obtener seller por id
+const getSellerData = (sellerId: string) => {
+  const seller = mockSellers.find(s => s.id === sellerId);
+  if (!seller) return undefined;
+  return {
+    id: seller.id,
+    nombre_comercial: seller.nombre_comercial,
+    profile_image: seller.profile_image,
+    zona: seller.zona,
+    status: seller.status,
+  };
+};
 
 export const mockProducts: Product[] = [
   {
@@ -15,9 +29,16 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
+    seller: getSellerData("seller-1"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 350,
+    quantityPromo: {
+      type: '2x1',
+      effectiveDiscountPercent: 50,
+      displayText: 'Llevás 2, pagás 1',
+      badgeText: '2x1',
+    },
     created_at: "2024-01-15T10:00:00Z",
     updated_at: "2024-01-15T10:00:00Z"
   },
@@ -34,6 +55,7 @@ export const mockProducts: Product[] = [
     location: "Canelones",
     images: ["https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
+    seller: getSellerData("seller-2"),
     status: "approved",
     delivery_type: "pickup",
     created_at: "2024-01-14T15:30:00Z",
@@ -52,6 +74,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
+    seller: getSellerData("seller-1"),
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 200,
@@ -71,6 +94,7 @@ export const mockProducts: Product[] = [
     location: "Maldonado",
     images: ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
+    seller: getSellerData("seller-3"),
     status: "approved",
     delivery_type: "pickup",
     created_at: "2024-01-12T11:00:00Z",
@@ -89,9 +113,19 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
+    seller: getSellerData("seller-4"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 150,
+    quantityPromo: {
+      type: 'pack_price',
+      effectiveDiscountPercent: 40,
+      packQuantity: 3,
+      packPrice: 32400,
+      pricePerUnitInPack: 10800,
+      displayText: '3 unidades por $32.400',
+      badgeText: '3x$32.400',
+    },
     created_at: "2024-01-11T14:00:00Z",
     updated_at: "2024-01-11T14:00:00Z"
   },
@@ -108,6 +142,7 @@ export const mockProducts: Product[] = [
     location: "Paysandú",
     images: ["https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
+    seller: getSellerData("seller-5"),
     status: "approved",
     delivery_type: "pickup",
     created_at: "2024-01-10T16:00:00Z",
@@ -126,6 +161,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
+    seller: getSellerData("seller-2"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 500,
@@ -145,6 +181,7 @@ export const mockProducts: Product[] = [
     location: "Canelones",
     images: ["https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
+    seller: getSellerData("seller-3"),
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 300,
@@ -164,6 +201,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
+    seller: getSellerData("seller-1"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 100,
@@ -183,9 +221,16 @@ export const mockProducts: Product[] = [
     location: "Salto",
     images: ["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
+    seller: getSellerData("seller-4"),
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 450,
+    quantityPromo: {
+      type: '3x2',
+      effectiveDiscountPercent: 33.33,
+      displayText: 'Llevás 3, pagás 2',
+      badgeText: '3x2',
+    },
     created_at: "2024-01-06T08:00:00Z",
     updated_at: "2024-01-06T08:00:00Z"
   },
@@ -202,6 +247,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
+    seller: getSellerData("seller-5"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 180,
@@ -221,6 +267,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop"],
     seller_id: "seller-2",
+    seller: getSellerData("seller-2"),
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 150,
@@ -240,6 +287,7 @@ export const mockProducts: Product[] = [
     location: "Canelones",
     images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"],
     seller_id: "seller-1",
+    seller: getSellerData("seller-1"),
     status: "approved",
     delivery_type: "both",
     shipping_cost: 200,
@@ -259,8 +307,17 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400&h=400&fit=crop"],
     seller_id: "seller-3",
+    seller: getSellerData("seller-3"),
     status: "approved",
     delivery_type: "pickup",
+    quantityPromo: {
+      type: 'quantity_discount',
+      effectiveDiscountPercent: 35,
+      minQuantity: 2,
+      discountPercent: 35,
+      displayText: '35% OFF comprando 2+ unidades',
+      badgeText: '35% x2+',
+    },
     created_at: "2024-01-02T09:00:00Z",
     updated_at: "2024-01-02T09:00:00Z"
   },
@@ -277,6 +334,7 @@ export const mockProducts: Product[] = [
     location: "Maldonado",
     images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop"],
     seller_id: "seller-4",
+    seller: getSellerData("seller-4"),
     status: "approved",
     delivery_type: "shipping",
     shipping_cost: 120,
@@ -296,6 +354,7 @@ export const mockProducts: Product[] = [
     location: "Montevideo",
     images: ["https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=400&h=400&fit=crop"],
     seller_id: "seller-5",
+    seller: getSellerData("seller-5"),
     status: "approved",
     delivery_type: "pickup",
     created_at: "2023-12-30T10:00:00Z",

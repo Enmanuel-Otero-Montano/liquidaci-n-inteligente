@@ -1,7 +1,9 @@
-import { MapPin, Clock, Store, FileText } from 'lucide-react';
+import { MapPin, Clock, FileText, Shield } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { Seller } from '@/types/seller';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SellerAvatar } from '@/components/seller/SellerAvatar';
 
 interface SellerInfoProps {
   seller: Seller | null | undefined;
@@ -24,14 +26,22 @@ export function SellerInfo({ seller, location, isLoading }: SellerInfoProps) {
     <div className="space-y-4">
       <Separator />
       
-      {/* Vendedor */}
+      {/* Vendedor con Avatar */}
       {seller && (
-        <div className="flex items-start gap-3">
-          <Store className="h-5 w-5 text-muted-foreground mt-0.5" />
-          <div>
-            <p className="font-medium">{seller.nombre_comercial}</p>
-            <p className="text-sm text-muted-foreground">Vendedor verificado</p>
-          </div>
+        <div className="flex items-center justify-between">
+          <SellerAvatar
+            image={seller.profile_image}
+            name={seller.nombre_comercial}
+            subtitle={seller.zona}
+            size="md"
+            showName={true}
+          />
+          {seller.status === 'active' && (
+            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+              <Shield className="h-3 w-3 mr-1" />
+              Verificado
+            </Badge>
+          )}
         </div>
       )}
 
@@ -40,8 +50,8 @@ export function SellerInfo({ seller, location, isLoading }: SellerInfoProps) {
         <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
         <div>
           <p className="font-medium">Retiro en {location}</p>
-          {seller?.horario_retiro && (
-            <p className="text-sm text-muted-foreground">{seller.horario_retiro}</p>
+          {seller?.direccion && (
+            <p className="text-sm text-muted-foreground">{seller.direccion}</p>
           )}
         </div>
       </div>

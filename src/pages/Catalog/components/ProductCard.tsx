@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Product } from '@/types/product';
-import { ArrowRight, AlertTriangle } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Tag } from 'lucide-react';
+import { SellerAvatar } from '@/components/seller/SellerAvatar';
 
 interface ProductCardProps {
   product: Product;
@@ -41,6 +42,17 @@ export function ProductCard({ product }: ProductCardProps) {
           >
             -{product.discount_pct}%
           </Badge>
+
+          {/* Quantity Promo Badge */}
+          {product.quantityPromo && (
+            <Badge 
+              variant="secondary" 
+              className="absolute top-3 left-3 bg-purple-100 text-purple-700 border border-purple-300 font-bold text-sm px-2.5 py-1 shadow-md"
+            >
+              <Tag className="h-3.5 w-3.5 mr-1" />
+              {product.quantityPromo.badgeText}
+            </Badge>
+          )}
         </div>
 
         <CardContent className="p-4 space-y-3">
@@ -68,6 +80,18 @@ export function ProductCard({ product }: ProductCardProps) {
               <AlertTriangle className="h-3 w-3 mr-1" />
               {product.stock_qty === 1 ? 'Última unidad' : `Últimas ${product.stock_qty} unidades`}
             </Badge>
+          )}
+
+          {/* Seller Avatar */}
+          {product.seller && (
+            <div className="pt-1">
+              <SellerAvatar
+                image={product.seller.profile_image}
+                name={product.seller.nombre_comercial}
+                size="sm"
+                showName={true}
+              />
+            </div>
           )}
 
           {/* Location */}

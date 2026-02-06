@@ -101,13 +101,13 @@ export function ReservationConfirmationPage() {
           <NextSteps />
 
           {/* Legal note */}
-          <Alert variant="default" className="bg-muted/50 border-muted">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="text-xs text-muted-foreground">
+          <div className="relative p-4 bg-muted/50 border border-muted rounded-xl">
+            <AlertCircle className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-500" />
+            <p className="pl-7 text-xs leading-4 text-amber-700">
               La reserva no es una compra. El vendedor te contactará para 
               coordinar el pago y la entrega del producto.
-            </AlertDescription>
-          </Alert>
+            </p>
+          </div>
         </div>
       </main>
     </div>
