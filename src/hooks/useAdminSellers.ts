@@ -102,7 +102,7 @@ export function useSellerActions(sellerId: string) {
       return (data || []).map(a => ({
         id: a.id,
         seller_id: a.seller_id,
-        action: a.action,
+        action: a.action as SellerAction['action'],
         reason: a.reason ?? undefined,
         admin_name: a.admin_name,
         created_at: a.created_at,
