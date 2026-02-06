@@ -7,8 +7,8 @@ const benefits = [
 ];
 
 const stats = [
-  { value: '+150', label: 'vendedores activos' },
-  { value: '+2,500', label: 'productos publicados' },
+  { value: '5 min', label: 'para publicar' },
+  { value: '24/7', label: 'tu tienda abierta' },
 ];
 
 export function LoginBranding() {

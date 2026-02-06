@@ -40,7 +40,7 @@ interface RegisterInput {
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
-  register: (data: RegisterInput) => Promise<void>;
+  register: (data: RegisterInput) => Promise<{ needsEmailConfirmation: boolean }>;
   logout: () => void;
   updateSeller: (data: Partial<SellerProfile>) => void;
   refreshSeller: () => Promise<void>;
@@ -68,19 +68,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    // onAuthStateChange must not await Supabase calls directly
+    // to avoid deadlocks with the auth client.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        // Use setTimeout to avoid deadlock with Supabase client
-        setTimeout(async () => {
-          const seller = await fetchSellerProfile(session.user.id);
+        // Defer DB call to avoid deadlock with Supabase auth internals
+        fetchSellerProfile(session.user.id).then(seller => {
           setState({
             user: session.user,
             seller,
             isAuthenticated: true,
             isLoading: false,
           });
-        }, 0);
+        });
       } else {
         setState({
           user: null,
@@ -91,15 +91,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    // THEN check for existing session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        const seller = await fetchSellerProfile(session.user.id);
-        setState({
-          user: session.user,
-          seller,
-          isAuthenticated: true,
-          isLoading: false,
+        fetchSellerProfile(session.user.id).then(seller => {
+          setState({
+            user: session.user,
+            seller,
+            isAuthenticated: true,
+            isLoading: false,
+          });
         });
       } else {
         setState(prev => ({ ...prev, isLoading: false }));
@@ -110,12 +110,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw new Error(error.message);
+
+    const seller = await fetchSellerProfile(data.user.id);
+    setState({
+      user: data.user,
+      seller,
+      isAuthenticated: true,
+      isLoading: false,
+    });
   };
 
-  const register = async (data: RegisterInput) => {
-    const { error } = await supabase.auth.signUp({
+  const register = async (data: RegisterInput): Promise<{ needsEmailConfirmation: boolean }> => {
+    const { data: signUpData, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
@@ -131,21 +139,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     if (error) throw new Error(error.message);
 
-    // After signup, update the auto-created seller profile with full data
-    const { data: session } = await supabase.auth.getSession();
-    if (session?.session?.user) {
-      await supabase
-        .from('sellers')
-        .update({
-          nombre_comercial: data.nombre_comercial,
-          responsable: data.responsable,
-          telefono: data.telefono,
-          zona: data.zona,
-          direccion: data.direccion || null,
-          status: 'active',
-        })
-        .eq('user_id', session.session.user.id);
+    // If there's no session, email confirmation is required
+    if (!signUpData.session) {
+      return { needsEmailConfirmation: true };
     }
+
+    // Session exists: update seller profile and set state
+    const user = signUpData.session.user;
+    await supabase
+      .from('sellers')
+      .update({
+        nombre_comercial: data.nombre_comercial,
+        responsable: data.responsable,
+        telefono: data.telefono,
+        zona: data.zona,
+        direccion: data.direccion || null,
+        status: 'active',
+      })
+      .eq('user_id', user.id);
+
+    const seller = await fetchSellerProfile(user.id);
+    setState({
+      user,
+      seller,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+
+    return { needsEmailConfirmation: false };
   };
 
   const logout = async () => {

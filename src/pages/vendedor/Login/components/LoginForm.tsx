@@ -63,10 +63,16 @@ export function LoginForm() {
       const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/vendedor';
       navigate(from, { replace: true });
     } catch (error) {
+      const message = error instanceof Error ? error.message : '';
+      const isEmailNotConfirmed = message.toLowerCase().includes('email not confirmed');
+
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Credenciales incorrectas. Verificá tu email y contraseña.',
+        title: isEmailNotConfirmed ? 'Email no confirmado' : 'Error',
+        description: isEmailNotConfirmed
+          ? 'Revisá tu bandeja de entrada y confirmá tu email antes de iniciar sesión.'
+          : 'Credenciales incorrectas. Verificá tu email y contraseña.',
+        duration: isEmailNotConfirmed ? 8000 : 5000,
       });
     } finally {
       setIsSubmitting(false);
@@ -90,12 +96,6 @@ export function LoginForm() {
           Gestioná tus productos y reservas
         </p>
       </div>
-
-      {import.meta.env.DEV && (
-        <div className="mb-6 p-3 bg-muted rounded-lg text-sm text-muted-foreground">
-          🧪 <strong>Demo:</strong> contacto@nortesports.com / 123456
-        </div>
-      )}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">

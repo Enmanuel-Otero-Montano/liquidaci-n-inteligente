@@ -124,7 +124,7 @@ export function RegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     setIsSubmitting(true);
     try {
-      await authRegister({
+      const result = await authRegister({
         nombre_comercial: data.nombre_comercial,
         responsable: data.responsable,
         email: data.email,
@@ -134,17 +134,25 @@ export function RegisterForm() {
         password: data.password,
       });
 
-      toast({
-        title: '¡Cuenta creada!',
-        description: 'Ya podés empezar a publicar tus productos.',
-      });
-
-      navigate('/vendedor', { replace: true });
+      if (result.needsEmailConfirmation) {
+        toast({
+          title: '¡Revisá tu email!',
+          description: `Te enviamos un enlace de confirmación a ${data.email}. Confirmá tu cuenta para poder iniciar sesión.`,
+          duration: 10000,
+        });
+        navigate('/vendedor/login', { replace: true });
+      } else {
+        toast({
+          title: '¡Cuenta creada!',
+          description: 'Ya podés empezar a publicar tus productos.',
+        });
+        navigate('/vendedor', { replace: true });
+      }
     } catch (error) {
-      const message = error instanceof Error 
-        ? error.message 
+      const message = error instanceof Error
+        ? error.message
         : 'Error al crear la cuenta';
-      
+
       toast({
         variant: 'destructive',
         title: 'Error',

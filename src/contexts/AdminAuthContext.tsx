@@ -34,20 +34,23 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    // onAuthStateChange must not await Supabase calls directly
+    // to avoid deadlocks with the auth client.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        await checkAdminRole(session.user);
+        checkAdminRole(session.user).then(() => setIsLoading(false));
       } else {
         setAdmin(null);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     });
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        await checkAdminRole(session.user);
+        checkAdminRole(session.user).then(() => setIsLoading(false));
+      } else {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -57,7 +60,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw new Error(error.message);
 
-    // Verify admin role
     const { data: isAdmin } = await supabase.rpc('has_role', {
       _user_id: data.user.id,
       _role: 'admin',
@@ -67,6 +69,13 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
       throw new Error('No tenés permisos de administrador');
     }
+
+    setAdmin({
+      id: data.user.id,
+      email: data.user.email || '',
+      name: data.user.user_metadata?.name || 'Administrador',
+      role: 'admin',
+    });
   };
 
   const logout = async () => {
