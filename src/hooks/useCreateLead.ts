@@ -5,7 +5,6 @@ import { CreateLeadInput, Lead } from '@/types/lead';
 export function useCreateLead() {
   return useMutation<Lead, Error, CreateLeadInput>({
     mutationFn: async (input) => {
-      // Also create a reservation for the seller to track
       // First get the product's seller_id
       const { data: product, error: prodErr } = await supabase
         .from('products')
@@ -15,8 +14,8 @@ export function useCreateLead() {
 
       if (prodErr) throw prodErr;
 
-      // Create reservation (linked to seller for their dashboard)
-      const { data: reservation, error: resErr } = await supabase
+      // Create reservation (no .select() — anonymous users lack SELECT RLS)
+      const { error: resErr } = await supabase
         .from('reservations')
         .insert({
           product_id: input.product_id,
@@ -26,21 +25,19 @@ export function useCreateLead() {
           buyer_contact_type: input.buyer_contact.includes('@') ? 'email' : 'phone',
           quantity: input.quantity,
           note: input.note || null,
-        })
-        .select()
-        .single();
+        });
 
       if (resErr) throw resErr;
 
       return {
-        id: reservation.id,
-        product_id: reservation.product_id,
-        buyer_name: reservation.buyer_name,
-        buyer_contact: reservation.buyer_contact,
-        quantity: reservation.quantity,
-        note: reservation.note ?? undefined,
-        status: reservation.status as Lead['status'],
-        created_at: reservation.created_at,
+        id: crypto.randomUUID(),
+        product_id: input.product_id,
+        buyer_name: input.buyer_name,
+        buyer_contact: input.buyer_contact,
+        quantity: input.quantity,
+        note: input.note ?? undefined,
+        status: 'new' as Lead['status'],
+        created_at: new Date().toISOString(),
       };
     },
   });

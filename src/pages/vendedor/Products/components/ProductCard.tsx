@@ -24,9 +24,10 @@ export function ProductCard({ product, onDuplicate, onToggleStatus, isLoading }:
       <CardContent className="p-4">
         <div className="flex gap-4">
           <img
-            src={product.images[0]}
+            src={product.images?.[0] || '/placeholder.svg'}
             alt={product.title}
             className="h-20 w-20 rounded-lg object-cover flex-shrink-0"
+            onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
           />
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
@@ -48,6 +49,12 @@ export function ProductCard({ product, onDuplicate, onToggleStatus, isLoading }:
               </span>
               <ProductStatusBadge status={product.status} />
             </div>
+
+            {product.rejection_reason && (product.status === 'rejected' || product.status === 'changes_requested') && (
+              <p className="text-sm text-destructive mt-2 bg-destructive/10 rounded px-2 py-1">
+                Motivo: {product.rejection_reason}
+              </p>
+            )}
             
             <div className="flex items-center justify-between mt-3">
               <div>

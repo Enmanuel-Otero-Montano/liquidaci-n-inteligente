@@ -30,10 +30,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <Card className="h-full overflow-hidden border-border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
         <div className="relative aspect-square overflow-hidden bg-muted">
           <img
-            src={product.images[0]}
+            src={product.images?.[0] || '/placeholder.svg'}
             alt={product.title}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
           />
           
           {/* Discount Badge */}

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
-import { X, ImageIcon, Upload } from 'lucide-react';
+import { X, ImageIcon, Upload, Loader2 } from 'lucide-react';
 import {
   FormField,
   FormItem,
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductFormData } from '@/types/productForm';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ImageUploaderProps {
   form: UseFormReturn<ProductFormData>;
@@ -21,7 +22,8 @@ interface ImageUploaderProps {
 interface UploadedImage {
   id: string;
   previewUrl: string;
-  isBlob: boolean; // true if it's a local file, false if it's an external URL
+  publicUrl: string;
+  uploading: boolean;
 }
 
 const MAX_IMAGES = 5;
@@ -34,10 +36,17 @@ const ACCEPTED_TYPES = {
   'image/gif': ['.gif'],
 };
 
+const BUCKET = 'liqui-product-images';
+
+function getFileExtension(file: File): string {
+  const parts = file.name.split('.');
+  return parts.length > 1 ? `.${parts.pop()}` : '.jpg';
+}
+
 export function ImageUploader({ form }: ImageUploaderProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
-  
+
   const formImages = form.watch('images') || [];
 
   // Sync form images with uploadedImages on mount/change
@@ -47,7 +56,8 @@ export function ImageUploader({ form }: ImageUploaderProps) {
       const existingImages: UploadedImage[] = formImages.map((url, index) => ({
         id: `existing-${index}-${Date.now()}`,
         previewUrl: url,
-        isBlob: false,
+        publicUrl: url,
+        uploading: false,
       }));
       setUploadedImages(existingImages);
     }
@@ -59,17 +69,37 @@ export function ImageUploader({ form }: ImageUploaderProps) {
   });
 
   const updateFormImages = (images: UploadedImage[]) => {
-    form.setValue('images', images.map(img => img.previewUrl), { shouldValidate: true });
+    const urls = images.filter(img => !img.uploading).map(img => img.publicUrl);
+    form.setValue('images', urls, { shouldValidate: true });
   };
 
-  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+  const uploadFileToStorage = async (file: File): Promise<string> => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('No autenticado');
+
+    const ext = getFileExtension(file);
+    const path = `${user.id}/${crypto.randomUUID()}${ext}`;
+
+    const { error } = await supabase.storage
+      .from(BUCKET)
+      .upload(path, file, { cacheControl: '3600', upsert: false });
+
+    if (error) throw error;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from(BUCKET)
+      .getPublicUrl(path);
+
+    return publicUrl;
+  };
+
+  const onDrop = useCallback(async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     setUploadError(null);
 
     // Check max images limit
     const totalAfterUpload = uploadedImages.length + acceptedFiles.length;
     if (totalAfterUpload > MAX_IMAGES) {
       setUploadError(`Máximo ${MAX_IMAGES} imágenes. Podés agregar ${MAX_IMAGES - uploadedImages.length} más.`);
-      // Only take files that fit
       const availableSlots = MAX_IMAGES - uploadedImages.length;
       acceptedFiles = acceptedFiles.slice(0, availableSlots);
     }
@@ -91,16 +121,57 @@ export function ImageUploader({ form }: ImageUploaderProps) {
 
     if (acceptedFiles.length === 0) return;
 
-    // Create preview URLs for accepted files
-    const newImages: UploadedImage[] = acceptedFiles.map(file => ({
+    // Create placeholder entries with loading state
+    const placeholders: UploadedImage[] = acceptedFiles.map(file => ({
       id: `${file.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       previewUrl: URL.createObjectURL(file),
-      isBlob: true,
+      publicUrl: '',
+      uploading: true,
     }));
 
-    const updatedImages = [...uploadedImages, ...newImages];
-    setUploadedImages(updatedImages);
-    updateFormImages(updatedImages);
+    const withPlaceholders = [...uploadedImages, ...placeholders];
+    setUploadedImages(withPlaceholders);
+
+    // Upload each file to Supabase Storage
+    const results = await Promise.allSettled(
+      acceptedFiles.map(async (file, i) => {
+        const publicUrl = await uploadFileToStorage(file);
+        return { index: i, publicUrl };
+      })
+    );
+
+    setUploadedImages(prev => {
+      const updated = [...prev];
+      const failedIds: string[] = [];
+
+      results.forEach((result, i) => {
+        const placeholder = placeholders[i];
+        const idx = updated.findIndex(img => img.id === placeholder.id);
+        if (idx === -1) return;
+
+        if (result.status === 'fulfilled') {
+          updated[idx] = { ...updated[idx], publicUrl: result.value.publicUrl, uploading: false };
+        } else {
+          failedIds.push(placeholder.id);
+          URL.revokeObjectURL(placeholder.previewUrl);
+        }
+      });
+
+      const final = updated.filter(img => !failedIds.includes(img.id));
+
+      if (failedIds.length > 0) {
+        const errorMessages = results
+          .filter((r): r is PromiseRejectedResult => r.status === 'rejected')
+          .map(r => r.reason?.message || r.reason || 'Error desconocido');
+        setUploadError(`Error al subir: ${errorMessages.join('. ')}`);
+      }
+
+      // Update form with successful uploads
+      const urls = final.filter(img => !img.uploading).map(img => img.publicUrl);
+      form.setValue('images', urls, { shouldValidate: true });
+
+      return final;
+    });
   }, [uploadedImages, form]);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -113,17 +184,14 @@ export function ImageUploader({ form }: ImageUploaderProps) {
   });
 
   const removeImage = (id: string) => {
-    const imageToRemove = uploadedImages.find(img => img.id === id);
-    if (imageToRemove?.isBlob) {
-      URL.revokeObjectURL(imageToRemove.previewUrl);
-    }
-    const updatedImages = uploadedImages.filter(img => img.id !== id);
-    setUploadedImages(updatedImages);
-    updateFormImages(updatedImages);
+    const updated = uploadedImages.filter(img => img.id !== id);
+    setUploadedImages(updated);
+    updateFormImages(updated);
     setUploadError(null);
   };
 
-  const isDisabled = uploadedImages.length >= MAX_IMAGES;
+  const isUploading = uploadedImages.some(img => img.uploading);
+  const isDisabled = uploadedImages.length >= MAX_IMAGES || isUploading;
 
   return (
     <Card>
@@ -140,7 +208,7 @@ export function ImageUploader({ form }: ImageUploaderProps) {
               <FormDescription>
                 Agregá entre 1 y {MAX_IMAGES} fotos. La primera será la imagen principal.
               </FormDescription>
-              
+
               {/* Drop Zone */}
               <div
                 {...getRootProps()}
@@ -153,7 +221,7 @@ export function ImageUploader({ form }: ImageUploaderProps) {
                 )}
               >
                 <input {...getInputProps()} />
-                
+
                 <div className="flex flex-col items-center gap-2">
                   {isDragActive ? (
                     <>
@@ -162,12 +230,19 @@ export function ImageUploader({ form }: ImageUploaderProps) {
                         Soltá las imágenes aquí...
                       </p>
                     </>
+                  ) : isUploading ? (
+                    <>
+                      <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                      <p className="text-sm font-medium text-primary">
+                        Subiendo imágenes...
+                      </p>
+                    </>
                   ) : (
                     <>
                       <ImageIcon className="h-10 w-10 text-muted-foreground/50" />
                       <div>
                         <p className="text-sm text-muted-foreground">
-                          {isDisabled 
+                          {uploadedImages.length >= MAX_IMAGES
                             ? 'Límite de imágenes alcanzado'
                             : 'Arrastrá imágenes aquí o hacé click para seleccionar'
                           }
@@ -176,7 +251,7 @@ export function ImageUploader({ form }: ImageUploaderProps) {
                           PNG, JPG, WebP, GIF hasta {MAX_SIZE_MB}MB
                         </p>
                       </div>
-                      {!isDisabled && (
+                      {uploadedImages.length < MAX_IMAGES && (
                         <Button
                           type="button"
                           variant="outline"
@@ -197,7 +272,7 @@ export function ImageUploader({ form }: ImageUploaderProps) {
 
                 {/* Counter */}
                 <p className="text-xs text-muted-foreground mt-3">
-                  {uploadedImages.length} de {MAX_IMAGES} imágenes
+                  {uploadedImages.filter(i => !i.uploading).length} de {MAX_IMAGES} imágenes
                 </p>
               </div>
 
@@ -210,32 +285,39 @@ export function ImageUploader({ form }: ImageUploaderProps) {
               {uploadedImages.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-4">
                   {uploadedImages.map((image, index) => (
-                    <div 
-                      key={image.id} 
+                    <div
+                      key={image.id}
                       className="relative group aspect-square rounded-lg overflow-hidden border bg-muted"
                     >
-                      <img 
-                        src={image.previewUrl} 
+                      <img
+                        src={image.previewUrl}
                         alt={`Producto ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className={cn("w-full h-full object-cover", image.uploading && "opacity-50")}
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = '/placeholder.svg';
                         }}
                       />
-                      {index === 0 && (
+                      {image.uploading && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                        </div>
+                      )}
+                      {index === 0 && !image.uploading && (
                         <span className="absolute top-1 left-1 text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded font-medium">
                           Principal
                         </span>
                       )}
-                      <button
-                        type="button"
-                        onClick={() => removeImage(image.id)}
-                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 
-                                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90"
-                        aria-label={`Eliminar imagen ${index + 1}`}
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
+                      {!image.uploading && (
+                        <button
+                          type="button"
+                          onClick={() => removeImage(image.id)}
+                          className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1
+                                     opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90"
+                          aria-label={`Eliminar imagen ${index + 1}`}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

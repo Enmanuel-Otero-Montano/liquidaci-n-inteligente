@@ -35,6 +35,7 @@ export interface Product {
   delivery_type: DeliveryType;
   shipping_cost?: number | null;
   quantityPromo?: QuantityPromoInfo;
+  rejection_reason?: string | null;
   created_at: string;
   updated_at: string;
 }

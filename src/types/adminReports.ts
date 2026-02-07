@@ -1,19 +1,15 @@
 export type ReportStatus = 'open' | 'resolved';
 
 export type ReportReason =
-  | 'fraude'
-  | 'precio_no_real'
-  | 'producto_prohibido'
-  | 'contenido_inapropiado'
-  | 'info_incorrecta'
+  | 'descuento_enganoso'
+  | 'producto_no_coincide'
+  | 'stock_inexistente'
   | 'otro';
 
 export const reasonConfig: Record<ReportReason, { label: string }> = {
-  fraude: { label: 'Fraude / Estafa' },
-  precio_no_real: { label: 'Precio no verificable' },
-  producto_prohibido: { label: 'Producto prohibido' },
-  contenido_inapropiado: { label: 'Contenido inapropiado' },
-  info_incorrecta: { label: 'Información incorrecta' },
+  descuento_enganoso: { label: 'Descuento engañoso' },
+  producto_no_coincide: { label: 'Producto no coincide' },
+  stock_inexistente: { label: 'Stock inexistente' },
   otro: { label: 'Otro' },
 };
 

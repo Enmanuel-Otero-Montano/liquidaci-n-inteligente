@@ -16,8 +16,7 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { REPORT_REASONS } from '@/data/constants';
-import { mockCreateReport } from '@/mocks/reports';
-import { ReportReason } from '@/types/report';
+import { supabase } from '@/integrations/supabase/client';
 
 const reportSchema = z.object({
   reason: z.enum(['descuento_enganoso', 'producto_no_coincide', 'stock_inexistente', 'otro'], {
@@ -72,12 +71,14 @@ export function ReportForm({ productId, productTitle, onClose, onSuccess }: Repo
 
   const onSubmit = async (data: ReportFormData) => {
     try {
-      await mockCreateReport({
+      const { error } = await supabase.from('reports').insert({
         product_id: productId,
-        reason: data.reason as ReportReason,
-        comment: data.comment,
-        email: data.email || undefined,
+        reason: data.reason,
+        description: data.comment || null,
+        reporter_email: data.email || null,
       });
+
+      if (error) throw error;
 
       toast({
         title: 'Reporte enviado',

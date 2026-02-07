@@ -35,7 +35,35 @@ export function useSellerProducts(filters?: SellerProductFilters) {
       const { data, error } = await query;
       if (error) throw error;
 
-      return (data || []).map(mapDbProduct);
+      const products = (data || []).map(mapDbProduct);
+
+      // Fetch rejection reasons for rejected/changes_requested products
+      const rejectedIds = products
+        .filter(p => p.status === 'rejected' || p.status === 'changes_requested')
+        .map(p => p.id);
+
+      if (rejectedIds.length > 0) {
+        const { data: moderationData } = await supabase
+          .from('moderation_history')
+          .select('product_id, reason, created_at')
+          .in('product_id', rejectedIds)
+          .in('action', ['rejected', 'changes_requested'])
+          .order('created_at', { ascending: false });
+
+        if (moderationData) {
+          const reasonMap = new Map<string, string>();
+          for (const entry of moderationData) {
+            if (!reasonMap.has(entry.product_id) && entry.reason) {
+              reasonMap.set(entry.product_id, entry.reason);
+            }
+          }
+          for (const product of products) {
+            product.rejection_reason = reasonMap.get(product.id) ?? null;
+          }
+        }
+      }
+
+      return products;
     },
     enabled: !!seller?.id,
   });

@@ -24,9 +24,10 @@ export function ProductRow({ product, onDuplicate, onToggleStatus, isLoading }: 
       <TableCell>
         <div className="flex items-center gap-3">
           <img
-            src={product.images[0]}
+            src={product.images?.[0] || '/placeholder.svg'}
             alt={product.title}
             className="h-12 w-12 rounded-lg object-cover"
+            onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
           />
           <div className="min-w-0">
             <p className="font-medium truncate max-w-[200px]">{product.title}</p>
@@ -53,7 +54,14 @@ export function ProductRow({ product, onDuplicate, onToggleStatus, isLoading }: 
         </span>
       </TableCell>
       <TableCell>
-        <ProductStatusBadge status={product.status} />
+        <div>
+          <ProductStatusBadge status={product.status} />
+          {product.rejection_reason && (product.status === 'rejected' || product.status === 'changes_requested') && (
+            <p className="text-xs text-destructive mt-1 max-w-[200px]" title={product.rejection_reason}>
+              {product.rejection_reason}
+            </p>
+          )}
+        </div>
       </TableCell>
       <TableCell className="text-right">
         <ProductActions
