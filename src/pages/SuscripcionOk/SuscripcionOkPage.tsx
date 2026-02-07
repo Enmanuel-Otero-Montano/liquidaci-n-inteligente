@@ -83,7 +83,7 @@ export function SuscripcionOkPage() {
           <Card className="mb-8 border-0 shadow-lg">
             <CardContent className="p-6 space-y-4">
               <div>
-                <p className="text-sm text-muted-foreground mb-2">Suscrito como</p>
+                <p className="text-sm text-muted-foreground mb-2">Suscripción a nombre de</p>
                 <p className="font-medium">{subscriber.nombre}</p>
                 <p className="text-sm text-muted-foreground">
                   {subscriber.metodoContacto === 'email' ? '📧' : '📱'} {subscriber.contacto}

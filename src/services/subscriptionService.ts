@@ -2,8 +2,6 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import type { Subscriber, SubscriptionFormData } from '@/types/subscription';
 
-type SubscriberRow = Database['public']['Tables']['subscribers']['Row'];
-
 const MENSAJE_RED =
   'No pudimos conectar con el servidor. Verificá tu conexión e intentá de nuevo.';
 const MENSAJE_DUPLICADO = 'Este email/WhatsApp ya está suscrito a nuestras ofertas.';
@@ -76,20 +74,15 @@ const normalizeContacto = (data: SubscriptionFormData): string | null => {
   return null;
 };
 
-const mapRowToSubscriber = (row: SubscriberRow): Subscriber => {
-  const metodoContacto =
-    row.metodo_contacto === 'whatsapp' ? 'whatsapp' : 'email';
-
-  return {
-    id: row.id,
-    nombre: row.nombre,
-    metodoContacto,
-    contacto: row.contacto,
-    categorias: row.categorias ?? [],
-    zona: row.zona,
-    frecuencia: row.frecuencia,
-    created_at: row.created_at,
-  };
+const generateClientSideId = (): string => {
+  try {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+  } catch {
+    // noop
+  }
+  return `sub-${Date.now()}`;
 };
 
 /**
@@ -121,8 +114,10 @@ export const subscribe = async (data: SubscriptionFormData): Promise<Subscriber>
   };
 
   try {
-    const { data: row, error } = await withTimeout(
-      supabase.from('subscribers').insert(payload).select('*').single(),
+    // Importante: evitamos `.select()` para no requerir permisos/policies de SELECT.
+    // Con RLS de INSERT solamente, el insert puede funcionar pero el "returning" puede fallar.
+    const { error } = await withTimeout(
+      supabase.from('subscribers').insert(payload),
       SUBSCRIBE_TIMEOUT_MS
     );
 
@@ -133,11 +128,16 @@ export const subscribe = async (data: SubscriptionFormData): Promise<Subscriber>
       throw error;
     }
 
-    if (!row) {
-      throw new SubscriptionServiceError(MENSAJE_GENERAL, 'unknown');
-    }
-
-    return mapRowToSubscriber(row);
+    return {
+      id: generateClientSideId(),
+      nombre: data.nombre,
+      metodoContacto: data.metodoContacto,
+      contacto,
+      categorias: data.categorias,
+      zona: data.zona,
+      frecuencia: data.frecuencia || 'inmediato',
+      created_at: new Date().toISOString(),
+    };
   } catch (error) {
     console.error('Error al suscribir en Supabase:', error);
 
