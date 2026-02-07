@@ -25,18 +25,19 @@ export function ProductActions({ product, seller, sellerPhone, disabled }: Produ
 
   const productUrl = `${window.location.origin}/p/${product.slug}`;
 
-  const whatsappMessage = encodeURIComponent(
-    `¡Hola! 👋\n\n` +
+  // Nota: evitamos emojis en el texto prearmado para que no aparezcan caracteres "�"
+  // en dispositivos/navegadores con soporte limitado.
+  const whatsappMessage =
+    `¡Hola!\n\n` +
     `Me interesa este producto de LiquiOff:\n\n` +
-    `📦 *${product.title}*\n` +
-    `💰 Precio: $${formatPrice(product.price_now)} (antes $${formatPrice(product.price_before)})\n` +
-    `🏷️ ${product.discount_pct}% OFF\n\n` +
-    `🔗 Ver producto: ${productUrl}\n\n` +
-    `¿Está disponible?`
-  );
+    `*${product.title}*\n` +
+    `Precio: $${formatPrice(product.price_now)} (antes $${formatPrice(product.price_before)})\n` +
+    `Descuento: ${product.discount_pct}% OFF\n\n` +
+    `Ver producto: ${productUrl}\n\n` +
+    `¿Está disponible?`;
 
   const whatsappUrl = sellerPhone
-    ? `https://wa.me/${formatPhoneForWhatsApp(sellerPhone)}?text=${whatsappMessage}`
+    ? `https://wa.me/${formatPhoneForWhatsApp(sellerPhone)}?${new URLSearchParams({ text: whatsappMessage }).toString()}`
     : null;
 
   const handleReserveClick = () => {
