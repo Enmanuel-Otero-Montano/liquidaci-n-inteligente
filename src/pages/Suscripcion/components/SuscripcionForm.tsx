@@ -19,7 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ContactMethodTabs } from './ContactMethodTabs';
 import { CategorySelector } from './CategorySelector';
 import { ZONAS_URUGUAY, FRECUENCIAS } from '@/data/constants';
-import { mockSubscribe } from '@/mocks/subscriptions';
+import { subscribe } from '@/services/subscriptionService';
 import type { SubscriptionFormData } from '@/types/subscription';
 
 const subscriptionSchema = z.object({
@@ -115,17 +115,16 @@ export function SuscripcionForm() {
     setIsSubmitting(true);
     
     try {
-      const result = await mockSubscribe(data as SubscriptionFormData);
-      
-      if (result.success) {
-        navigate('/suscripcion-ok', { 
-          state: { subscriber: result.subscriber } 
-        });
-      }
-    } catch {
+      const subscriber = await subscribe(data as SubscriptionFormData);
+      navigate('/suscripcion-ok', { state: { subscriber } });
+    } catch (error) {
+      console.error('Error al suscribirse:', error);
       toast({
         title: 'Error',
-        description: 'Hubo un error. Intentá de nuevo.',
+        description:
+          error instanceof Error && error.message
+            ? error.message
+            : 'Hubo un error inesperado. Intentá de nuevo en unos minutos.',
         variant: 'destructive',
       });
     } finally {
