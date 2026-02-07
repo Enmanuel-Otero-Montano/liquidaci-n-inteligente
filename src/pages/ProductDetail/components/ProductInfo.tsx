@@ -76,9 +76,11 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
       </div>
 
       {/* Info del vendedor */}
-      <SellerInfo 
+      <SellerInfo
         seller={seller}
         location={product.location}
+        deliveryType={product.delivery_type}
+        shippingCost={product.shipping_cost}
         isLoading={isSellerLoading}
       />
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Product } from '@/types/product';
-import { ArrowRight, AlertTriangle, Tag } from 'lucide-react';
+import { AlertTriangle, Tag } from 'lucide-react';
 import { SellerAvatar } from '@/components/seller/SellerAvatar';
 
 interface ProductCardProps {
@@ -100,11 +100,6 @@ export function ProductCard({ product }: ProductCardProps) {
             📍 {product.location}
           </p>
 
-          {/* CTA Indicator */}
-          <span className="inline-flex items-center text-sm font-medium text-catalog-primary group-hover:text-catalog-primary/80 transition-colors pt-1">
-            Ver producto
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </span>
         </CardContent>
       </Card>
     </Link>

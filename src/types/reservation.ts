@@ -20,6 +20,7 @@ export interface Reservation {
 export interface ReservationFilters {
   status?: ReservationStatus | 'all';
   search?: string;
+  product_id?: string;
 }
 
 export const RESERVATION_STATUS_CONFIG = {

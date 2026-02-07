@@ -284,6 +284,7 @@ export type Database = {
           admin_name: string
           created_at: string
           id: string
+          metadata: Json | null
           reason: string | null
           seller_id: string
         }
@@ -293,6 +294,7 @@ export type Database = {
           admin_name?: string
           created_at?: string
           id?: string
+          metadata?: Json | null
           reason?: string | null
           seller_id: string
         }
@@ -302,6 +304,7 @@ export type Database = {
           admin_name?: string
           created_at?: string
           id?: string
+          metadata?: Json | null
           reason?: string | null
           seller_id?: string
         }

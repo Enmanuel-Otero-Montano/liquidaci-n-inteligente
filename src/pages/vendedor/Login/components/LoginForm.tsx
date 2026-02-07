@@ -80,10 +80,7 @@ export function LoginForm() {
   };
 
   const handleForgotPassword = () => {
-    toast({
-      title: 'Próximamente',
-      description: 'Esta funcionalidad estará disponible pronto.',
-    });
+    navigate('/vendedor/recuperar-contrasena');
   };
 
   return (

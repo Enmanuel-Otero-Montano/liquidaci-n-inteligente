@@ -3,10 +3,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { SuscripcionForm } from './components/SuscripcionForm';
-import { getSubscriberCount } from '@/mocks/subscriptions';
+import { useSubscriberCount } from '@/hooks/useSubscriberCount';
 
 export function SuscripcionPage() {
-  const subscriberCount = getSubscriberCount();
+  const { data: subscriberCount = 0 } = useSubscriberCount();
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-primary/5 to-background">

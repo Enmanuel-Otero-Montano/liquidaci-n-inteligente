@@ -39,6 +39,10 @@ export function useSellerReservations(filters?: ReservationFilters) {
         query = query.eq('status', filters.status);
       }
 
+      if (filters?.product_id && filters.product_id !== 'all') {
+        query = query.eq('product_id', filters.product_id);
+      }
+
       if (filters?.search) {
         query = query.or(`buyer_name.ilike.%${filters.search}%,products.title.ilike.%${filters.search}%`);
       }

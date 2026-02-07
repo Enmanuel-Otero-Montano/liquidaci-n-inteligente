@@ -28,10 +28,9 @@ const createReservationSchema = (maxStock: number) => z.object({
       (val) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const phoneRegex = /^(\+598\s?9\d|09\d)\s?\d{3}\s?\d{3}$/;
-        const simplePhoneRegex = /^\d{7,9}$/;
-        return emailRegex.test(val) || phoneRegex.test(val) || simplePhoneRegex.test(val);
+        return emailRegex.test(val) || phoneRegex.test(val);
       },
-      'Ingresá un email válido o teléfono (ej: 099 123 456)'
+      'Ingresá un email válido o teléfono uruguayo (ej: 099 123 456 o +598 99 123 456)'
     ),
   quantity: z.number()
     .min(1, 'Mínimo 1 unidad')

@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProduct, useSeller } from '@/hooks/useProduct';
+import { formatPhoneForWhatsApp } from '@/lib/utils';
 import { ProductGallery } from './components/ProductGallery';
 import { ProductInfo } from './components/ProductInfo';
 import { ProductDetailSkeleton } from './components/ProductDetailSkeleton';
@@ -90,7 +91,7 @@ export function ProductDetailPage() {
               asChild
             >
               <a 
-                href={`https://wa.me/${seller.telefono}`}
+                href={`https://wa.me/${formatPhoneForWhatsApp(seller.telefono)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"

@@ -1,17 +1,20 @@
-import { MapPin, Clock, FileText, Shield } from 'lucide-react';
+import { MapPin, Clock, FileText, Shield, Truck, Package } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Seller } from '@/types/seller';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SellerAvatar } from '@/components/seller/SellerAvatar';
+import { DeliveryType } from '@/types/product';
 
 interface SellerInfoProps {
   seller: Seller | null | undefined;
   location: string;
+  deliveryType?: DeliveryType;
+  shippingCost?: number | null;
   isLoading?: boolean;
 }
 
-export function SellerInfo({ seller, location, isLoading }: SellerInfoProps) {
+export function SellerInfo({ seller, location, deliveryType, shippingCost, isLoading }: SellerInfoProps) {
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -63,6 +66,41 @@ export function SellerInfo({ seller, location, isLoading }: SellerInfoProps) {
           <div>
             <p className="font-medium">Horarios de retiro</p>
             <p className="text-sm text-muted-foreground">{seller.horario_retiro}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Opciones de entrega */}
+      {deliveryType && (
+        <div className="flex items-start gap-3">
+          <Truck className="h-5 w-5 text-muted-foreground mt-0.5" />
+          <div>
+            <p className="font-medium">Opciones de entrega</p>
+            {deliveryType === 'pickup' && (
+              <p className="text-sm text-muted-foreground">Solo retiro en persona</p>
+            )}
+            {deliveryType === 'shipping' && (
+              <div className="text-sm text-muted-foreground">
+                <p>Envío disponible</p>
+                {shippingCost != null && shippingCost > 0 && (
+                  <p>Costo de envío: ${shippingCost.toLocaleString('es-UY')}</p>
+                )}
+                {shippingCost === 0 && (
+                  <p className="text-primary font-medium">Envío gratis</p>
+                )}
+              </div>
+            )}
+            {deliveryType === 'both' && (
+              <div className="text-sm text-muted-foreground">
+                <p>Retiro en persona o envío</p>
+                {shippingCost != null && shippingCost > 0 && (
+                  <p>Costo de envío: ${shippingCost.toLocaleString('es-UY')}</p>
+                )}
+                {shippingCost === 0 && (
+                  <p className="text-primary font-medium">Envío gratis</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

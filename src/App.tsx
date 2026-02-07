@@ -15,6 +15,8 @@ import { SuscripcionPage } from "./pages/Suscripcion";
 import { SuscripcionOkPage } from "./pages/SuscripcionOk";
 import { SellerLoginPage } from "./pages/vendedor/Login";
 import { SellerRegisterPage } from "./pages/vendedor/Register";
+import { ForgotPasswordPage } from "./pages/vendedor/ForgotPassword";
+import { ResetPasswordPage } from "./pages/vendedor/ResetPassword";
 import { SellerDashboardPage } from "./pages/vendedor/Dashboard";
 import { SellerProductsPage } from "./pages/vendedor/Products";
 import { ProductFormPage } from "./pages/vendedor/ProductForm";
@@ -53,6 +55,8 @@ const App = () => (
               {/* Auth vendedor */}
               <Route path="/vendedor/login" element={<SellerLoginPage />} />
               <Route path="/vendedor/registro" element={<SellerRegisterPage />} />
+              <Route path="/vendedor/recuperar-contrasena" element={<ForgotPasswordPage />} />
+              <Route path="/vendedor/nueva-contrasena" element={<ResetPasswordPage />} />
               
               {/* Rutas protegidas vendedor */}
               <Route 

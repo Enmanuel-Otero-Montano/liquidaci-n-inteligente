@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
 import { X, ImageIcon, Upload, Loader2 } from 'lucide-react';
@@ -63,10 +63,10 @@ export function ImageUploader({ form }: ImageUploaderProps) {
     }
   }, [formImages, uploadedImages.length]);
 
-  // Call sync on mount
-  useState(() => {
+  // Call sync on mount / when form images change
+  useEffect(() => {
     syncFormImages();
-  });
+  }, [syncFormImages]);
 
   const updateFormImages = (images: UploadedImage[]) => {
     const urls = images.filter(img => !img.uploading).map(img => img.publicUrl);

@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { ProductWithSeller } from '@/types/moderation';
 import { ApprovalActions } from './ApprovalActions';
+import { ModerationTimeline } from './ModerationTimeline';
+import { useModerationHistory } from '@/hooks/useModerationHistory';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -43,6 +45,8 @@ export function ProductDetailSheet({
   onRequestChanges,
   isApproving,
 }: ProductDetailSheetProps) {
+  const { data: history = [], isLoading: isHistoryLoading } = useModerationHistory(product?.id);
+
   if (!product) return null;
 
   const formatPrice = (price: number) => {
@@ -228,6 +232,17 @@ export function ProductDetailSheet({
                 )}
               </div>
             </div>
+
+            {/* Moderation History */}
+            {history.length > 0 && (
+              <>
+                <Separator className="bg-slate-700" />
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-slate-400">Historial de moderación</h3>
+                  <ModerationTimeline history={history} isLoading={isHistoryLoading} />
+                </div>
+              </>
+            )}
           </div>
         </ScrollArea>
 

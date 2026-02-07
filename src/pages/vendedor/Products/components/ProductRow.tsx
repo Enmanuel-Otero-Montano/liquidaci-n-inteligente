@@ -57,8 +57,8 @@ export function ProductRow({ product, onDuplicate, onToggleStatus, isLoading }: 
         <div>
           <ProductStatusBadge status={product.status} />
           {product.rejection_reason && (product.status === 'rejected' || product.status === 'changes_requested') && (
-            <p className="text-xs text-destructive mt-1 max-w-[200px]" title={product.rejection_reason}>
-              {product.rejection_reason}
+            <p className="text-sm text-destructive mt-1">
+              Motivo: {product.rejection_reason}
             </p>
           )}
         </div>

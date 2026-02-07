@@ -125,20 +125,31 @@ export function useBlockSeller() {
 
       if (error) throw error;
 
+      // Get IDs of approved products before disabling them
+      const { data: approvedProducts } = await supabase
+        .from('products')
+        .select('id')
+        .eq('seller_id', sellerId)
+        .eq('status', 'approved');
+
+      const disabledProductIds = (approvedProducts ?? []).map((p) => p.id);
+
       await supabase.from('seller_actions').insert({
         seller_id: sellerId,
         action: 'blocked',
         reason,
         admin_id: admin!.id,
         admin_name: admin!.name,
+        metadata: { disabled_product_ids: disabledProductIds },
       });
 
-      // Hide all seller's products
-      await supabase
-        .from('products')
-        .update({ status: 'disabled' })
-        .eq('seller_id', sellerId)
-        .eq('status', 'approved');
+      // Hide only the approved products
+      if (disabledProductIds.length > 0) {
+        await supabase
+          .from('products')
+          .update({ status: 'disabled' })
+          .in('id', disabledProductIds);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });
@@ -159,6 +170,29 @@ export function useUnblockSeller() {
 
       if (error) throw error;
 
+      // Find the most recent block action to get the affected product IDs
+      const { data: blockAction } = await supabase
+        .from('seller_actions')
+        .select('metadata')
+        .eq('seller_id', sellerId)
+        .eq('action', 'blocked')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      const disabledProductIds = (
+        blockAction?.metadata as { disabled_product_ids?: string[] } | null
+      )?.disabled_product_ids;
+
+      // Restore only products that were disabled by the block action
+      if (disabledProductIds && disabledProductIds.length > 0) {
+        await supabase
+          .from('products')
+          .update({ status: 'approved' })
+          .in('id', disabledProductIds)
+          .eq('status', 'disabled');
+      }
+
       await supabase.from('seller_actions').insert({
         seller_id: sellerId,
         action: 'unblocked',
@@ -168,6 +202,7 @@ export function useUnblockSeller() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }

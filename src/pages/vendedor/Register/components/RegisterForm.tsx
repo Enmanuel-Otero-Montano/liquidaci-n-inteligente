@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
+import { PasswordStrengthIndicator } from '@/components/PasswordStrengthIndicator';
 import { 
   Store, 
   User, 
@@ -318,6 +319,7 @@ export function RegisterForm() {
               )}
             </button>
           </div>
+          <PasswordStrengthIndicator password={watch('password')} />
           {errors.password && (
             <p className="text-sm text-destructive">{errors.password.message}</p>
           )}

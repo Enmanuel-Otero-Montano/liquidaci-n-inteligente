@@ -11,6 +11,7 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { Lead } from '@/types/lead';
 import { Product } from '@/types/product';
 import { Seller } from '@/types/seller';
+import LiquiOffLogo from '@/assets/LiquiOff_logo.svg';
 
 interface ReservationConfirmationState {
   lead: Lead;
@@ -59,8 +60,9 @@ export function ReservationConfirmationPage() {
       {/* Simple header */}
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
-          <Link to="/" className="text-xl font-bold text-primary">
-            LiquiMarket
+          <Link to="/" className="flex items-center gap-2" aria-label="Ir al inicio">
+            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-9 w-auto" />
+            <span className="text-xl font-bold text-foreground">LiquiMarket</span>
           </Link>
         </div>
       </header>

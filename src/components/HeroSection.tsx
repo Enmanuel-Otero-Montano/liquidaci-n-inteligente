@@ -30,7 +30,7 @@ const HeroSection = ({ minDiscount = 25 }: HeroSectionProps) => {
               <a href="/suscribirme">
                 <Button variant="heroSecondary" size="xl" className="w-full sm:w-auto">
                   <Bell className="h-5 w-5" />
-                  Recibir drops
+                  Avisarme de ofertas
                 </Button>
               </a>
             </div>

@@ -1,5 +1,6 @@
 import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { formatPhoneForWhatsApp } from '@/lib/utils';
 
 interface WhatsAppButtonProps {
   phoneNumber?: string;
@@ -15,7 +16,7 @@ function generateWhatsAppLink({
   buyerName 
 }: WhatsAppButtonProps): string {
   const defaultNumber = '59899999999';
-  const phone = phoneNumber?.replace(/\D/g, '') || defaultNumber;
+  const phone = phoneNumber ? formatPhoneForWhatsApp(phoneNumber) : defaultNumber;
   
   const message = encodeURIComponent(
     `¡Hola! Soy ${buyerName}.\n\n` +

@@ -201,11 +201,11 @@ Una vez aprobado, aparece en el catálogo.`,
 
   // ============ GENERAL ============
   {
-    id: 'suscribirse-drops',
-    question: '¿Cómo me suscribo a los "drops"?',
+    id: 'suscribirse-ofertas',
+    question: '¿Cómo me suscribo a las alertas de ofertas?',
     answer: 'En la página de inicio o en "/suscribirme" podés dejar tu email o WhatsApp para recibir alertas cuando lleguen nuevas liquidaciones en las categorías que te interesan.',
     category: 'general',
-    tags: ['drops', 'suscripción', 'alertas', 'notificaciones'],
+    tags: ['ofertas', 'suscripción', 'alertas', 'notificaciones'],
   },
   {
     id: 'contactar-liquimarket',

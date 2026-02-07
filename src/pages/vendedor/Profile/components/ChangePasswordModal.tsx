@@ -20,8 +20,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Eye, EyeOff, Loader2, Check, X } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { PasswordStrengthIndicator } from '@/components/PasswordStrengthIndicator';
 import { useChangePassword } from '@/hooks/useProfile';
 
 const changePasswordSchema = z.object({
@@ -60,30 +60,6 @@ export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalP
   });
 
   const newPassword = form.watch('new_password');
-  
-  // Password strength calculation
-  const getPasswordStrength = (password: string): number => {
-    let strength = 0;
-    if (password.length >= 8) strength += 25;
-    if (/[a-z]/.test(password)) strength += 25;
-    if (/[A-Z]/.test(password)) strength += 25;
-    if (/[0-9]/.test(password)) strength += 25;
-    return strength;
-  };
-
-  const passwordStrength = getPasswordStrength(newPassword);
-  const strengthColor = passwordStrength <= 25 ? 'bg-red-500' : 
-                        passwordStrength <= 50 ? 'bg-orange-500' : 
-                        passwordStrength <= 75 ? 'bg-yellow-500' : 'bg-green-500';
-  const strengthText = passwordStrength <= 25 ? 'Débil' : 
-                       passwordStrength <= 50 ? 'Regular' : 
-                       passwordStrength <= 75 ? 'Buena' : 'Fuerte';
-
-  const requirements = [
-    { text: 'Mínimo 8 caracteres', met: newPassword.length >= 8 },
-    { text: 'Una letra mayúscula', met: /[A-Z]/.test(newPassword) },
-    { text: 'Un número', met: /[0-9]/.test(newPassword) },
-  ];
 
   const onSubmit = async (data: ChangePasswordFormData) => {
     try {
@@ -178,28 +154,7 @@ export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalP
                       </Button>
                     </div>
                   </FormControl>
-                  {newPassword && (
-                    <div className="space-y-2 mt-2">
-                      <div className="flex items-center gap-2">
-                        <Progress value={passwordStrength} className={`h-2 ${strengthColor}`} />
-                        <span className="text-xs text-muted-foreground">{strengthText}</span>
-                      </div>
-                      <ul className="text-xs space-y-1">
-                        {requirements.map((req, i) => (
-                          <li key={i} className="flex items-center gap-1">
-                            {req.met ? (
-                              <Check className="h-3 w-3 text-green-500" />
-                            ) : (
-                              <X className="h-3 w-3 text-muted-foreground" />
-                            )}
-                            <span className={req.met ? 'text-green-600' : 'text-muted-foreground'}>
-                              {req.text}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  <PasswordStrengthIndicator password={newPassword} />
                   <FormMessage />
                 </FormItem>
               )}

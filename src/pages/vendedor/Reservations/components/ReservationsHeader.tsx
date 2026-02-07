@@ -11,17 +11,28 @@ import {
 import { Search, Filter } from 'lucide-react';
 import { ReservationStatus } from '@/types/reservation';
 
+interface ProductOption {
+  id: string;
+  title: string;
+}
+
 interface ReservationsHeaderProps {
   onSearchChange: (search: string) => void;
   onStatusChange: (status: ReservationStatus | 'all') => void;
+  onProductChange?: (productId: string) => void;
   currentStatus: ReservationStatus | 'all';
+  currentProductId?: string;
+  products?: ProductOption[];
   newCount: number;
 }
 
 export function ReservationsHeader({
   onSearchChange,
   onStatusChange,
+  onProductChange,
   currentStatus,
+  currentProductId = 'all',
+  products = [],
   newCount,
 }: ReservationsHeaderProps) {
   const [search, setSearch] = useState('');
@@ -57,6 +68,21 @@ export function ReservationsHeader({
             className="pl-9"
           />
         </div>
+        {products.length > 0 && onProductChange && (
+          <Select value={currentProductId} onValueChange={onProductChange}>
+            <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectValue placeholder="Filtrar producto" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos los productos</SelectItem>
+              {products.map((p) => (
+                <SelectItem key={p.id} value={p.id}>
+                  {p.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <Select value={currentStatus} onValueChange={(v) => onStatusChange(v as ReservationStatus | 'all')}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <Filter className="h-4 w-4 mr-2" />

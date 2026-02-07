@@ -25,7 +25,7 @@ export function StockBadge({ quantity }: StockBadgeProps) {
           variant="outline" 
           className="border-warning text-warning bg-warning/10 text-sm font-medium"
         >
-          ¡Últimas {quantity} unidades!
+          {quantity === 1 ? '¡Última unidad!' : `¡Últimas ${quantity} unidades!`}
         </Badge>
       </div>
     );

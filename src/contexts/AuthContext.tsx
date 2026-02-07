@@ -139,6 +139,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     if (error) throw new Error(error.message);
 
+    // Detect existing user: Supabase returns identities=[] for duplicate emails
+    if (
+      signUpData.user &&
+      (!signUpData.user.identities || signUpData.user.identities.length === 0)
+    ) {
+      throw new Error('Ya existe una cuenta con este email. Intentá iniciar sesión.');
+    }
+
     // If there's no session, email confirmation is required
     if (!signUpData.session) {
       return { needsEmailConfirmation: true };

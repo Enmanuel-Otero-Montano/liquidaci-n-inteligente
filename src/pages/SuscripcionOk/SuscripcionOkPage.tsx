@@ -104,7 +104,7 @@ export function SuscripcionOkPage() {
               {subscriber.metodoContacto === 'whatsapp' && (
                 <div className="pt-4 border-t">
                   <p className="text-sm text-muted-foreground">
-                    💡 Guardá nuestro número para recibir los drops:{' '}
+                    💡 Guardá nuestro número para recibir las ofertas:{' '}
                     <span className="font-medium text-foreground">099 XXX XXX</span>
                   </p>
                 </div>

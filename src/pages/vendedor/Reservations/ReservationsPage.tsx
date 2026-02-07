@@ -5,11 +5,12 @@ import { ReservationsTable } from './components/ReservationsTable';
 import { ReservationsTableSkeleton } from './components/ReservationsTableSkeleton';
 import { ReservationDetailSheet } from './components/ReservationDetailSheet';
 import { EmptyState } from './components/EmptyState';
-import { 
-  useSellerReservations, 
+import {
+  useSellerReservations,
   useUpdateReservationStatus,
-  useUpdateReservationNotes 
+  useUpdateReservationNotes
 } from '@/hooks/useReservations';
+import { useSellerProducts } from '@/hooks/useSellerProducts';
 import { Reservation, ReservationStatus, ReservationFilters } from '@/types/reservation';
 
 export function ReservationsPage() {
@@ -21,8 +22,11 @@ export function ReservationsPage() {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const { data: reservations, isLoading } = useSellerReservations(filters);
+  const { data: sellerProducts } = useSellerProducts();
   const updateStatus = useUpdateReservationStatus();
   const updateNotes = useUpdateReservationNotes();
+
+  const productOptions = (sellerProducts || []).map(p => ({ id: p.id, title: p.title }));
 
   // Count new reservations
   const newCount = reservations?.filter(r => r.status === 'new').length || 0;
@@ -56,7 +60,10 @@ export function ReservationsPage() {
         <ReservationsHeader
           onSearchChange={(search) => setFilters(f => ({ ...f, search }))}
           onStatusChange={(status) => setFilters(f => ({ ...f, status }))}
+          onProductChange={(product_id) => setFilters(f => ({ ...f, product_id }))}
           currentStatus={filters.status || 'all'}
+          currentProductId={filters.product_id || 'all'}
+          products={productOptions}
           newCount={newCount}
         />
 

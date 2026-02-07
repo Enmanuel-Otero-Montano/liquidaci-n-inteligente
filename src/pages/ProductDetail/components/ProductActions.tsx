@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Product } from '@/types/product';
 import { Seller } from '@/types/seller';
 import { ReservationModal } from '@/components/ReservationModal/ReservationModal';
+import { formatPhoneForWhatsApp } from '@/lib/utils';
 
 interface ProductActionsProps {
   product: Product;
@@ -23,7 +24,7 @@ export function ProductActions({ product, seller, sellerPhone, disabled }: Produ
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const productUrl = `${window.location.origin}/p/${product.slug}`;
-  
+
   const whatsappMessage = encodeURIComponent(
     `¡Hola! 👋\n\n` +
     `Me interesa este producto de LiquiOff:\n\n` +
@@ -33,9 +34,9 @@ export function ProductActions({ product, seller, sellerPhone, disabled }: Produ
     `🔗 Ver producto: ${productUrl}\n\n` +
     `¿Está disponible?`
   );
-  
-  const whatsappUrl = sellerPhone 
-    ? `https://wa.me/${sellerPhone}?text=${whatsappMessage}`
+
+  const whatsappUrl = sellerPhone
+    ? `https://wa.me/${formatPhoneForWhatsApp(sellerPhone)}?text=${whatsappMessage}`
     : null;
 
   const handleReserveClick = () => {

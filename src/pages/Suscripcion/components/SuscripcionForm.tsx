@@ -49,23 +49,28 @@ const subscriptionSchema = z.object({
   frecuencia: z
     .string()
     .default('inmediato'),
-}).refine(
-  (data) => {
-    if (data.metodoContacto === 'email') {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return data.email && emailRegex.test(data.email);
+}).superRefine((data, ctx) => {
+  if (data.metodoContacto === 'email') {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!data.email || !emailRegex.test(data.email)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Ingresá un email válido',
+        path: ['email'],
+      });
     }
-    if (data.metodoContacto === 'whatsapp') {
-      const phoneRegex = /^0?9[0-9]{7}$/;
-      return data.whatsapp && phoneRegex.test(data.whatsapp.replace(/\s/g, ''));
-    }
-    return false;
-  },
-  {
-    message: 'Ingresá un email o WhatsApp válido',
-    path: ['email'],
   }
-);
+  if (data.metodoContacto === 'whatsapp') {
+    const phoneRegex = /^0?9[0-9]{7}$/;
+    if (!data.whatsapp || !phoneRegex.test(data.whatsapp.replace(/\s/g, ''))) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Ingresá un WhatsApp válido (ej: 099 123 456)',
+        path: ['whatsapp'],
+      });
+    }
+  }
+});
 
 type FormData = z.infer<typeof subscriptionSchema>;
 
@@ -246,7 +251,7 @@ export function SuscripcionForm() {
             Suscribiendo...
           </>
         ) : (
-          'Quiero recibir drops'
+          'Avisarme de ofertas'
         )}
       </Button>
 
