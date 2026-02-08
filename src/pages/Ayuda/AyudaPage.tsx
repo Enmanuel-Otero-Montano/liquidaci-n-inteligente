@@ -64,7 +64,7 @@ export function AyudaPage() {
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Encontrá respuestas a las preguntas más frecuentes sobre cómo comprar 
-                y vender en LiquiMarket.
+                y vender en LiquiOff.
               </p>
             </div>
 
@@ -199,7 +199,7 @@ export function AyudaPage() {
               Escribinos y te responderemos en 24-48 horas hábiles.
             </p>
             <Button asChild size="lg" className="gap-2">
-              <a href="mailto:soporte@liquimarket.uy">
+              <a href="mailto:soporte@liquioff.uy">
                 <MessageCircle className="h-5 w-5" />
                 Contactanos
               </a>

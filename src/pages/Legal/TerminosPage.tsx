@@ -10,9 +10,9 @@ export function TerminosPage() {
       <section>
         <h2>1. Introducción</h2>
         <p>
-          Bienvenido a <strong>LiquiMarket</strong>, una plataforma operada en Uruguay que conecta 
+          Bienvenido a <strong>LiquiOff</strong>, una plataforma operada en Uruguay que conecta 
           compradores con vendedores de productos en liquidación. Nuestra propuesta de valor es 
-          simple: <strong>"Todo ≥25% OFF real"</strong>.
+          simple: <strong>"Todo ≥20% OFF verificado"</strong>.
         </p>
         <p>
           Al acceder y utilizar nuestra plataforma, usted acepta estos Términos y Condiciones en 
@@ -27,7 +27,7 @@ export function TerminosPage() {
         <p>Para los efectos de estos términos, se entenderá por:</p>
         <ul>
           <li>
-            <strong>"Plataforma"</strong>: El sitio web LiquiMarket y todos sus servicios asociados.
+            <strong>"Plataforma"</strong>: El sitio web LiquiOff y todos sus servicios asociados.
           </li>
           <li>
             <strong>"Comprador"</strong>: Usuario que navega la plataforma y realiza reservas de productos.
@@ -40,7 +40,7 @@ export function TerminosPage() {
             <strong> No constituye una compra ni genera obligación de adquisición.</strong>
           </li>
           <li>
-            <strong>"Liquidación"</strong>: Producto ofrecido con un descuento mínimo del 25% sobre 
+            <strong>"Oferta"</strong>: Producto ofrecido con un descuento mínimo del 20% sobre
             su precio original verificable.
           </li>
         </ul>
@@ -50,7 +50,7 @@ export function TerminosPage() {
       <section>
         <h2>3. Naturaleza del Servicio</h2>
         <p>
-          LiquiMarket actúa exclusivamente como <strong>intermediario</strong> entre compradores y 
+          LiquiOff actúa exclusivamente como <strong>intermediario</strong> entre compradores y 
           vendedores. Es importante que comprenda que:
         </p>
         <ul>
@@ -63,15 +63,15 @@ export function TerminosPage() {
 
       {/* 4. Regla del Descuento Mínimo */}
       <section>
-        <h2>4. Regla del Descuento Mínimo (25% OFF)</h2>
+        <h2>4. Regla del Descuento Mínimo (20% OFF)</h2>
         <p>
-          El compromiso central de LiquiMarket es que todos los productos publicados tengan un 
+          El compromiso central de LiquiOff es que todos los productos publicados tengan un
           descuento real y verificable:
         </p>
         <ul>
           <li>
-            <strong>Descuento mínimo obligatorio:</strong> Todos los productos deben tener al menos 
-            un 25% de descuento sobre el precio original.
+            <strong>Descuento mínimo obligatorio:</strong> Todos los productos deben tener al menos
+            un 20% de descuento sobre el precio original.
           </li>
           <li>
             <strong>Precio original verificable:</strong> El precio original (P0) debe ser verificable 
@@ -107,7 +107,7 @@ export function TerminosPage() {
             comprador y vendedor.
           </li>
           <li>
-            LiquiMarket no interviene en disputas que surjan después de realizada la reserva.
+            LiquiOff no interviene en disputas que surjan después de realizada la reserva.
           </li>
         </ul>
       </section>
@@ -115,12 +115,12 @@ export function TerminosPage() {
       {/* 6. Responsabilidades del Vendedor */}
       <section>
         <h2>6. Responsabilidades del Vendedor</h2>
-        <p>Al registrarse como vendedor en LiquiMarket, usted se compromete a:</p>
+        <p>Al registrarse como vendedor en LiquiOff, usted se compromete a:</p>
         <ul>
           <li>Publicar información veraz, completa y actualizada sobre sus productos.</li>
           <li>Mantener disponible el stock declarado en sus publicaciones.</li>
           <li>Responder a las reservas en un tiempo razonable (máximo 48 horas hábiles).</li>
-          <li>Cumplir estrictamente con la regla del descuento mínimo del 25%.</li>
+          <li>Cumplir estrictamente con la regla del descuento mínimo del 20%.</li>
           <li>
             No publicar productos prohibidos, incluyendo pero no limitado a: falsificaciones, 
             productos robados, artículos ilegales, o productos que infrinjan derechos de terceros.
@@ -171,7 +171,7 @@ export function TerminosPage() {
       {/* 9. Limitación de Responsabilidad */}
       <section>
         <h2>9. Limitación de Responsabilidad</h2>
-        <p>LiquiMarket, dentro del marco legal aplicable:</p>
+        <p>LiquiOff, dentro del marco legal aplicable:</p>
         <ul>
           <li>
             No garantiza la exactitud, veracidad o actualidad de la información publicada por 
@@ -186,7 +186,7 @@ export function TerminosPage() {
             derivados del uso de la plataforma.
           </li>
           <li>
-            La responsabilidad máxima de LiquiMarket se limitará según lo establecido por 
+            La responsabilidad máxima de LiquiOff se limitará según lo establecido por 
             la legislación uruguaya vigente.
           </li>
         </ul>
@@ -198,11 +198,11 @@ export function TerminosPage() {
         <ul>
           <li>
             El diseño, código, marca y contenido original de la plataforma son propiedad 
-            exclusiva de LiquiMarket.
+            exclusiva de LiquiOff.
           </li>
           <li>
             Los vendedores mantienen los derechos sobre las imágenes y descripciones de 
-            sus productos, otorgando a LiquiMarket licencia para mostrarlos en la plataforma.
+            sus productos, otorgando a LiquiOff licencia para mostrarlos en la plataforma.
           </li>
           <li>
             Está prohibido copiar, reproducir o utilizar cualquier contenido de la plataforma 
@@ -215,7 +215,7 @@ export function TerminosPage() {
       <section>
         <h2>11. Modificaciones</h2>
         <p>
-          LiquiMarket se reserva el derecho de modificar estos Términos y Condiciones en 
+          LiquiOff se reserva el derecho de modificar estos Términos y Condiciones en 
           cualquier momento:
         </p>
         <ul>
@@ -257,11 +257,11 @@ export function TerminosPage() {
         <ul>
           <li>
             <strong>Email:</strong>{' '}
-            <a href="mailto:legal@liquimarket.uy">legal@liquimarket.uy</a>
+            <a href="mailto:legal@liquioff.uy">legal@liquioff.uy</a>
           </li>
         </ul>
         <p className="mt-4 text-sm">
-          Al utilizar LiquiMarket, usted confirma que ha leído, comprendido y aceptado estos 
+          Al utilizar LiquiOff, usted confirma que ha leído, comprendido y aceptado estos 
           Términos y Condiciones en su totalidad.
         </p>
       </section>

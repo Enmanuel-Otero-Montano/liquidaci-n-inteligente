@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% set min_discount = min_discount|default(25) %}
+{% set min_discount = min_discount|default(20) %}
 
 {% set categories = categories|default([
     {"label": "Moda", "slug": "moda", "subtitle": "Ropa y accesorios"},
@@ -22,10 +22,10 @@
             <!-- Content -->
             <div class="max-w-xl">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-                    Todo <span class="text-emerald-500">≥{{ min_discount }}% OFF</span> real
+                    Todo <span class="text-emerald-500">≥{{ min_discount }}% OFF</span> verificado
                 </h1>
                 <p class="text-lg md:text-xl text-gray-500 mb-8">
-                    Un solo lugar donde todo está en liquidación. Sin ofertas falsas.
+                    Ofertas reales desde 20% OFF. Sin precios inflados. Sin trucos.
                 </p>
 
                 <!-- CTAs -->
@@ -90,7 +90,7 @@
                 ¿Cómo funciona?
             </h2>
             <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-                Comprar en LiquiMarket es simple y seguro
+                Comprar en LiquiOff es simple y seguro
             </p>
         </div>
 

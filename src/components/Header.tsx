@@ -12,8 +12,8 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2" aria-label="Ir al inicio">
-            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-9 w-auto" />
-            <span className="text-xl font-bold text-foreground">LiquiMarket</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-9 w-auto" />
+            <span className="text-xl font-bold text-foreground">LiquiOff</span>
           </a>
 
           {/* Desktop Navigation */}

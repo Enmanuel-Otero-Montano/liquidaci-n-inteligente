@@ -14,7 +14,7 @@ export function TrustBadge() {
       
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <ShieldCheck className="h-4 w-4" />
-        <span>Descuento verificado ≥25% OFF</span>
+        <span>Descuento verificado ≥20% OFF</span>
       </div>
     </div>
   );

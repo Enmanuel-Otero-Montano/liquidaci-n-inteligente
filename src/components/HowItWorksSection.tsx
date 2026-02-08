@@ -27,7 +27,7 @@ const HowItWorksSection = () => {
             ¿Cómo funciona?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprar en LiquiMarket es simple y seguro
+            Comprar en LiquiOff es simple y seguro
           </p>
         </div>
 

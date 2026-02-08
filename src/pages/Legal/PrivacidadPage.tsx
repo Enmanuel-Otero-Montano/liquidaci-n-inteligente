@@ -10,7 +10,7 @@ export function PrivacidadPage() {
       <section>
         <h2>1. Introducción</h2>
         <p>
-          En <strong>LiquiMarket</strong> nos comprometemos a proteger la privacidad de nuestros 
+          En <strong>LiquiOff</strong> nos comprometemos a proteger la privacidad de nuestros 
           usuarios. Esta Política de Privacidad describe cómo recolectamos, usamos, almacenamos 
           y protegemos tu información personal.
         </p>
@@ -21,7 +21,7 @@ export function PrivacidadPage() {
           Oriental del Uruguay.
         </p>
         <p>
-          El responsable del tratamiento de tus datos personales es <strong>LiquiMarket</strong>, 
+          El responsable del tratamiento de tus datos personales es <strong>LiquiOff</strong>, 
           operando en Uruguay.
         </p>
       </section>
@@ -220,7 +220,7 @@ export function PrivacidadPage() {
         </ul>
         <p>
           Para ejercer estos derechos, contactanos a{' '}
-          <a href="mailto:privacidad@liquimarket.uy">privacidad@liquimarket.uy</a>.
+          <a href="mailto:privacidad@liquioff.uy">privacidad@liquioff.uy</a>.
         </p>
         <p>
           <strong>Plazo de respuesta:</strong> Responderemos a tu solicitud dentro de los 
@@ -252,7 +252,7 @@ export function PrivacidadPage() {
       <section>
         <h2>10. Menores de Edad</h2>
         <ul>
-          <li>LiquiMarket no está dirigido a menores de 18 años.</li>
+          <li>LiquiOff no está dirigido a menores de 18 años.</li>
           <li>Los vendedores deben ser mayores de edad para registrarse.</li>
           <li>
             Si detectamos que hemos recolectado datos de un menor sin el consentimiento 
@@ -301,7 +301,7 @@ export function PrivacidadPage() {
         <ul>
           <li>
             <strong>Email:</strong>{' '}
-            <a href="mailto:privacidad@liquimarket.uy">privacidad@liquimarket.uy</a>
+            <a href="mailto:privacidad@liquioff.uy">privacidad@liquioff.uy</a>
           </li>
         </ul>
         <p className="mt-4">
@@ -318,7 +318,7 @@ export function PrivacidadPage() {
           </li>
         </ul>
         <p className="mt-4 text-sm">
-          Al utilizar LiquiMarket, confirmás que has leído y comprendido esta Política de 
+          Al utilizar LiquiOff, confirmás que has leído y comprendido esta Política de 
           Privacidad.
         </p>
       </section>

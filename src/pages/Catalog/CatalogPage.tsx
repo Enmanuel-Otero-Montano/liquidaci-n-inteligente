@@ -21,7 +21,7 @@ export function CatalogPage() {
     category: searchParams.get('category') || undefined,
     min_discount: searchParams.get('min_discount') 
       ? parseInt(searchParams.get('min_discount')!) 
-      : 25,
+      : 20,
     location: searchParams.get('location') || undefined,
     delivery_type: (searchParams.get('delivery_type') as CatalogFilters['delivery_type']) || undefined,
     sort_by: (searchParams.get('sort_by') as CatalogFilters['sort_by']) || 'discount_desc',
@@ -66,7 +66,7 @@ export function CatalogPage() {
     let count = 0;
     if (filters.search) count++;
     if (filters.category) count++;
-    if (filters.min_discount && filters.min_discount > 25) count++;
+    if (filters.min_discount && filters.min_discount > 20) count++;
     if (filters.location) count++;
     if (filters.delivery_type && filters.delivery_type !== 'all') count++;
     if (filters.sort_by && filters.sort_by !== 'discount_desc') count++;
@@ -82,7 +82,7 @@ export function CatalogPage() {
       <div className="bg-primary text-primary-foreground py-3">
         <div className="container mx-auto px-4 flex items-center justify-center gap-2 text-sm md:text-base">
           <Percent className="h-4 w-4" />
-          <span className="font-medium">Todo ≥25% OFF real</span>
+          <span className="font-medium">Todo ≥20% OFF verificado</span>
           <span className="opacity-80">• Descuentos verificados</span>
         </div>
       </div>

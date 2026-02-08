@@ -12,7 +12,7 @@ export function DiscountCalculator({ priceBefore, priceNow }: DiscountCalculator
   const discountPct = isValid 
     ? Math.round(((priceBefore - priceNow) / priceBefore) * 100)
     : 0;
-  const isValidDiscount = discountPct >= 25;
+  const isValidDiscount = discountPct >= 20;
 
   if (!isValid) {
     return null;
@@ -48,7 +48,7 @@ export function DiscountCalculator({ priceBefore, priceNow }: DiscountCalculator
           <>
             <AlertCircle className="h-5 w-5 text-red-600" />
             <span className="text-sm font-medium text-red-700 dark:text-red-400">
-              El descuento mínimo es 25% para publicar
+              El descuento mínimo es 20% para publicar
             </span>
           </>
         )}

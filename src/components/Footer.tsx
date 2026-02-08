@@ -9,8 +9,8 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2" aria-label="Ir al inicio">
-            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-8 w-auto" />
-            <span className="text-lg font-bold">LiquiMarket</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-8 w-auto" />
+            <span className="text-lg font-bold">LiquiOff</span>
           </a>
 
           {/* Links */}
@@ -43,7 +43,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-sm text-background/50">
-            © {currentYear} LiquiMarket
+            © {currentYear} LiquiOff
           </p>
         </div>
       </div>

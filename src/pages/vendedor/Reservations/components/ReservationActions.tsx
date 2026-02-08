@@ -35,14 +35,14 @@ export function ReservationActions({
   const getWhatsAppUrl = () => {
     const phone = buyer_contact.replace(/\D/g, '');
     const phoneWithCountry = phone.startsWith('598') ? phone : `598${phone}`;
-    const message = `Hola ${buyer_name}! Vi tu reserva del producto "${product_title}" en LiquiMarket. ¿Seguís interesado?`;
+    const message = `Hola ${buyer_name}! Vi tu reserva del producto "${product_title}" en LiquiOff. ¿Seguís interesado?`;
     return `https://wa.me/${phoneWithCountry}?text=${encodeURIComponent(message)}`;
   };
   
   // Generate mailto link
   const getMailtoUrl = () => {
-    const subject = `Tu reserva en LiquiMarket: ${product_title}`;
-    const body = `Hola ${buyer_name},\n\nVi tu reserva del producto "${product_title}" en LiquiMarket.\n\n¿Seguís interesado?\n\nSaludos`;
+    const subject = `Tu reserva en LiquiOff: ${product_title}`;
+    const body = `Hola ${buyer_name},\n\nVi tu reserva del producto "${product_title}" en LiquiOff.\n\n¿Seguís interesado?\n\nSaludos`;
     return `mailto:${buyer_contact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 

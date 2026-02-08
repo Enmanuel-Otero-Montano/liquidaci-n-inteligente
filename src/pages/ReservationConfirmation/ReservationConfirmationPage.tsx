@@ -61,8 +61,8 @@ export function ReservationConfirmationPage() {
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
           <Link to="/" className="flex items-center gap-2" aria-label="Ir al inicio">
-            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-9 w-auto" />
-            <span className="text-xl font-bold text-foreground">LiquiMarket</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-9 w-auto" />
+            <span className="text-xl font-bold text-foreground">LiquiOff</span>
           </Link>
         </div>
       </header>

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { DISCOUNT_CONFIG } from '@/lib/constants/discounts';
 
 export const LIQUIDATION_REASONS = [
   { value: 'fin_temporada', label: 'Fin de temporada' },
@@ -63,7 +64,7 @@ export const productFormSchema = z.object({
   pack_quantity: z.number().min(2, 'Mínimo 2 unidades').optional(),
   pack_price: z.number().min(1, 'El precio debe ser mayor a 0').optional(),
   min_quantity_for_discount: z.number().min(2, 'Mínimo 2 unidades').optional(),
-  quantity_discount_percent: z.number().min(25, 'Mínimo 25%').max(100, 'Máximo 100%').optional(),
+  quantity_discount_percent: z.number().min(DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT, `Mínimo ${DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT}%`).max(100, 'Máximo 100%').optional(),
 }).refine(
   (data) => data.price_now < data.price_before,
   { message: 'El precio de liquidación debe ser menor al anterior', path: ['price_now'] }
@@ -87,15 +88,15 @@ export const productFormSchema = z.object({
   { message: 'Completá la cantidad mínima y el porcentaje de descuento', path: ['quantity_discount_percent'] }
 ).refine(
   (data) => {
-    // Validar que el descuento del pack sea >= 25%
+    // Validar que el descuento del pack sea >= mínimo configurado
     if (data.has_quantity_promo && data.quantity_promo_type === 'pack_price' && data.pack_quantity && data.pack_price && data.price_before) {
       const pricePerUnitInPack = data.pack_price / data.pack_quantity;
       const effectiveDiscount = ((data.price_before - pricePerUnitInPack) / data.price_before) * 100;
-      return effectiveDiscount >= 25;
+      return effectiveDiscount >= DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT;
     }
     return true;
   },
-  { message: 'El precio del pack debe representar al menos 25% de descuento', path: ['pack_price'] }
+  { message: `El precio del pack debe representar al menos ${DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT}% de descuento`, path: ['pack_price'] }
 );
 
 export type ProductFormData = z.infer<typeof productFormSchema>;

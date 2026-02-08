@@ -28,8 +28,8 @@ export function LoginPage() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={LiquiOffLogo} alt="LiquiMarket" className="h-8 w-auto" />
-            <span className="font-bold text-lg">LiquiMarket</span>
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-8 w-auto" />
+            <span className="font-bold text-lg">LiquiOff</span>
           </Link>
           <Link 
             to="/" 

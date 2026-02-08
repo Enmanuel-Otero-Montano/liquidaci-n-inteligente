@@ -371,7 +371,7 @@ export function RegisterForm() {
               <Link to="/terminos" className="text-primary hover:underline">
                 términos de publicación
               </Link>
-              {' '}y me comprometo a publicar solo productos con descuento real ≥25%
+              {' '}y me comprometo a publicar solo productos con descuento real ≥20%
             </Label>
           </div>
           {errors.aceptaTerminos && (

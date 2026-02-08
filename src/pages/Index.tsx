@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   // Configurable props - these would come from backend in Jinja2
-  const minDiscount = 25;
+  const minDiscount = 20;
 
   return (
     <div className="min-h-screen flex flex-col">

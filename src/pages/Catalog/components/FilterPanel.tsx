@@ -59,7 +59,7 @@ export function FilterPanel({
 
         {/* Discount Filter */}
         <Select
-          value={filters.min_discount?.toString() || "25"}
+          value={filters.min_discount?.toString() || "20"}
           onValueChange={(value) => onFilterChange('min_discount', parseInt(value))}
         >
           <SelectTrigger className="w-[130px] h-9 bg-background" aria-label="Filtrar por descuento mínimo">

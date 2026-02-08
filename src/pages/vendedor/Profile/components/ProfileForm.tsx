@@ -76,7 +76,7 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
   const whatsappMessage = form.watch('whatsapp_message');
   const nombreComercial = form.watch('nombre_comercial');
   const profileImage = form.watch('profile_image');
-  const previewMessage = (whatsappMessage || 'Hola! Te escribo por tu producto {producto} en LiquiMarket...')
+  const previewMessage = (whatsappMessage || 'Hola! Te escribo por tu producto {producto} en LiquiOff...')
     .replace('{producto}', 'iPhone 13 Pro')
     .replace('{precio}', '$28.000');
 
@@ -265,7 +265,7 @@ export function ProfileForm({ user, onPasswordChange }: ProfileFormProps) {
                   <FormLabel>Mensaje de WhatsApp predeterminado</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Hola! Te escribo por tu producto {producto} en LiquiMarket..."
+                      placeholder="Hola! Te escribo por tu producto {producto} en LiquiOff..."
                       rows={3}
                       {...field}
                     />

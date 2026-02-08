@@ -173,12 +173,12 @@ export function QuantityPromoSection({ form }: QuantityPromoSectionProps) {
                   />
                 </div>
                 
-                {/* Alerta si no cumple mínimo 25% */}
+                {/* Alerta si no cumple mínimo 20% */}
                 {packValidation && !packValidation.isValid && (
                   <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      El precio del pack debe representar al menos 25% de descuento. 
+                      El precio del pack debe representar al menos 20% de descuento.
                       Actualmente es {packValidation.actualDiscount}%.
                     </AlertDescription>
                   </Alert>
@@ -218,14 +218,14 @@ export function QuantityPromoSection({ form }: QuantityPromoSectionProps) {
                       <FormControl>
                         <Input
                           type="number"
-                          min={25}
+                          min={20}
                           max={100}
                           placeholder="ej: 35"
                           value={field.value ?? ''}
                           onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                         />
                       </FormControl>
-                      <FormDescription>Mínimo 25%</FormDescription>
+                      <FormDescription>Mínimo 20%</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

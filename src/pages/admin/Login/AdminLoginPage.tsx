@@ -33,7 +33,7 @@ export function AdminLoginPage() {
 
       {/* Footer */}
       <div className="py-4 text-center text-xs text-slate-600 relative z-10">
-        LiquiMarket Admin © {new Date().getFullYear()}
+        LiquiOff Admin © {new Date().getFullYear()}
       </div>
     </div>
   );

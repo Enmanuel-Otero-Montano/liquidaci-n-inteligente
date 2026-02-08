@@ -63,13 +63,13 @@ export function calculateQuantityPromoInfo(
 }
 
 /**
- * Valida si un precio de pack cumple con el mínimo de 25% de descuento
+ * Valida si un precio de pack cumple con el mínimo de descuento configurado
  */
 export function validatePackDiscount(
   pricePerUnit: number,
   packQuantity: number,
   packPrice: number,
-  minDiscountPercent: number = 25
+  minDiscountPercent: number = 20
 ): { isValid: boolean; actualDiscount: number } {
   const pricePerUnitInPack = packPrice / packQuantity;
   const actualDiscount = ((pricePerUnit - pricePerUnitInPack) / pricePerUnit) * 100;

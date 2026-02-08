@@ -49,8 +49,8 @@ async function fetchProducts(filters: CatalogFilters): Promise<Product[]> {
     query = query.ilike('category', filters.category);
   }
 
-  // Minimum discount filter (default 25%)
-  const minDiscount = filters.min_discount ?? 25;
+  // Minimum discount filter (default 20%)
+  const minDiscount = filters.min_discount ?? 20;
   query = query.gte('discount_pct', minDiscount);
 
   // Location filter

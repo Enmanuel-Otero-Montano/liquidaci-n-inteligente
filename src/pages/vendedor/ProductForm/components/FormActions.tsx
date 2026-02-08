@@ -65,7 +65,7 @@ export function FormActions({
 
       {!isValidDiscount && (
         <p className="text-sm text-red-600 text-center">
-          El descuento debe ser de al menos 25% para enviar a aprobación
+          El descuento debe ser de al menos 20% para enviar a aprobación
         </p>
       )}
     </div>

@@ -23,7 +23,7 @@ const defaultCategories: Category[] = [
   { label: "Accesorios", slug: "accesorios", icon: Watch, subtitle: "Relojes y más" },
 ];
 
-const CategoriesSection = ({ minDiscount = 25, categories = defaultCategories }: CategoriesSectionProps) => {
+const CategoriesSection = ({ minDiscount = 20, categories = defaultCategories }: CategoriesSectionProps) => {
   return (
     <section className="py-16 md:py-24 bg-secondary/30">
       <div className="container mx-auto px-4">

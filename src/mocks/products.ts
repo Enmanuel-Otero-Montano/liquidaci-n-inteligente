@@ -458,7 +458,7 @@ export const locations = DEPARTAMENTOS_URUGUAY.map((dep) => ({
 }));
 
 export const discountOptions = [
-  { value: 25, label: "≥25% OFF" },
+  { value: 20, label: "≥20% OFF" },
   { value: 30, label: "≥30% OFF" },
   { value: 40, label: "≥40% OFF" },
   { value: 50, label: "≥50% OFF" },

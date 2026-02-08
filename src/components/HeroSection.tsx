@@ -5,7 +5,7 @@ interface HeroSectionProps {
   minDiscount?: number;
 }
 
-const HeroSection = ({ minDiscount = 25 }: HeroSectionProps) => {
+const HeroSection = ({ minDiscount = 20 }: HeroSectionProps) => {
   return (
     <section className="hero-gradient py-16 md:py-24 lg:py-32">
       <div className="container mx-auto px-4">
@@ -13,10 +13,10 @@ const HeroSection = ({ minDiscount = 25 }: HeroSectionProps) => {
           {/* Content */}
           <div className="max-w-xl animate-fade-in">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight mb-6">
-              Todo <span className="text-primary">≥{minDiscount}% OFF</span> real
+              Todo <span className="text-primary">≥{minDiscount}% OFF</span> verificado
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 text-balance">
-              Un solo lugar donde todo está en liquidación. Sin ofertas falsas.
+              Ofertas reales desde 20% OFF. Sin precios inflados. Sin trucos.
             </p>
 
             {/* CTAs */}

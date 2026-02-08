@@ -80,7 +80,7 @@ export function PricingSection({ form }: PricingSectionProps) {
                   </div>
                 </FormControl>
                 <FormDescription>
-                  El precio con descuento (mín. 25% OFF)
+                  El precio con descuento (mín. 20% OFF)
                 </FormDescription>
                 <FormMessage />
               </FormItem>

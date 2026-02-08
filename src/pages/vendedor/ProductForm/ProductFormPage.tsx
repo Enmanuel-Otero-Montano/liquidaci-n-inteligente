@@ -93,7 +93,7 @@ export function ProductFormPage() {
   const discountPct = isValidPricing 
     ? Math.round(((priceBefore - priceNow) / priceBefore) * 100)
     : 0;
-  const isValidDiscount = discountPct >= 25;
+  const isValidDiscount = discountPct >= 20;
 
   const isSubmitting = createProduct.isPending || updateProduct.isPending;
 
@@ -204,7 +204,7 @@ export function ProductFormPage() {
       toast({
         variant: 'destructive',
         title: 'Descuento insuficiente',
-        description: 'El descuento mínimo para publicar es 25%',
+        description: 'El descuento mínimo para publicar es 20%',
       });
       return;
     }
