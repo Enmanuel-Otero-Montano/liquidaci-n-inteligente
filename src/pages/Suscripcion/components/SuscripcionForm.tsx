@@ -43,7 +43,7 @@ const subscriptionSchema = z.object({
     .min(1, 'Seleccioná al menos una categoría'),
   
   zona: z
-    .string()
+    .string({ required_error: 'Seleccioná tu zona' })
     .min(1, 'Seleccioná tu zona'),
   
   frecuencia: z

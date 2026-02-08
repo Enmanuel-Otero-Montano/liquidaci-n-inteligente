@@ -23,7 +23,20 @@ function formatPrice(price: number): string {
 export function ProductActions({ product, seller, sellerPhone, disabled }: ProductActionsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const productUrl = `${window.location.origin}/p/${product.slug}`;
+  const productUrl = (() => {
+    const rawUrl = `${window.location.origin}/p/${product.slug}`;
+    try {
+      const url = new URL(rawUrl);
+      // En algunos clientes, http sin dominio público puede no detectarse como link.
+      // Forzamos https cuando no es localhost.
+      if (!['localhost', '127.0.0.1'].includes(url.hostname) && url.protocol === 'http:') {
+        url.protocol = 'https:';
+      }
+      return url.toString();
+    } catch {
+      return rawUrl;
+    }
+  })();
 
   // Nota: evitamos emojis en el texto prearmado para que no aparezcan caracteres "�"
   // en dispositivos/navegadores con soporte limitado.
@@ -33,7 +46,8 @@ export function ProductActions({ product, seller, sellerPhone, disabled }: Produ
     `*${product.title}*\n` +
     `Precio: $${formatPrice(product.price_now)} (antes $${formatPrice(product.price_before)})\n` +
     `Descuento: ${product.discount_pct}% OFF\n\n` +
-    `Ver producto: ${productUrl}\n\n` +
+    // URL sola en su línea para maximizar que WhatsApp la detecte como link (al enviarlo).
+    `Link del producto:\n${productUrl}\n\n` +
     `¿Está disponible?`;
 
   const whatsappUrl = sellerPhone

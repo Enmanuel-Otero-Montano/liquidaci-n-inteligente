@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { SellerLayout } from '@/components/layouts/SellerLayout';
+import { supabase } from '@/integrations/supabase/client';
 import { ProductFormHeader } from './components/ProductFormHeader';
 import { BasicInfoSection } from './components/BasicInfoSection';
 import { ImageUploader } from './components/ImageUploader';
@@ -96,6 +97,96 @@ export function ProductFormPage() {
 
   const isSubmitting = createProduct.isPending || updateProduct.isPending;
 
+  const isUnauthorizedError = (error: unknown): boolean => {
+    if (!error) return false;
+
+    if (error instanceof Error) {
+      return /unauthorized|jwt|no autenticado|not authenticated|not authorized|permission denied/i.test(
+        error.message
+      );
+    }
+
+    const scanObject = (value: unknown, depth: number): boolean => {
+      if (!value || depth <= 0) return false;
+
+      if (value instanceof Error) {
+        return /unauthorized|jwt|no autenticado|not authenticated|not authorized|permission denied/i.test(
+          value.message
+        );
+      }
+
+      if (typeof value !== 'object') return false;
+
+      const obj = value as Record<string, unknown>;
+
+      const statusCandidate = obj.status ?? obj.statusCode ?? obj.status_code;
+      const statusNum = Number(statusCandidate);
+      if (statusNum === 401 || statusNum === 403) return true;
+
+      const combined =
+        `${String(obj.code ?? '')} ` +
+        `${String(obj.message ?? '')} ` +
+        `${String(obj.details ?? '')} ` +
+        `${String(obj.hint ?? '')} ` +
+        `${String(obj.error_description ?? '')} ` +
+        `${String(obj.error ?? '')}`;
+
+      // PGRST301 suele ser JWT inválido/expirado.
+      if (
+        /pgrst301|unauthorized|jwt|no autenticado|not authenticated|not authorized|permission denied/i.test(
+          combined
+        )
+      ) {
+        return true;
+      }
+
+      for (const key of ['error', 'cause', 'originalError', 'context', 'data', 'response']) {
+        if (scanObject(obj[key], depth - 1)) return true;
+      }
+
+      return false;
+    };
+
+    return scanObject(error, 4);
+  };
+
+  const isRlsError = (error: unknown): boolean => {
+    if (!error || typeof error !== 'object') return false;
+    const maybe = error as { code?: unknown; message?: unknown };
+    const code = String(maybe.code ?? '');
+    const message = String(maybe.message ?? '');
+    return code === '42501' || /row-level security|violates row level security/i.test(message);
+  };
+
+  const hasActiveSession = async (): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) return false;
+      return !!data.session;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleExpiredSession = (error: unknown) => {
+    console.error('Sesión expirada al guardar producto:', error);
+    toast({
+      variant: 'destructive',
+      title: 'Sesión expirada',
+      description: 'Tu sesión expiró. Iniciá sesión de nuevo para guardar el producto.',
+    });
+    navigate('/vendedor/login', { replace: true });
+  };
+
+  const handleForbidden = (error: unknown) => {
+    console.error('Permisos insuficientes al guardar producto:', error);
+    toast({
+      variant: 'destructive',
+      title: 'No autorizado',
+      description: 'No tenés permisos para guardar este producto. Verificá tu sesión e intentá de nuevo.',
+    });
+  };
+
   const handleSave = async (status: 'draft' | 'pending') => {
     const isValid = await form.trigger();
     
@@ -157,6 +248,17 @@ export function ProductFormPage() {
       }
       navigate('/vendedor/productos');
     } catch (error) {
+      if (isUnauthorizedError(error) || isRlsError(error)) {
+        const hasSession = await hasActiveSession();
+        if (!hasSession) {
+          handleExpiredSession(error);
+          return;
+        }
+        handleForbidden(error);
+        return;
+      }
+
+      console.error('Error al guardar producto:', error);
       toast({
         variant: 'destructive',
         title: 'Error',
