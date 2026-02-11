@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/select';
 import { Plus, Search } from 'lucide-react';
 import { ProductStatus } from '@/types/product';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ProductsHeaderProps {
   search: string;
@@ -35,6 +36,9 @@ export function ProductsHeader({
   onStatusChange,
   totalProducts,
 }: ProductsHeaderProps) {
+  const { seller } = useAuth();
+  const canPublish = seller?.status === 'active';
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -44,12 +48,19 @@ export function ProductsHeader({
             {totalProducts} {totalProducts === 1 ? 'producto' : 'productos'} en total
           </p>
         </div>
-        <Button asChild>
-          <Link to="/vendedor/productos/nuevo">
+        {canPublish ? (
+          <Button asChild>
+            <Link to="/vendedor/productos/nuevo">
+              <Plus className="mr-2 h-4 w-4" />
+              Nuevo producto
+            </Link>
+          </Button>
+        ) : (
+          <Button disabled>
             <Plus className="mr-2 h-4 w-4" />
             Nuevo producto
-          </Link>
-        </Button>
+          </Button>
+        )}
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">

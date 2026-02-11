@@ -20,6 +20,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { ProductWithSeller } from '@/types/moderation';
+import { SellerTypeBadge } from '@/components/seller/SellerTypeBadge';
 import { ApprovalActions } from './ApprovalActions';
 import { ModerationTimeline } from './ModerationTimeline';
 import { useModerationHistory } from '@/hooks/useModerationHistory';
@@ -174,27 +175,44 @@ export function ProductDetailSheet({
               </p>
             </div>
 
-            {/* Evidence */}
-            {product.evidence_url && (
+            {/* Referencia de precio */}
+            {(product.evidence_url || product.price_reference) ? (
+              <>
+                <Separator className="bg-slate-700" />
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-slate-400">Referencia de precio</h3>
+
+                  {product.evidence_url && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="border-slate-600 text-slate-300 hover:bg-slate-800"
+                    >
+                      <a href={product.evidence_url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        Ver enlace original
+                      </a>
+                    </Button>
+                  )}
+
+                  {product.price_reference && (
+                    <div className="bg-slate-800/50 rounded-md p-3">
+                      <p className="text-sm text-slate-300 italic">
+                        &quot;{product.price_reference}&quot;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
               <>
                 <Separator className="bg-slate-700" />
                 <div className="space-y-2">
-                  <h3 className="text-sm font-medium text-slate-400">Evidencia de precio</h3>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                    className="border-slate-600 text-slate-300 hover:bg-slate-800"
-                  >
-                    <a 
-                      href={product.evidence_url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Ver enlace original
-                    </a>
-                  </Button>
+                  <h3 className="text-sm font-medium text-slate-400">Referencia de precio</h3>
+                  <p className="text-sm text-amber-400/80">
+                    ⚠️ Sin referencia de precio — verificar manualmente
+                  </p>
                 </div>
               </>
             )}
@@ -210,6 +228,7 @@ export function ProductDetailSheet({
                   <span className="text-slate-200 font-medium">
                     {product.seller.nombre_comercial}
                   </span>
+                  <SellerTypeBadge type={product.seller.seller_type} />
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Mail className="h-4 w-4 text-slate-500" />

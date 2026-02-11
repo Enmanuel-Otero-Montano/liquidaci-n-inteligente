@@ -30,6 +30,8 @@ function mapDbProduct(row: any): Product {
     quantityPromo: row.quantity_promo as Product['quantityPromo'],
     created_at: row.created_at,
     updated_at: row.updated_at,
+    evidence_url: row.evidence_url ?? null,
+    price_reference: row.price_reference ?? null,
   };
 }
 

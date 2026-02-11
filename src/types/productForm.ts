@@ -58,6 +58,7 @@ export const productFormSchema = z.object({
   offers_shipping: z.boolean().default(false),
   shipping_cost: z.number().optional(),
   evidence_url: z.string().url('Ingresá una URL válida').optional().or(z.literal('')),
+  price_reference: z.string().max(200, 'Máximo 200 caracteres').optional().or(z.literal('')),
   // Promoción por cantidad
   has_quantity_promo: z.boolean().default(false),
   quantity_promo_type: z.enum(['none', '2x1', '3x2', 'pack_price', 'quantity_discount']).default('none'),
@@ -115,6 +116,7 @@ export interface CreateProductInput {
   offers_shipping: boolean;
   shipping_cost?: number;
   evidence_url?: string;
+  price_reference?: string;
   status: 'draft' | 'pending';
   // Promoción por cantidad
   has_quantity_promo?: boolean;

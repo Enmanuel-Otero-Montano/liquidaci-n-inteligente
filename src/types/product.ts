@@ -36,6 +36,8 @@ export interface Product {
   shipping_cost?: number | null;
   quantityPromo?: QuantityPromoInfo;
   rejection_reason?: string | null;
+  evidence_url?: string | null;
+  price_reference?: string | null;
   created_at: string;
   updated_at: string;
 }

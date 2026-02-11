@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { BadgeCheck } from 'lucide-react';
 import { SellerWithStats } from '@/types/adminSeller';
 import { SellerStatusBadge } from './SellerStatusBadge';
+import { SellerTypeBadge } from '@/components/seller/SellerTypeBadge';
 import { SellerActions } from './SellerActions';
 import { format, isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -54,6 +55,7 @@ export function SellerRow({
               <span className="font-medium text-slate-100 truncate">
                 {seller.nombre_comercial}
               </span>
+              <SellerTypeBadge type={seller.seller_type} />
               {seller.is_verified && (
                 <BadgeCheck className="h-4 w-4 text-green-400 flex-shrink-0" />
               )}

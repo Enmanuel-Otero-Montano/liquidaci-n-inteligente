@@ -26,7 +26,7 @@ export function LoginBranding() {
         </h2>
 
         <p className="text-muted-foreground mb-8">
-          Publicá tus liquidaciones y conectá con compradores listos para comprar
+          Publicá tus liquidaciones y ofertas y conectá con compradores listos para comprar
         </p>
 
         <ul className="space-y-3 mb-10">

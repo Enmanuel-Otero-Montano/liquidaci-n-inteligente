@@ -14,6 +14,7 @@ interface SellerProfile {
   politicas: string | null;
   horario_retiro: string | null;
   whatsapp_message: string | null;
+  seller_type: string | null;
   profile_image_url: string | null;
   status: 'active' | 'pending' | 'suspended';
   is_verified: boolean;
@@ -35,6 +36,7 @@ interface RegisterInput {
   telefono: string;
   zona: string;
   direccion?: string;
+  seller_type: string;
   password: string;
 }
 
@@ -134,6 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           telefono: data.telefono,
           zona: data.zona,
           direccion: data.direccion || '',
+          seller_type: data.seller_type,
         },
       },
     });
@@ -162,7 +165,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         telefono: data.telefono,
         zona: data.zona,
         direccion: data.direccion || null,
-        status: 'active',
+        seller_type: data.seller_type,
+        status: 'pending',
       })
       .eq('user_id', user.id);
 

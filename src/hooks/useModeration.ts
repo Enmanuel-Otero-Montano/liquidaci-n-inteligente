@@ -11,7 +11,7 @@ export function usePendingProducts(filters?: ModerationFilters) {
     queryFn: async (): Promise<ProductWithSeller[]> => {
       let query = supabase
         .from('products')
-        .select('*, sellers!inner(id, nombre_comercial, email, zona, created_at)')
+        .select('*, sellers!inner(id, nombre_comercial, email, zona, created_at, seller_type)')
         .eq('status', 'pending')
         .order('created_at', { ascending: true });
 
@@ -54,6 +54,7 @@ export function usePendingProducts(filters?: ModerationFilters) {
         created_at: row.created_at,
         updated_at: row.updated_at,
         evidence_url: row.evidence_url ?? undefined,
+        price_reference: row.price_reference ?? undefined,
         liquidation_reason: row.liquidation_reason ?? undefined,
         pickup_address: row.pickup_address ?? undefined,
         pickup_hours: row.pickup_hours ?? undefined,
@@ -64,6 +65,7 @@ export function usePendingProducts(filters?: ModerationFilters) {
           email: (row.sellers as any).email,
           zona: (row.sellers as any).zona,
           created_at: (row.sellers as any).created_at,
+          seller_type: (row.sellers as any).seller_type,
         },
       }));
     },

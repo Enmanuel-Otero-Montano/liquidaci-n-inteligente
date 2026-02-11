@@ -7,8 +7,10 @@ export interface ProductWithSeller extends Product {
     email: string;
     zona: string;
     created_at?: string;
+    seller_type?: string;
   };
   evidence_url?: string;
+  price_reference?: string;
   liquidation_reason?: string;
   pickup_address?: string;
   pickup_hours?: string;

@@ -49,6 +49,7 @@ export function ProductFormPage() {
       offers_shipping: false,
       shipping_cost: undefined,
       evidence_url: '',
+      price_reference: '',
       has_quantity_promo: false,
       quantity_promo_type: 'none',
       pack_quantity: undefined,
@@ -76,7 +77,8 @@ export function ProductFormPage() {
         pickup_hours: '',
         offers_shipping: false,
         shipping_cost: undefined,
-        evidence_url: '',
+        evidence_url: existingProduct.evidence_url ?? '',
+        price_reference: existingProduct.price_reference ?? '',
         has_quantity_promo: !!existingProduct.quantityPromo,
         quantity_promo_type: existingProduct.quantityPromo?.type || 'none',
         pack_quantity: existingProduct.quantityPromo?.packQuantity,
@@ -225,6 +227,7 @@ export function ProductFormPage() {
       offers_shipping: values.offers_shipping,
       shipping_cost: values.offers_shipping ? values.shipping_cost : undefined,
       evidence_url: values.evidence_url || undefined,
+      price_reference: values.price_reference || undefined,
       status,
     };
 
@@ -294,6 +297,14 @@ export function ProductFormPage() {
 
         <Form {...form}>
           <form className="space-y-6">
+            {/* Nota sobre condición — solo productos nuevos */}
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 text-sm">
+              <p className="text-blue-300">
+                📦 En LiquiOff solo se publican <strong>productos nuevos</strong> en liquidación.
+                No se aceptan productos usados ni reacondicionados.
+              </p>
+            </div>
+
             <BasicInfoSection form={form} />
             <ImageUploader form={form} />
             <LiquidationSection form={form} />

@@ -31,13 +31,19 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { ZONAS_URUGUAY } from '@/data/constants';
+import { SELLER_TYPES } from '@/types/seller';
+import { cn } from '@/lib/utils';
 
 const registerSchema = z.object({
   nombre_comercial: z
     .string()
     .min(1, 'El nombre comercial es requerido')
     .min(3, 'El nombre debe tener al menos 3 caracteres'),
-  
+
+  seller_type: z
+    .string()
+    .min(1, 'Seleccioná un tipo de vendedor'),
+
   responsable: z
     .string()
     .min(1, 'El nombre del responsable es requerido')
@@ -109,6 +115,7 @@ export function RegisterForm() {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       nombre_comercial: '',
+      seller_type: '',
       responsable: '',
       email: '',
       telefono: '',
@@ -132,6 +139,7 @@ export function RegisterForm() {
         telefono: data.telefono.replace(/\s/g, ''),
         zona: data.zona,
         direccion: data.direccion,
+        seller_type: data.seller_type,
         password: data.password,
       });
 
@@ -144,8 +152,9 @@ export function RegisterForm() {
         navigate('/vendedor/login', { replace: true });
       } else {
         toast({
-          title: '¡Cuenta creada!',
-          description: 'Ya podés empezar a publicar tus productos.',
+          title: '¡Registro recibido!',
+          description: 'Tu cuenta está pendiente de aprobación. Te avisaremos por email cuando esté activa.',
+          duration: 8000,
         });
         navigate('/vendedor', { replace: true });
       }
@@ -191,6 +200,38 @@ export function RegisterForm() {
           </div>
           {errors.nombre_comercial && (
             <p className="text-sm text-destructive">{errors.nombre_comercial.message}</p>
+          )}
+        </div>
+
+        {/* Tipo de vendedor */}
+        <div className="space-y-2">
+          <Label htmlFor="seller_type">Tipo de vendedor</Label>
+          <div className="relative">
+            <Store className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+            <Select
+              disabled={isSubmitting}
+              onValueChange={(value) => setValue('seller_type', value)}
+              value={watch('seller_type')}
+            >
+              <SelectTrigger id="seller_type" className={cn('pl-10', errors.seller_type && 'border-destructive')}>
+                <SelectValue placeholder="¿Qué tipo de vendedor sos?" />
+              </SelectTrigger>
+            <SelectContent>
+              {SELLER_TYPES.map((type) => (
+                <SelectItem key={type.value} value={type.value} className="group">
+                  <div className="flex flex-col">
+                    <span>{type.label}</span>
+                    <span className="text-xs text-muted-foreground group-focus:text-accent-foreground group-data-[highlighted]:text-accent-foreground">
+                      {type.description}
+                    </span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+            </Select>
+          </div>
+          {errors.seller_type && (
+            <p className="text-sm text-destructive">{errors.seller_type.message}</p>
           )}
         </div>
 
@@ -258,8 +299,9 @@ export function RegisterForm() {
             <Select
               disabled={isSubmitting}
               onValueChange={(value) => setValue('zona', value)}
+              value={watch('zona')}
             >
-              <SelectTrigger className="pl-10">
+              <SelectTrigger id="zona" className="pl-10">
                 <SelectValue placeholder="Seleccioná tu zona" />
               </SelectTrigger>
               <SelectContent>
@@ -377,6 +419,14 @@ export function RegisterForm() {
           {errors.aceptaTerminos && (
             <p className="text-sm text-destructive">{errors.aceptaTerminos.message}</p>
           )}
+        </div>
+
+        {/* Nota sobre aprobación */}
+        <div className="bg-muted/50 rounded-lg p-3 text-sm text-muted-foreground">
+          <p>
+            📋 Tu registro será revisado por nuestro equipo antes de activar tu cuenta.
+            Este proceso suele tomar menos de 24 horas.
+          </p>
         </div>
 
         {/* Submit button */}
