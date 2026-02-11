@@ -1,7 +1,10 @@
 import { Shirt, Footprints, Home, Sparkles, Dumbbell, Smartphone, Baby, Watch } from "lucide-react";
 
 interface Category {
+  /** Texto mostrado en la tarjeta */
   label: string;
+  /** Valor enviado en la URL (?category=...) — debe coincidir con la categoría guardada en productos */
+  value: string;
   slug: string;
   icon: React.ComponentType<{ className?: string }>;
   subtitle?: string;
@@ -13,14 +16,14 @@ interface CategoriesSectionProps {
 }
 
 const defaultCategories: Category[] = [
-  { label: "Moda", slug: "moda", icon: Shirt, subtitle: "Ropa y accesorios" },
-  { label: "Calzado", slug: "calzado", icon: Footprints, subtitle: "Zapatillas y más" },
-  { label: "Hogar", slug: "hogar", icon: Home, subtitle: "Deco y muebles" },
-  { label: "Belleza", slug: "belleza", icon: Sparkles, subtitle: "Cuidado personal" },
-  { label: "Deportes", slug: "deportes", icon: Dumbbell, subtitle: "Fitness y outdoor" },
-  { label: "Tecnología", slug: "tecnologia", icon: Smartphone, subtitle: "Electrónica" },
-  { label: "Bebés", slug: "bebes", icon: Baby, subtitle: "Todo para los más chicos" },
-  { label: "Accesorios", slug: "accesorios", icon: Watch, subtitle: "Relojes y más" },
+  { label: "Moda", value: "Ropa", slug: "moda", icon: Shirt, subtitle: "Ropa y accesorios" },
+  { label: "Calzado", value: "Ropa", slug: "calzado", icon: Footprints, subtitle: "Zapatillas y más" },
+  { label: "Hogar", value: "Hogar", slug: "hogar", icon: Home, subtitle: "Deco y muebles" },
+  { label: "Belleza", value: "Belleza", slug: "belleza", icon: Sparkles, subtitle: "Cuidado personal" },
+  { label: "Deportes", value: "Deportes", slug: "deportes", icon: Dumbbell, subtitle: "Fitness y outdoor" },
+  { label: "Tecnología y electrónica", value: "Electrónica", slug: "tecnologia", icon: Smartphone, subtitle: "Celulares, audio y más" },
+  { label: "Bebés", value: "Bebés", slug: "bebes", icon: Baby, subtitle: "Todo para los más chicos" },
+  { label: "Accesorios", value: "Accesorios", slug: "accesorios", icon: Watch, subtitle: "Relojes y más" },
 ];
 
 const CategoriesSection = ({ minDiscount = 20, categories = defaultCategories }: CategoriesSectionProps) => {
@@ -40,10 +43,10 @@ const CategoriesSection = ({ minDiscount = 20, categories = defaultCategories }:
           {categories.map((category, index) => (
             <a
               key={category.slug}
-              href={`/liquidaciones?category=${category.label}`}
+              href={`/liquidaciones?category=${encodeURIComponent(category.value)}`}
               className="category-card group animate-fade-in"
               style={{ animationDelay: `${index * 50}ms` }}
-              aria-label={`Ver liquidaciones de ${category.label}`}
+              aria-label={`Ver productos de ${category.label}`}
             >
               <div className="flex items-start justify-between mb-4">
                 <category.icon className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />

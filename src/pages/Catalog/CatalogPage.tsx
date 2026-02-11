@@ -88,15 +88,6 @@ export function CatalogPage() {
       </div>
 
       <div className="container mx-auto px-4 py-6 md:py-8">
-        {/* Page Header */}
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-            Liquidaciones
-          </h1>
-          <p className="text-muted-foreground">
-            Encontrá los mejores productos en liquidación con descuentos reales.
-          </p>
-        </div>
 
         {/* Search Bar */}
         <div className="mb-4 max-w-xl">

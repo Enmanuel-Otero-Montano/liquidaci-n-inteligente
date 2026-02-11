@@ -23,7 +23,7 @@ const HeroSection = ({ minDiscount = 20 }: HeroSectionProps) => {
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <a href="/liquidaciones">
                 <Button variant="hero" size="xl" className="w-full sm:w-auto group">
-                  Ver liquidaciones
+                  Ver productos
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </a>

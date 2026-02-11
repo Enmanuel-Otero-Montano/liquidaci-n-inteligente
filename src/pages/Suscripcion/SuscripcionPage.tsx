@@ -20,8 +20,8 @@ export function SuscripcionPage() {
               <Bell className="h-8 w-8 text-accent" />
             </div>
             
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-              Recibí las mejores liquidaciones
+            <h1 className="text-2xl md:text-3xl text-foreground mb-3">
+              Recibí las mejores ofertas
             </h1>
             
             <p className="text-muted-foreground max-w-md mx-auto">

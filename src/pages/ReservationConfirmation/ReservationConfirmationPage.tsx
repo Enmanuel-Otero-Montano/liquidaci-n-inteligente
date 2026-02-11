@@ -45,7 +45,7 @@ export function ReservationConfirmationPage() {
             </p>
           </div>
           <Button asChild size="lg">
-            <Link to="/liquidaciones">Ver liquidaciones</Link>
+            <Link to="/liquidaciones">Ver productos</Link>
           </Button>
         </div>
       </div>

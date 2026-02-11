@@ -25,7 +25,7 @@ export function ProductNotFound() {
           <Button asChild>
             <Link to="/liquidaciones">
               <Search className="mr-2 h-4 w-4" />
-              Ver otras liquidaciones
+              Ver otros productos
             </Link>
           </Button>
           

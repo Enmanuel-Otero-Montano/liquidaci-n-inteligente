@@ -12,7 +12,7 @@ const benefits = [
   },
   {
     icon: Eye,
-    text: "Visibilidad para liquidaciones",
+    text: "Visibilidad para liquidaciones y ofertas",
   },
 ];
 

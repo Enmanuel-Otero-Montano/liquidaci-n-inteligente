@@ -28,7 +28,7 @@ const Header = () => {
             </a>
             <a href="/liquidaciones">
               <Button variant="hero" size="sm">
-                Ver liquidaciones
+                Ver productos
               </Button>
             </a>
           </nav>
@@ -50,7 +50,7 @@ const Header = () => {
             <div className="flex flex-col gap-3">
               <a href="/liquidaciones">
                 <Button variant="hero" className="w-full" size="lg">
-                  Ver liquidaciones
+                  Ver productos
                 </Button>
               </a>
               <a href="/vendedor/login">

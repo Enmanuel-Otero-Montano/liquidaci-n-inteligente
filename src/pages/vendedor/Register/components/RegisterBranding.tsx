@@ -61,7 +61,7 @@ export function RegisterBranding() {
             ¿Por qué elegirnos?
           </div>
           <p className="text-sm text-foreground/80">
-            Somos el marketplace especializado en liquidaciones.
+            Somos el marketplace especializado en liquidaciones y ofertas.
             Tus productos llegan a compradores que buscan exactamente
             lo que vendés: stock con descuentos reales.
           </p>

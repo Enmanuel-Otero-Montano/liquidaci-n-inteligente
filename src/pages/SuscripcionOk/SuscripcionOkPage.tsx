@@ -149,7 +149,7 @@ export function SuscripcionOkPage() {
           <div className="space-y-3">
             <Button asChild size="lg" className="w-full">
               <Link to="/liquidaciones">
-                Ver liquidaciones actuales
+                Ver productos
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
