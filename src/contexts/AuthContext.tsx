@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
     });
     if (error) throw new Error(error.message);
-
+  
     // Detect existing user: Supabase returns identities=[] for duplicate emails
     if (
       signUpData.user &&
@@ -149,17 +149,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ) {
       throw new Error('Ya existe una cuenta con este email. Intentá iniciar sesión.');
     }
-
+  
     // If there's no session, email confirmation is required
     if (!signUpData.session) {
+      // Crear seller profile incluso sin sesión activa
+      if (signUpData.user) {
+        const { error: sellerError } = await supabase
+          .from('sellers')
+          .insert({
+            user_id: signUpData.user.id,
+            email: data.email,
+            nombre_comercial: data.nombre_comercial,
+            responsable: data.responsable,
+            telefono: data.telefono,
+            zona: data.zona,
+            direccion: data.direccion || null,
+            seller_type: data.seller_type,
+            status: 'pending',
+          });
+        
+        if (sellerError) {
+          console.error('Error al crear perfil de vendedor:', sellerError);
+        }
+      }
       return { needsEmailConfirmation: true };
     }
-
-    // Session exists: update seller profile and set state
+  
+    // Session exists: create seller profile and set state
     const user = signUpData.session.user;
-    await supabase
+  
+    // Crear el perfil de vendedor (INSERT, no UPDATE)
+    const { error: sellerError } = await supabase
       .from('sellers')
-      .update({
+      .insert({
+        user_id: user.id,
+        email: data.email,
         nombre_comercial: data.nombre_comercial,
         responsable: data.responsable,
         telefono: data.telefono,
@@ -167,9 +191,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         direccion: data.direccion || null,
         seller_type: data.seller_type,
         status: 'pending',
-      })
-      .eq('user_id', user.id);
-
+      });
+  
+    if (sellerError) {
+      console.error('Error al crear perfil de vendedor:', sellerError);
+      throw new Error('No se pudo crear el perfil de vendedor. Intentá de nuevo.');
+    }
+  
     const seller = await fetchSellerProfile(user.id);
     setState({
       user,
@@ -177,7 +205,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: true,
       isLoading: false,
     });
-
+  
     return { needsEmailConfirmation: false };
   };
 
