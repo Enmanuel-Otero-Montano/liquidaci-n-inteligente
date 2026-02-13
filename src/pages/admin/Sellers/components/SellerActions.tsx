@@ -6,12 +6,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Eye, Ban, CheckCircle, Unlock, XCircle } from 'lucide-react';
+import { MoreHorizontal, Eye, Ban, CheckCircle, Unlock, XCircle, UserCheck } from 'lucide-react';
 import { SellerWithStats } from '@/types/adminSeller';
 
 interface SellerActionsProps {
   seller: SellerWithStats;
   onViewDetails: () => void;
+  onApprove: () => void;
   onBlock: () => void;
   onUnblock: () => void;
   onVerify: () => void;
@@ -21,11 +22,13 @@ interface SellerActionsProps {
 export function SellerActions({
   seller,
   onViewDetails,
+  onApprove,
   onBlock,
   onUnblock,
   onVerify,
   onUnverify,
 }: SellerActionsProps) {
+  const isPending = seller.status === 'pending';
   const isSuspended = seller.status === 'suspended';
   const isVerified = seller.is_verified;
 
@@ -48,6 +51,19 @@ export function SellerActions({
           <Eye className="h-4 w-4 mr-2" />
           Ver detalles
         </DropdownMenuItem>
+
+        {isPending && (
+          <>
+            <DropdownMenuSeparator className="bg-slate-700" />
+            <DropdownMenuItem
+              onClick={onApprove}
+              className="text-green-400 focus:bg-slate-700 focus:text-green-400"
+            >
+              <UserCheck className="h-4 w-4 mr-2" />
+              Aprobar vendedor
+            </DropdownMenuItem>
+          </>
+        )}
 
         <DropdownMenuSeparator className="bg-slate-700" />
 

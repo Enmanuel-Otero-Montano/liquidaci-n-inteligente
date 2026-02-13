@@ -11,6 +11,7 @@ import { SellerFilters, SellerWithStats } from '@/types/adminSeller';
 import { SellerStatus } from '@/types/seller';
 import {
   useAllSellers,
+  useApproveSeller,
   useBlockSeller,
   useUnblockSeller,
   useVerifySeller,
@@ -32,6 +33,7 @@ export function SellersPage() {
   const [verifyDialogOpen, setVerifyDialogOpen] = useState(false);
 
   const { data: sellers = [], isLoading } = useAllSellers(filters);
+  const approveMutation = useApproveSeller();
   const blockMutation = useBlockSeller();
   const unblockMutation = useUnblockSeller();
   const verifyMutation = useVerifySeller();
@@ -53,6 +55,24 @@ export function SellersPage() {
   const handleViewDetails = (seller: SellerWithStats) => {
     setSelectedSeller(seller);
     setDetailSheetOpen(true);
+  };
+
+  const handleApprove = async (seller: SellerWithStats) => {
+    try {
+      await approveMutation.mutateAsync(seller.id);
+      toast({
+        title: 'Vendedor aprobado',
+        description: `${seller.nombre_comercial} ya puede publicar productos.`,
+      });
+      setDetailSheetOpen(false);
+      setSelectedSeller(null);
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'No se pudo aprobar al vendedor.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleBlock = (seller: SellerWithStats) => {
@@ -157,6 +177,7 @@ export function SellersPage() {
           <SellersTable
             sellers={sellers}
             onViewDetails={handleViewDetails}
+            onApprove={handleApprove}
             onBlock={handleBlock}
             onUnblock={handleUnblock}
             onVerify={handleVerify}
@@ -168,6 +189,7 @@ export function SellersPage() {
           open={detailSheetOpen}
           onOpenChange={setDetailSheetOpen}
           seller={selectedSeller}
+          onApprove={() => selectedSeller && handleApprove(selectedSeller)}
           onBlock={() => setBlockDialogOpen(true)}
           onUnblock={() => selectedSeller && handleUnblock(selectedSeller)}
           onVerify={() => setVerifyDialogOpen(true)}

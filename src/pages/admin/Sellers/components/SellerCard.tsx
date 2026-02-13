@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 interface SellerCardProps {
   seller: SellerWithStats;
   onViewDetails: () => void;
+  onApprove: () => void;
   onBlock: () => void;
   onUnblock: () => void;
   onVerify: () => void;
@@ -21,6 +22,7 @@ interface SellerCardProps {
 export function SellerCard({
   seller,
   onViewDetails,
+  onApprove,
   onBlock,
   onUnblock,
   onVerify,
@@ -74,6 +76,7 @@ export function SellerCard({
               <SellerActions
                 seller={seller}
                 onViewDetails={onViewDetails}
+                onApprove={onApprove}
                 onBlock={onBlock}
                 onUnblock={onUnblock}
                 onVerify={onVerify}

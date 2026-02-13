@@ -13,6 +13,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 interface SellersTableProps {
   sellers: SellerWithStats[];
   onViewDetails: (seller: SellerWithStats) => void;
+  onApprove: (seller: SellerWithStats) => void;
   onBlock: (seller: SellerWithStats) => void;
   onUnblock: (seller: SellerWithStats) => void;
   onVerify: (seller: SellerWithStats) => void;
@@ -22,6 +23,7 @@ interface SellersTableProps {
 export function SellersTable({
   sellers,
   onViewDetails,
+  onApprove,
   onBlock,
   onUnblock,
   onVerify,
@@ -37,6 +39,7 @@ export function SellersTable({
             key={seller.id}
             seller={seller}
             onViewDetails={() => onViewDetails(seller)}
+            onApprove={() => onApprove(seller)}
             onBlock={() => onBlock(seller)}
             onUnblock={() => onUnblock(seller)}
             onVerify={() => onVerify(seller)}
@@ -67,6 +70,7 @@ export function SellersTable({
               key={seller.id}
               seller={seller}
               onViewDetails={() => onViewDetails(seller)}
+              onApprove={() => onApprove(seller)}
               onBlock={() => onBlock(seller)}
               onUnblock={() => onUnblock(seller)}
               onVerify={() => onVerify(seller)}

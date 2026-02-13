@@ -112,6 +112,33 @@ export function useSellerActions(sellerId: string) {
   });
 }
 
+export function useApproveSeller() {
+  const queryClient = useQueryClient();
+  const { admin } = useAdminAuth();
+
+  return useMutation({
+    mutationFn: async (sellerId: string) => {
+      const { error } = await supabase
+        .from('sellers')
+        .update({ status: 'active' })
+        .eq('id', sellerId)
+        .eq('status', 'pending');
+
+      if (error) throw error;
+
+      await supabase.from('seller_actions').insert({
+        seller_id: sellerId,
+        action: 'approved',
+        admin_id: admin!.id,
+        admin_name: admin!.name,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });
+    },
+  });
+}
+
 export function useBlockSeller() {
   const queryClient = useQueryClient();
   const { admin } = useAdminAuth();

@@ -26,7 +26,7 @@ export interface SellerFilters {
 export interface SellerAction {
   id: string;
   seller_id: string;
-  action: 'blocked' | 'unblocked' | 'verified' | 'unverified';
+  action: 'approved' | 'blocked' | 'unblocked' | 'verified' | 'unverified';
   reason?: string;
   admin_name: string;
   created_at: string;

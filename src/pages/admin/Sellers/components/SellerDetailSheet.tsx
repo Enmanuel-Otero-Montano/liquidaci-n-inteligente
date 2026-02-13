@@ -24,6 +24,7 @@ import {
   BadgeCheck,
   Ban,
   Unlock,
+  UserCheck,
 } from 'lucide-react';
 import { SellerWithStats, SellerAction } from '@/types/adminSeller';
 import { SellerStatusBadge } from './SellerStatusBadge';
@@ -35,6 +36,7 @@ interface SellerDetailSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   seller: SellerWithStats | null;
+  onApprove: () => void;
   onBlock: () => void;
   onUnblock: () => void;
   onVerify: () => void;
@@ -45,6 +47,7 @@ export function SellerDetailSheet({
   open,
   onOpenChange,
   seller,
+  onApprove,
   onBlock,
   onUnblock,
   onVerify,
@@ -68,6 +71,8 @@ export function SellerDetailSheet({
 
   const getActionIcon = (action: SellerAction['action']) => {
     switch (action) {
+      case 'approved':
+        return <UserCheck className="h-4 w-4 text-green-400" />;
       case 'verified':
         return <BadgeCheck className="h-4 w-4 text-green-400" />;
       case 'unverified':
@@ -81,6 +86,8 @@ export function SellerDetailSheet({
 
   const getActionLabel = (action: SellerAction['action']) => {
     switch (action) {
+      case 'approved':
+        return 'Cuenta aprobada';
       case 'verified':
         return 'Verificado';
       case 'unverified':
@@ -257,23 +264,35 @@ export function SellerDetailSheet({
         </ScrollArea>
 
         <SheetFooter className="p-6 pt-4 border-t border-slate-700 gap-2">
-          {seller.is_verified ? (
+          {seller.status === 'pending' && (
             <Button
-              variant="outline"
-              onClick={onUnverify}
-              className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-800"
-            >
-              <XCircle className="h-4 w-4 mr-2" />
-              Quitar verificación
-            </Button>
-          ) : (
-            <Button
-              onClick={onVerify}
+              onClick={onApprove}
               className="flex-1 bg-green-600 hover:bg-green-700"
             >
-              <BadgeCheck className="h-4 w-4 mr-2" />
-              Verificar
+              <UserCheck className="h-4 w-4 mr-2" />
+              Aprobar vendedor
             </Button>
+          )}
+
+          {seller.status !== 'pending' && (
+            seller.is_verified ? (
+              <Button
+                variant="outline"
+                onClick={onUnverify}
+                className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-800"
+              >
+                <XCircle className="h-4 w-4 mr-2" />
+                Quitar verificación
+              </Button>
+            ) : (
+              <Button
+                onClick={onVerify}
+                className="flex-1 bg-green-600 hover:bg-green-700"
+              >
+                <BadgeCheck className="h-4 w-4 mr-2" />
+                Verificar
+              </Button>
+            )
           )}
 
           {seller.status === 'suspended' ? (
@@ -284,7 +303,7 @@ export function SellerDetailSheet({
               <Unlock className="h-4 w-4 mr-2" />
               Desbloquear
             </Button>
-          ) : (
+          ) : seller.status !== 'pending' ? (
             <Button
               variant="destructive"
               onClick={onBlock}
@@ -293,7 +312,7 @@ export function SellerDetailSheet({
               <Ban className="h-4 w-4 mr-2" />
               Bloquear
             </Button>
-          )}
+          ) : null}
         </SheetFooter>
       </SheetContent>
     </Sheet>
