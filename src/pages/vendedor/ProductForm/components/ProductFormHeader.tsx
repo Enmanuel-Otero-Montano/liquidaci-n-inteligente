@@ -1,7 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import LiquiOffLogo from '@/assets/LiquiOff_logo.svg';
 
 interface ProductFormHeaderProps {
   isEditing: boolean;
@@ -10,18 +9,13 @@ interface ProductFormHeaderProps {
 
 export function ProductFormHeader({ isEditing, productTitle }: ProductFormHeaderProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" size="sm" asChild className="-ml-2">
-          <Link to="/vendedor/productos">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Volver a productos
-          </Link>
-        </Button>
-        <Link to="/">
-          <img src={LiquiOffLogo} alt="LiquiOff" className="h-7 w-auto" />
+    <div className="space-y-2">
+      <Button variant="ghost" size="sm" asChild className="-ml-2">
+        <Link to="/vendedor/productos">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Volver a productos
         </Link>
-      </div>
+      </Button>
       <div>
         <h1 className="text-2xl font-bold text-foreground">
           {isEditing ? 'Editar producto' : 'Nuevo producto'}

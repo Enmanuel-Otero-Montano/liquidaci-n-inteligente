@@ -50,7 +50,8 @@ export function SellerLayout({ children }: SellerLayoutProps) {
         <div className="flex items-center justify-between h-16 px-4 md:px-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img src={LiquiOffLogo} alt="LiquiOff" className="h-8" />
+            <img src={LiquiOffLogo} alt="LiquiOff" className="h-9 w-auto" />
+            <span className="text-xl font-bold text-foreground">LiquiOff</span>
           </Link>
 
           {/* Desktop Nav */}
