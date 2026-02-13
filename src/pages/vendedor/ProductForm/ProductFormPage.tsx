@@ -222,6 +222,7 @@ export function ProductFormPage() {
       stock_qty: values.stock_qty || 1,
       price_before: values.price_before || 0,
       price_now: values.price_now || 0,
+      discount_pct: discountPct,
       pickup_address: values.use_seller_address ? undefined : values.pickup_address,
       pickup_hours: values.pickup_hours,
       offers_shipping: values.offers_shipping,
