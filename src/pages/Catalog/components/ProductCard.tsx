@@ -28,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
       aria-label={`Ver ${product.title} - ${formatPrice(product.price_now)} - ${product.discount_pct}% de descuento`}
     >
       <Card className="h-full overflow-hidden border-border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-        <div className="relative aspect-square overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+        <div className="relative aspect-square overflow-hidden bg-muted">
           <img
             src={product.images?.[0] || '/placeholder.svg'}
             alt={product.title}
@@ -56,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-4 space-y-3 bg-neutral-50 dark:bg-neutral-900">
           {/* Title */}
           <h3 className="font-medium text-foreground line-clamp-2 min-h-[2.5rem] leading-tight group-hover:text-primary transition-colors">
             {product.title}
