@@ -38,6 +38,7 @@ export function useCreateProduct() {
       stock_qty: number;
       price_before: number;
       price_now: number;
+      discount_pct: number;
       pickup_address?: string;
       pickup_hours?: string;
       offers_shipping: boolean;
@@ -81,6 +82,7 @@ export function useCreateProduct() {
           pickup_address: data.pickup_address || null,
           pickup_hours: data.pickup_hours || null,
           offers_shipping: data.offers_shipping,
+          discount_pct: data.discount_pct,
         })
         .select()
         .single();
