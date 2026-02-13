@@ -36,7 +36,7 @@ const ACCEPTED_TYPES = {
   'image/gif': ['.gif'],
 };
 
-const BUCKET = 'liqui-product-images';
+const BUCKET = 'product-images';
 
 function getFileExtension(file: File): string {
   const parts = file.name.split('.');
