@@ -298,14 +298,6 @@ export function ProductFormPage() {
 
         <Form {...form}>
           <form className="space-y-6">
-            {/* Nota sobre condición — solo productos nuevos */}
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 text-sm">
-              <p className="text-blue-300">
-                📦 En LiquiOff solo se publican <strong>productos nuevos</strong> en liquidación.
-                No se aceptan productos usados ni reacondicionados.
-              </p>
-            </div>
-
             <BasicInfoSection form={form} />
             <ImageUploader form={form} />
             <LiquidationSection form={form} />
