@@ -17,10 +17,17 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAdminRole = async (user: User) => {
-    const { data } = await supabase.rpc('has_role', {
+    const { data, error: rpcError } = await supabase.rpc('has_role', {
       _user_id: user.id,
       _role: 'admin',
     });
+  
+    if (rpcError) {
+      console.error('RPC has_role error (checkAdminRole):', rpcError);
+      setAdmin(null);
+      return;
+    }
+  
     if (data) {
       setAdmin({
         id: user.id,
