@@ -30,11 +30,13 @@ import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import { AyudaPage } from "./pages/Ayuda";
 import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react"
+import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <HelmetProvider>
     <AuthProvider>
       <AdminAuthProvider>
         <TooltipProvider>
@@ -144,6 +146,7 @@ const App = () => (
         </TooltipProvider>
       </AdminAuthProvider>
     </AuthProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 
