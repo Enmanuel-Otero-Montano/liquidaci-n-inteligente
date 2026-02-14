@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { cn } from '@/lib/utils';
+import { ImageLightbox } from './ImageLightbox';
 
 interface ProductGalleryProps {
   images: string[];
@@ -10,6 +11,7 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, title }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const displayImages = images.length > 0
     ? images
@@ -29,8 +31,17 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
           <img
             src={displayImages[selectedIndex]}
             alt={title}
-            className="h-full w-full object-contain"
+            className="h-full w-full cursor-zoom-in object-contain"
             loading="eager"
+            onClick={() => setLightboxOpen(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setLightboxOpen(true);
+              }
+            }}
           />
         </AspectRatio>
 
@@ -99,6 +110,14 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
           ))}
         </div>
       )}
+
+      <ImageLightbox
+        images={displayImages}
+        initialIndex={selectedIndex}
+        title={title}
+        open={lightboxOpen}
+        onOpenChange={setLightboxOpen}
+      />
     </div>
   );
 }
