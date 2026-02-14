@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Disallow: /vendedor/
+Disallow: /admin/
+
+Sitemap: https://liquioff.com.uy/sitemap.xml
