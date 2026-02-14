@@ -29,6 +29,7 @@ import { ReportsPage } from "./pages/admin/Reports";
 import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import { AyudaPage } from "./pages/Ayuda";
 import NotFound from "./pages/NotFound";
+import { Analytics } from "@vercel/analytics/react"
 
 const queryClient = new QueryClient();
 
@@ -139,6 +140,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+          <Analytics />
         </TooltipProvider>
       </AdminAuthProvider>
     </AuthProvider>
