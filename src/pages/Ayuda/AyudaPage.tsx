@@ -199,7 +199,7 @@ export function AyudaPage() {
               Escribinos y te responderemos en 24-48 horas hábiles.
             </p>
             <Button asChild size="lg" className="gap-2">
-              <a href="mailto:soporte@liquioff.uy">
+              <a href="mailto:contacto@liquioff.com">
                 <MessageCircle className="h-5 w-5" />
                 Contactanos
               </a>

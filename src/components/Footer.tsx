@@ -33,11 +33,17 @@ const Footer = () => {
             >
               Privacidad
             </a>
-            <a 
-              href="/vendedor/login" 
+            <a
+              href="/vendedor/login"
               className="text-background/70 hover:text-background transition-colors"
             >
               Acceso vendedores
+            </a>
+            <a
+              href="mailto:contacto@liquioff.com"
+              className="text-background/70 hover:text-background transition-colors"
+            >
+              contacto@liquioff.com
             </a>
           </nav>
 
