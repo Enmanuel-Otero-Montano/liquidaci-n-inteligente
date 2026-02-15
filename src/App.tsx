@@ -26,6 +26,7 @@ import { AdminLoginPage } from "./pages/admin/Login";
 import { ModerationPage } from "./pages/admin/Moderation";
 import { SellersPage } from "./pages/admin/Sellers";
 import { ReportsPage } from "./pages/admin/Reports";
+import { SubscribersPage } from "./pages/admin/Subscribers";
 import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import { AyudaPage } from "./pages/Ayuda";
 import NotFound from "./pages/NotFound";
@@ -129,13 +130,21 @@ const App = () => (
                   </AdminProtectedRoute>
                 } 
               />
-              <Route 
-                path="/admin/reportes" 
+              <Route
+                path="/admin/reportes"
                 element={
                   <AdminProtectedRoute>
                     <ReportsPage />
                   </AdminProtectedRoute>
-                } 
+                }
+              />
+              <Route
+                path="/admin/suscriptores"
+                element={
+                  <AdminProtectedRoute>
+                    <SubscribersPage />
+                  </AdminProtectedRoute>
+                }
               />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

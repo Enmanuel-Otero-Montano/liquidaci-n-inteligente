@@ -28,6 +28,7 @@ import { SellerTypeBadge } from '@/components/seller/SellerTypeBadge';
 import { ApprovalActions } from './ApprovalActions';
 import { ModerationTimeline } from './ModerationTimeline';
 import { VerifyProductDialog } from './VerifyProductDialog';
+import { MatchingSubscribersWidget } from './MatchingSubscribersWidget';
 import { useModerationHistory } from '@/hooks/useModerationHistory';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -298,6 +299,10 @@ export function ProductDetailSheet({
                 )}
               </div>
             </div>
+
+            {/* Matching Subscribers */}
+            <Separator className="bg-slate-700" />
+            <MatchingSubscribersWidget product={product} />
 
             {/* Moderation History */}
             {history.length > 0 && (

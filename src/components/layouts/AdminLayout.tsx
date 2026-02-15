@@ -2,12 +2,13 @@ import { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { Button } from '@/components/ui/button';
-import { 
+import {
   Shield,
-  ClipboardCheck, 
-  Users, 
+  ClipboardCheck,
+  Users,
+  Bell,
   AlertTriangle,
-  LogOut, 
+  LogOut,
   Menu,
   X,
 } from 'lucide-react';
@@ -23,6 +24,7 @@ const navItems = [
   { href: '/admin/moderacion', label: 'Moderación', icon: ClipboardCheck },
   { href: '/admin/vendedores', label: 'Vendedores', icon: Users },
   { href: '/admin/reportes', label: 'Reportes', icon: AlertTriangle },
+  { href: '/admin/suscriptores', label: 'Suscriptores', icon: Bell },
 ];
 
 export function AdminLayout({ children, pendingCount }: AdminLayoutProps) {
