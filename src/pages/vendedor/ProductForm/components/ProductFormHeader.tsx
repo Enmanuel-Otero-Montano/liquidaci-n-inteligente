@@ -25,7 +25,7 @@ export function ProductFormHeader({ isEditing, productTitle }: ProductFormHeader
         )}
         {!isEditing && (
           <p className="text-muted-foreground">
-            Completá los datos de tu producto en liquidación
+            Completá los datos del producto
           </p>
         )}
       </div>

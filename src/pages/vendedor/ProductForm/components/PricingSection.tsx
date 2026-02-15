@@ -62,7 +62,7 @@ export function PricingSection({ form }: PricingSectionProps) {
             name="price_now"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Precio liquidación (P1) *</FormLabel>
+                <FormLabel>Precio de oferta (P1) *</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
