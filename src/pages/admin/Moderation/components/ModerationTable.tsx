@@ -56,7 +56,7 @@ export function ModerationTable({
             <TableHead className="text-slate-400">Vendedor</TableHead>
             <TableHead className="text-slate-400">Descuento</TableHead>
             <TableHead className="text-slate-400">Enviado</TableHead>
-            <TableHead className="text-slate-400">Evidencia</TableHead>
+            <TableHead className="text-slate-400">Verificacion</TableHead>
             <TableHead className="text-slate-400">Acciones</TableHead>
           </TableRow>
         </TableHeader>

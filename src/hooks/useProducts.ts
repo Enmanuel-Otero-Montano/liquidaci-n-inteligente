@@ -32,6 +32,9 @@ function mapDbProduct(row: any): Product {
     updated_at: row.updated_at,
     evidence_url: row.evidence_url ?? null,
     price_reference: row.price_reference ?? null,
+    verification_status: row.verification_status ?? 'unverified',
+    verified_at: row.verified_at ?? null,
+    verified_by_admin_id: row.verified_by_admin_id ?? null,
   };
 }
 

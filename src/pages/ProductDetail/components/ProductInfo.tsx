@@ -35,7 +35,7 @@ export function ProductInfo({ product, seller, isSellerLoading }: ProductInfoPro
       </h1>
 
       {/* Badge de confianza */}
-      <TrustBadge />
+      <TrustBadge product={product} />
 
       <Separator />
 

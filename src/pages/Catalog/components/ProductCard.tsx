@@ -27,8 +27,8 @@ export function ProductCard({ product }: ProductCardProps) {
       className="group block"
       aria-label={`Ver ${product.title} - ${formatPrice(product.price_now)} - ${product.discount_pct}% de descuento`}
     >
-      <Card className="h-full overflow-hidden border-border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-        <div className="relative aspect-square overflow-hidden bg-muted">
+      <Card className="flex h-full flex-col overflow-hidden border-border border-b-2 border-b-neutral-300 dark:border-b-neutral-600 bg-card shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+        <div className="relative aspect-square shrink-0 overflow-hidden bg-muted">
           <img
             src={product.images?.[0] || '/placeholder.svg'}
             alt={product.title}
@@ -56,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        <CardContent className="p-4 space-y-3 bg-neutral-50 dark:bg-neutral-900">
+        <CardContent className="min-h-0 flex-1 p-4 space-y-3 bg-neutral-50 dark:bg-neutral-900">
           {/* Title */}
           <h3 className="font-medium text-foreground line-clamp-2 min-h-[2.5rem] leading-tight group-hover:text-primary transition-colors">
             {product.title}
@@ -79,7 +79,7 @@ export function ProductCard({ product }: ProductCardProps) {
               className="border-catalog-warning text-catalog-warning bg-catalog-warning/10 text-xs"
             >
               <AlertTriangle className="h-3 w-3 mr-1" />
-              {product.stock_qty === 1 ? 'Última unidad' : `Últimas ${product.stock_qty} unidades`}
+              {product.stock_qty === 1 ? '¡Última unidad!' : `¡Últimas ${product.stock_qty} unidades!`}
             </Badge>
           )}
 

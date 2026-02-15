@@ -34,7 +34,7 @@ export const productFormSchema = z.object({
     .min(1, 'Subí al menos 1 foto')
     .max(5, 'Máximo 5 fotos'),
   liquidation_reason: z.enum(['fin_temporada', 'sobrestock', 'ultimas_unidades', 'pack', 'otro'], {
-    required_error: 'Seleccioná un motivo de liquidación',
+    required_error: 'Seleccioná un motivo de oferta',
   }),
   stock_qty: z.number({
     required_error: 'El stock es requerido',
@@ -49,7 +49,7 @@ export const productFormSchema = z.object({
     invalid_type_error: 'Ingresá un número válido',
   }).min(1, 'El precio debe ser mayor a 0'),
   price_now: z.number({
-    required_error: 'El precio de liquidación es requerido',
+    required_error: 'El precio de oferta es requerido',
     invalid_type_error: 'Ingresá un número válido',
   }).min(1, 'El precio debe ser mayor a 0'),
   pickup_address: z.string().optional(),
@@ -68,7 +68,7 @@ export const productFormSchema = z.object({
   quantity_discount_percent: z.number().min(DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT, `Mínimo ${DISCOUNT_CONFIG.MIN_DISCOUNT_PERCENT}%`).max(100, 'Máximo 100%').optional(),
 }).refine(
   (data) => data.price_now < data.price_before,
-  { message: 'El precio de liquidación debe ser menor al anterior', path: ['price_now'] }
+  { message: 'El precio de oferta debe ser menor al anterior', path: ['price_now'] }
 ).refine(
   (data) => {
     // Validar campos requeridos para pack_price

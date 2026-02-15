@@ -19,15 +19,13 @@ export function StockBadge({ quantity }: StockBadgeProps) {
 
   if (quantity <= 3) {
     return (
-      <div className="flex items-center gap-2">
-        <AlertTriangle className="h-5 w-5 text-warning" />
-        <Badge 
-          variant="outline" 
-          className="border-warning text-warning bg-warning/10 text-sm font-medium"
-        >
-          {quantity === 1 ? '¡Última unidad!' : `¡Últimas ${quantity} unidades!`}
-        </Badge>
-      </div>
+      <Badge 
+        variant="outline" 
+        className="w-fit border-warning text-warning bg-warning/10 text-sm font-medium gap-1.5"
+      >
+        <AlertTriangle className="h-4 w-4" />
+        {quantity === 1 ? '¡Última unidad!' : `¡Últimas ${quantity} unidades!`}
+      </Badge>
     );
   }
 

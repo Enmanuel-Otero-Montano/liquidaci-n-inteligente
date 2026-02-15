@@ -10,14 +10,24 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ProductFormData } from '@/types/productForm';
-import { ExternalLink, HelpCircle } from 'lucide-react';
+import { ExternalLink, HelpCircle, CheckCircle, Info } from 'lucide-react';
+import { VERIFICATION_CONFIG } from '@/config/verification';
 
 interface EvidenceSectionProps {
   form: UseFormReturn<ProductFormData>;
 }
 
 export function EvidenceSection({ form }: EvidenceSectionProps) {
+  const evidenceUrl = form.watch('evidence_url');
+  const priceReference = form.watch('price_reference');
+
+  const hasEvidence = !!(
+    evidenceUrl ||
+    (priceReference && priceReference.length >= VERIFICATION_CONFIG.MIN_REFERENCE_LENGTH)
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -29,7 +39,25 @@ export function EvidenceSection({ form }: EvidenceSectionProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Campo existente — URL de evidencia */}
+        {hasEvidence ? (
+          <Alert className="border-green-200 bg-green-50 dark:bg-green-950 dark:border-green-900">
+            <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <AlertDescription className="text-green-800 dark:text-green-300">
+              Proporcionar evidencia mejora tus chances de aprobación rápida y hace que tu oferta
+              sea marcada como "Verificada"
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-900">
+            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            <AlertDescription className="text-blue-800 dark:text-blue-300">
+              Provee un link o referencia del precio anterior para que verifiquemos
+              tu oferta y mostrarla con un badge de confianza
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* URL de evidencia */}
         <FormField
           control={form.control}
           name="evidence_url"
@@ -66,7 +94,7 @@ export function EvidenceSection({ form }: EvidenceSectionProps) {
               </FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='Ej: "Precio de lista en mi web", "Publicado en MercadoLibre a este precio", "Catálogo mayorista 2025"...'
+                  placeholder='Ej: "Precio de lista en mi web", "Publicado en MercadoLibre a este precio", "Catálogo mayorista"...'
                   className="resize-none h-20"
                   maxLength={200}
                   {...field}

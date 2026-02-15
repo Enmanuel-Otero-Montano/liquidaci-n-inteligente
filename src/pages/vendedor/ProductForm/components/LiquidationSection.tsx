@@ -25,7 +25,7 @@ export function LiquidationSection({ form }: LiquidationSectionProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Liquidación</CardTitle>
+        <CardTitle className="text-lg">Oferta</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <FormField
@@ -33,11 +33,11 @@ export function LiquidationSection({ form }: LiquidationSectionProps) {
           name="liquidation_reason"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Motivo de liquidación *</FormLabel>
+              <FormLabel>Motivo de oferta *</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="¿Por qué estás liquidando?" />
+                    <SelectValue placeholder="Seleccioná un motivo" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

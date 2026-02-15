@@ -36,7 +36,7 @@ const ACCEPTED_TYPES = {
   'image/gif': ['.gif'],
 };
 
-const BUCKET = 'product-images';
+const BUCKET = import.meta.env.VITE_STORAGE_BUCKET || 'product-images';
 
 function getFileExtension(file: File): string {
   const parts = file.name.split('.');

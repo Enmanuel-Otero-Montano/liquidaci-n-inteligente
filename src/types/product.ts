@@ -1,5 +1,6 @@
 import { PromoQuantityType } from './productForm';
 import { Seller } from './seller';
+import { VerificationStatus } from './verification';
 
 export type ProductStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'disabled' | 'changes_requested';
 
@@ -38,6 +39,9 @@ export interface Product {
   rejection_reason?: string | null;
   evidence_url?: string | null;
   price_reference?: string | null;
+  verification_status: VerificationStatus;
+  verified_at?: string | null;
+  verified_by_admin_id?: string | null;
   created_at: string;
   updated_at: string;
 }

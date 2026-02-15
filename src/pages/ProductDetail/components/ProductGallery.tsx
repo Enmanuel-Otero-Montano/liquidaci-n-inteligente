@@ -26,7 +26,7 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
   return (
     <div className="space-y-4">
       {/* Imagen Principal */}
-      <div className="group relative overflow-hidden rounded-lg border border-border bg-muted">
+      <div className="group relative overflow-hidden rounded-lg border border-border bg-white">
         <AspectRatio ratio={4 / 3}>
           <img
             src={displayImages[selectedIndex]}

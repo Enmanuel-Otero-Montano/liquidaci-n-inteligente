@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -9,20 +10,24 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  ExternalLink, 
-  MapPin, 
-  Package, 
-  Truck, 
+import {
+  ExternalLink,
+  MapPin,
+  Package,
+  Truck,
   Clock,
   User,
   Mail,
   Calendar,
+  ShieldCheck,
+  FileCheck,
+  AlertCircle,
 } from 'lucide-react';
 import { ProductWithSeller } from '@/types/moderation';
 import { SellerTypeBadge } from '@/components/seller/SellerTypeBadge';
 import { ApprovalActions } from './ApprovalActions';
 import { ModerationTimeline } from './ModerationTimeline';
+import { VerifyProductDialog } from './VerifyProductDialog';
 import { useModerationHistory } from '@/hooks/useModerationHistory';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -46,6 +51,7 @@ export function ProductDetailSheet({
   onRequestChanges,
   isApproving,
 }: ProductDetailSheetProps) {
+  const [isVerifyDialogOpen, setIsVerifyDialogOpen] = useState(false);
   const { data: history = [], isLoading: isHistoryLoading } = useModerationHistory(product?.id);
 
   if (!product) return null;
@@ -62,6 +68,7 @@ export function ProductDetailSheet({
   const isNew = new Date().getTime() - new Date(product.created_at).getTime() < 24 * 60 * 60 * 1000;
 
   return (
+    <>
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="bg-slate-900 border-slate-700 w-full sm:max-w-lg p-0 flex flex-col">
         <SheetHeader className="p-6 pb-0">
@@ -103,6 +110,46 @@ export function ProductDetailSheet({
                       className="w-16 h-16 rounded-lg object-cover shrink-0"
                     />
                   ))}
+                </div>
+              )}
+            </div>
+
+            {/* Verification status */}
+            <div>
+              {product.verification_status === 'verified' ? (
+                <div className="flex items-center gap-2 text-green-400 bg-green-950 border border-green-800 rounded-md p-3">
+                  <ShieldCheck className="h-5 w-5" />
+                  <div>
+                    <p className="font-medium">Oferta verificada</p>
+                    {product.verified_at && (
+                      <p className="text-sm text-green-400/80">
+                        Verificado el {new Date(product.verified_at).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : product.evidence_url || product.price_reference ? (
+                <div className="flex items-center gap-2 text-amber-400 bg-amber-950 border border-amber-800 rounded-md p-3">
+                  <FileCheck className="h-5 w-5" />
+                  <div className="flex-1">
+                    <p className="font-medium">Oferta con evidencia</p>
+                    <p className="text-sm text-amber-400/80">Pendiente de verificacion</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => setIsVerifyDialogOpen(true)}
+                    className="bg-amber-600 hover:bg-amber-700"
+                  >
+                    Verificar
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-slate-400 bg-slate-800 border border-slate-700 rounded-md p-3">
+                  <AlertCircle className="h-5 w-5" />
+                  <div>
+                    <p className="font-medium">Sin evidencia</p>
+                    <p className="text-sm text-slate-400/80">El vendedor no proveyo evidencia</p>
+                  </div>
                 </div>
               )}
             </div>
@@ -278,5 +325,12 @@ export function ProductDetailSheet({
         </SheetFooter>
       </SheetContent>
     </Sheet>
+
+    <VerifyProductDialog
+      product={product}
+      isOpen={isVerifyDialogOpen}
+      onClose={() => setIsVerifyDialogOpen(false)}
+    />
+    </>
   );
 }

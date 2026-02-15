@@ -81,9 +81,8 @@ export function CatalogPage() {
       {/* Promo Banner */}
       <div className="bg-primary text-primary-foreground py-3">
         <div className="container mx-auto px-4 flex items-center justify-center gap-2 text-sm md:text-base">
-          <Percent className="h-4 w-4" />
           <span className="font-medium">Todo ≥20% OFF verificado</span>
-          <span className="opacity-80">• Descuentos verificados</span>
+          <span className="opacity-95">• Descuentos verificados</span>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, X, MessageSquare, ExternalLink, Eye } from 'lucide-react';
+import { Check, X, MessageSquare, Eye, ShieldCheck, FileCheck, AlertCircle } from 'lucide-react';
 import { ProductWithSeller } from '@/types/moderation';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -104,15 +104,21 @@ export function ModerationCard({
             )}
           </div>
 
-          {product.evidence_url && (
-            <a 
-              href={product.evidence_url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-slate-500 hover:text-white"
-            >
-              <ExternalLink className="h-4 w-4" />
-            </a>
+          {product.verification_status === 'verified' ? (
+            <Badge className="bg-green-900 text-green-300 border-green-700 text-xs">
+              <ShieldCheck className="h-3 w-3 mr-1" />
+              Verificado
+            </Badge>
+          ) : (product.evidence_url || product.price_reference) ? (
+            <Badge className="bg-amber-900 text-amber-300 border-amber-700 text-xs">
+              <FileCheck className="h-3 w-3 mr-1" />
+              Con evidencia
+            </Badge>
+          ) : (
+            <Badge variant="secondary" className="text-xs">
+              <AlertCircle className="h-3 w-3 mr-1" />
+              Sin evidencia
+            </Badge>
           )}
         </div>
 

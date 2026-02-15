@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Product, DeliveryType } from '@/types/product';
 import { useAuth } from '@/contexts/AuthContext';
 import { mapDbProduct } from './useProducts';
+import { calculateVerificationStatus } from '@/config/verification';
 
 export function useProductForEdit(productId?: string) {
   return useQuery({
@@ -60,6 +61,11 @@ export function useCreateProduct() {
       // Generate slug
       const { data: slug } = await supabase.rpc('generate_slug', { title: data.title });
 
+      const verification_status = calculateVerificationStatus(
+        data.evidence_url,
+        data.price_reference
+      );
+
       const { data: product, error } = await supabase
         .from('products')
         .insert({
@@ -83,7 +89,8 @@ export function useCreateProduct() {
           pickup_hours: data.pickup_hours || null,
           offers_shipping: data.offers_shipping,
           discount_pct: data.discount_pct,
-        })
+          verification_status,
+        } as any)
         .select()
         .single();
 
@@ -121,8 +128,20 @@ export function useUpdateProduct() {
         status: 'draft' | 'pending';
       }>;
     }) => {
+      // Recalculate verification_status based on evidence
+      const verification_status = calculateVerificationStatus(
+        data.evidence_url,
+        data.price_reference
+      );
+
       // Build update object
-      const updateData: Record<string, any> = { ...data };
+      const updateData: Record<string, any> = {
+        ...data,
+        verification_status,
+        // If product was previously verified, reset verification on edit
+        verified_at: null,
+        verified_by_admin_id: null,
+      };
 
       // Determine delivery type if shipping info changed
       if (data.offers_shipping !== undefined) {

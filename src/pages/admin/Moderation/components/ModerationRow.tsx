@@ -1,7 +1,7 @@
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Eye } from 'lucide-react';
+import { ExternalLink, Eye, ShieldCheck, FileCheck, AlertCircle } from 'lucide-react';
 import { ProductWithSeller } from '@/types/moderation';
 import { ApprovalActions } from './ApprovalActions';
 import { formatDistanceToNow } from 'date-fns';
@@ -99,25 +99,23 @@ export function ModerationRow({
         </div>
       </TableCell>
 
-      {/* Evidence */}
+      {/* Verification */}
       <TableCell>
-        {product.evidence_url ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-slate-400 hover:text-white"
-          >
-            <a 
-              href={product.evidence_url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
+        {product.verification_status === 'verified' ? (
+          <Badge className="bg-green-900 text-green-300 border-green-700">
+            <ShieldCheck className="h-3 w-3 mr-1" />
+            Verificado
+          </Badge>
+        ) : product.evidence_url || product.price_reference ? (
+          <Badge className="bg-amber-900 text-amber-300 border-amber-700">
+            <FileCheck className="h-3 w-3 mr-1" />
+            Con evidencia
+          </Badge>
         ) : (
-          <span className="text-slate-600 text-sm">—</span>
+          <Badge variant="secondary">
+            <AlertCircle className="h-3 w-3 mr-1" />
+            Sin evidencia
+          </Badge>
         )}
       </TableCell>
 
