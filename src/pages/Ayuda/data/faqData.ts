@@ -94,11 +94,26 @@ LiquiOff no interviene en el pago ni la entrega.`,
     category: 'comprador',
     tags: ['responsabilidad', 'problema', 'reclamo'],
   },
-  // Seguridad
+  // Seguridad y verificación
+  {
+    id: 'badges-verificacion',
+    question: '¿Qué significan los badges de verificación en cada producto?',
+    answer: `Cada producto muestra un badge que indica el nivel de confianza del descuento:
+
+• Oferta verificada (verde): Nuestro equipo verificó que el descuento es real comparando con el precio anterior proporcionado por el vendedor. Es el nivel más alto de confianza.
+
+• Oferta con evidencia - En revisión (amarillo): El vendedor proporcionó evidencia del precio anterior (un link o referencia), pero nuestro equipo aún no la revisó. Es una buena señal.
+
+• Oferta declarada por el vendedor (gris): El vendedor declaró el descuento pero no proporcionó evidencia del precio anterior. El descuento puede ser real, pero no fue verificado.
+
+En todos los casos, la publicación fue aprobada por nuestro equipo de moderación.`,
+    category: 'comprador',
+    tags: ['badge', 'verificación', 'confianza', 'verificado', 'evidencia', 'declarada'],
+  },
   {
     id: 'producto-legitimo',
     question: '¿Cómo sé que un producto es legítimo?',
-    answer: 'Moderamos todas las publicaciones antes de aprobarlas. Además, podés reportar cualquier publicación sospechosa y la revisaremos.',
+    answer: 'Moderamos todas las publicaciones antes de aprobarlas. Además, cada producto muestra un badge de verificación que indica si el descuento fue verificado por nuestro equipo. Podés reportar cualquier publicación sospechosa y la revisaremos.',
     category: 'comprador',
     tags: ['legítimo', 'seguro', 'moderación'],
   },
@@ -174,6 +189,21 @@ Una vez aprobado, aparece en el catálogo.`,
     answer: 'Puede ser por: descuento menor al 20%, producto no nuevo, información incompleta, fotos de baja calidad, producto prohibido, o precio anterior no verificable. Revisá el motivo en tu panel y corregí la publicación.',
     category: 'vendedor',
     tags: ['rechazado', 'rechazo', 'motivo'],
+  },
+  {
+    id: 'evidencia-precio',
+    question: '¿Qué es la evidencia de precio y por qué conviene agregarla?',
+    answer: `Al publicar un producto podés agregar una referencia del precio anterior: un link a tu tienda online, MercadoLibre, o una descripción de dónde se puede verificar el precio original.
+
+Proporcionar evidencia tiene ventajas:
+• Tu publicación se aprueba más rápido
+• Tu producto aparece con el badge "Oferta con evidencia" (amarillo) mientras la revisamos
+• Si nuestro equipo la verifica, el badge cambia a "Oferta verificada" (verde), que genera más confianza en los compradores
+• Los productos sin evidencia aparecen como "Oferta declarada" (gris)
+
+No es obligatorio, pero recomendamos siempre agregar evidencia.`,
+    category: 'vendedor',
+    tags: ['evidencia', 'precio', 'referencia', 'verificación', 'badge', 'confianza'],
   },
   {
     id: 'editar-producto-publicado',
