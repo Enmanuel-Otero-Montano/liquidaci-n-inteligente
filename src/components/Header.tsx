@@ -18,7 +18,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-3" aria-label="Navegación principal">
-            <a href="/vendedor/registro" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="/vendedor/registro" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Crear cuenta vendedor
             </a>
             <a href="/vendedor/login">
@@ -58,9 +58,9 @@ const Header = () => {
                   Soy vendedor
                 </Button>
               </a>
-              <a 
-                href="/vendedor/registro" 
-                className="text-center py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              <a
+                href="/vendedor/registro"
+                className="text-center py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 Crear cuenta vendedor
               </a>
