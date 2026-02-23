@@ -17,11 +17,11 @@ interface ProductActionsProps {
   isLoading?: boolean;
 }
 
-export function ProductActions({ 
-  product, 
-  onDuplicate, 
+export function ProductActions({
+  product,
+  onDuplicate,
   onToggleStatus,
-  isLoading 
+  isLoading
 }: ProductActionsProps) {
   const canDisable = product.status === 'approved';
   const canEnable = product.status === 'disabled';
@@ -41,24 +41,24 @@ export function ProductActions({
             Editar
           </Link>
         </DropdownMenuItem>
-        
+
         <DropdownMenuItem onClick={() => onDuplicate(product.id)}>
           <Copy className="mr-2 h-4 w-4" />
           Duplicar
         </DropdownMenuItem>
-        
+
         <DropdownMenuSeparator />
-        
+
         {canDisable && (
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => onToggleStatus(product.id, 'disabled')}
-            className="text-destructive focus:text-destructive"
+            className="text-destructive focus:text-white"
           >
             <PowerOff className="mr-2 h-4 w-4" />
             Desactivar
           </DropdownMenuItem>
         )}
-        
+
         {canEnable && (
           <DropdownMenuItem onClick={() => onToggleStatus(product.id, 'approved')}>
             <Power className="mr-2 h-4 w-4" />

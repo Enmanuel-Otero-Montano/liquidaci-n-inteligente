@@ -19,6 +19,7 @@ import { productFormSchema, ProductFormData } from '@/types/productForm';
 import { useProductForEdit, useCreateProduct, useUpdateProduct } from '@/hooks/useProductForm';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
+import { calculateQuantityPromoInfo } from '@/utils/quantityPromo';
 
 export function ProductFormPage() {
   const { id } = useParams<{ id: string }>();
@@ -213,6 +214,17 @@ export function ProductFormPage() {
 
     const values = form.getValues();
     
+    const quantity_promo = values.has_quantity_promo
+      ? calculateQuantityPromoInfo(
+          values.quantity_promo_type || 'none',
+          values.price_now || 0,
+          values.pack_quantity,
+          values.pack_price,
+          values.min_quantity_for_discount,
+          values.quantity_discount_percent,
+        )
+      : null;
+
     const productData = {
       title: values.title,
       category: values.category,
@@ -229,6 +241,7 @@ export function ProductFormPage() {
       shipping_cost: values.offers_shipping ? values.shipping_cost : undefined,
       evidence_url: values.evidence_url || undefined,
       price_reference: values.price_reference || undefined,
+      quantity_promo,
       status,
     };
 

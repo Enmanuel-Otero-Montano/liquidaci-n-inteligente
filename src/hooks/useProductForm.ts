@@ -46,6 +46,7 @@ export function useCreateProduct() {
       shipping_cost?: number;
       evidence_url?: string;
       price_reference?: string;
+      quantity_promo?: Record<string, unknown> | null;
       status: 'draft' | 'pending';
     }) => {
       if (!seller) throw new Error('No autenticado');
@@ -89,6 +90,7 @@ export function useCreateProduct() {
           pickup_hours: data.pickup_hours || null,
           offers_shipping: data.offers_shipping,
           discount_pct: data.discount_pct,
+          quantity_promo: data.quantity_promo ?? null,
           verification_status,
         } as any)
         .select()
@@ -125,6 +127,7 @@ export function useUpdateProduct() {
         shipping_cost?: number;
         evidence_url?: string;
         price_reference?: string;
+        quantity_promo: Record<string, unknown> | null;
         status: 'draft' | 'pending';
       }>;
     }) => {
