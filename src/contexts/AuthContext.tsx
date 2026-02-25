@@ -129,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: `${window.location.origin}/vendedor?email_confirmed=1`,
         data: {
           nombre_comercial: data.nombre_comercial,
           responsable: data.responsable,

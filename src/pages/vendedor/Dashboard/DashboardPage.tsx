@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SellerLayout } from '@/components/layouts/SellerLayout';
 import { DashboardHeader } from './components/DashboardHeader';
 import { StatsCards } from './components/StatsCards';
@@ -7,11 +9,27 @@ import { useDashboardStats, useRecentReservations } from '@/hooks/useDashboard';
 import { useAuth } from '@/contexts/AuthContext';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Clock } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export function DashboardPage() {
   const { seller } = useAuth();
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: reservations, isLoading: reservationsLoading } = useRecentReservations(5);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (searchParams.get('email_confirmed') === '1') {
+      toast({
+        title: '¡Email confirmado!',
+        description: 'Gracias por registrarte.',
+        duration: 6000,
+        className: 'bg-emerald-600 text-white border-emerald-700 [&>div]:text-white',
+      });
+      navigate('/vendedor', { replace: true });
+    }
+  }, []);
 
   return (
     <SellerLayout>
