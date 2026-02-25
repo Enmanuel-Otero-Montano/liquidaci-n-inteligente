@@ -22,8 +22,7 @@ export function DashboardPage() {
           <Clock className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-700 dark:text-amber-400">
             <span className="font-medium">Cuenta pendiente de aprobación.</span>{' '}
-            Estamos revisando tu registro. Te notificaremos por email cuando tu cuenta esté activa
-            y puedas empezar a publicar.
+            Estamos revisando tu registro. En breve tu cuenta estará activa y podrás empezar a publicar.
           </AlertDescription>
         </Alert>
       )}

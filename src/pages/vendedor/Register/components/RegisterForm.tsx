@@ -153,7 +153,7 @@ export function RegisterForm() {
       } else {
         toast({
           title: '¡Registro recibido!',
-          description: 'Tu cuenta está pendiente de aprobación. Te avisaremos por email cuando esté activa.',
+          description: 'Tu cuenta está pendiente de aprobación. En breve estará activa y podrás empezar a publicar.',
           duration: 8000,
         });
         navigate('/vendedor', { replace: true });

@@ -158,7 +158,7 @@ En todos los casos, la publicación fue aprobada por nuestro equipo de moderaci�
   {
     id: 'cuanto-tarda-aprobacion-cuenta',
     question: '¿Cuánto tarda la aprobación de mi cuenta?',
-    answer: 'Revisamos cada registro en menos de 24 horas hábiles. Te notificaremos por email cuando tu cuenta esté activa y puedas empezar a publicar.',
+    answer: 'Revisamos cada registro en menos de 24 horas hábiles. Una vez aprobada tu cuenta, podrás iniciar sesión y empezar a publicar.',
     category: 'vendedor',
     tags: ['aprobación', 'cuenta', 'pendiente', 'tiempo', 'activación'],
   },
