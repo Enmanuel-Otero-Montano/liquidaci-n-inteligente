@@ -51,7 +51,6 @@ export function LoginBranding() {
 
         <div className="mt-10 p-4 bg-background/50 rounded-xl border border-border/50">
           <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-            <span className="text-sm text-muted-foreground">Dashboard Preview</span>
           </div>
         </div>
       </div>
