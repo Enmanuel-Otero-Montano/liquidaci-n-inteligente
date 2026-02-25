@@ -150,28 +150,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error('Ya existe una cuenta con este email. Intentá iniciar sesión.');
     }
   
-    // If there's no session, email confirmation is required
+    // If there's no session, email confirmation is required.
+    // The DB trigger on_auth_user_created handles creating the sellers row.
     if (!signUpData.session) {
-      // Crear seller profile incluso sin sesión activa
-      if (signUpData.user) {
-        const { error: sellerError } = await supabase
-          .from('sellers')
-          .insert({
-            user_id: signUpData.user.id,
-            email: data.email,
-            nombre_comercial: data.nombre_comercial,
-            responsable: data.responsable,
-            telefono: data.telefono,
-            zona: data.zona,
-            direccion: data.direccion || null,
-            seller_type: data.seller_type,
-            status: 'pending',
-          });
-        
-        if (sellerError) {
-          console.error('Error al crear perfil de vendedor:', sellerError);
-        }
-      }
       return { needsEmailConfirmation: true };
     }
   
