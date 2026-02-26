@@ -327,6 +327,7 @@ export type Database = {
           id: string
           is_verified: boolean
           nombre_comercial: string
+          plan: string
           politicas: string | null
           profile_image_url: string | null
           responsable: string | null
@@ -347,6 +348,7 @@ export type Database = {
           id?: string
           is_verified?: boolean
           nombre_comercial?: string
+          plan?: string
           politicas?: string | null
           profile_image_url?: string | null
           responsable?: string | null
@@ -367,6 +369,7 @@ export type Database = {
           id?: string
           is_verified?: boolean
           nombre_comercial?: string
+          plan?: string
           politicas?: string | null
           profile_image_url?: string | null
           responsable?: string | null

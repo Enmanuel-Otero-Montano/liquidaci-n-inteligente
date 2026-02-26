@@ -67,6 +67,7 @@ export function useAllSellers(filters?: SellerFilters) {
               rejected_products: prods.filter(p => p.status === 'rejected').length,
               total_reservations: reservationCount || 0,
             },
+            plan: (seller.plan as 'standard' | 'founding') ?? 'standard',
             is_verified: seller.is_verified,
             verified_at: seller.verified_at ?? undefined,
             verified_by: seller.verified_by ?? undefined,
@@ -288,6 +289,42 @@ export function useUnverifySeller() {
         admin_id: admin!.id,
         admin_name: admin!.name,
       });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });
+    },
+  });
+}
+
+export function useSetFoundingPlan() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (sellerId: string) => {
+      const { error } = await supabase
+        .from('sellers')
+        .update({ plan: 'founding' })
+        .eq('id', sellerId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });
+    },
+  });
+}
+
+export function useUnsetFoundingPlan() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (sellerId: string) => {
+      const { error } = await supabase
+        .from('sellers')
+        .update({ plan: 'standard' })
+        .eq('id', sellerId);
+
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-sellers'] });

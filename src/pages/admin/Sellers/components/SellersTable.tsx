@@ -18,6 +18,8 @@ interface SellersTableProps {
   onUnblock: (seller: SellerWithStats) => void;
   onVerify: (seller: SellerWithStats) => void;
   onUnverify: (seller: SellerWithStats) => void;
+  onMarkFounding: (seller: SellerWithStats) => void;
+  onUnmarkFounding: (seller: SellerWithStats) => void;
 }
 
 export function SellersTable({
@@ -28,6 +30,8 @@ export function SellersTable({
   onUnblock,
   onVerify,
   onUnverify,
+  onMarkFounding,
+  onUnmarkFounding,
 }: SellersTableProps) {
   const isMobile = useIsMobile();
 
@@ -44,6 +48,8 @@ export function SellersTable({
             onUnblock={() => onUnblock(seller)}
             onVerify={() => onVerify(seller)}
             onUnverify={() => onUnverify(seller)}
+            onMarkFounding={() => onMarkFounding(seller)}
+            onUnmarkFounding={() => onUnmarkFounding(seller)}
           />
         ))}
       </div>
@@ -75,6 +81,8 @@ export function SellersTable({
               onUnblock={() => onUnblock(seller)}
               onVerify={() => onVerify(seller)}
               onUnverify={() => onUnverify(seller)}
+              onMarkFounding={() => onMarkFounding(seller)}
+              onUnmarkFounding={() => onUnmarkFounding(seller)}
             />
           ))}
         </TableBody>

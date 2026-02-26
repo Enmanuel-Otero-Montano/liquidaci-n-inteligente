@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Eye, Ban, CheckCircle, Unlock, XCircle, UserCheck } from 'lucide-react';
+import { MoreHorizontal, Eye, Ban, CheckCircle, Unlock, XCircle, UserCheck, Star } from 'lucide-react';
 import { SellerWithStats } from '@/types/adminSeller';
 
 interface SellerActionsProps {
@@ -17,6 +17,8 @@ interface SellerActionsProps {
   onUnblock: () => void;
   onVerify: () => void;
   onUnverify: () => void;
+  onMarkFounding: () => void;
+  onUnmarkFounding: () => void;
 }
 
 export function SellerActions({
@@ -27,10 +29,13 @@ export function SellerActions({
   onUnblock,
   onVerify,
   onUnverify,
+  onMarkFounding,
+  onUnmarkFounding,
 }: SellerActionsProps) {
   const isPending = seller.status === 'pending';
   const isSuspended = seller.status === 'suspended';
   const isVerified = seller.is_verified;
+  const isFounding = seller.plan === 'founding';
 
   return (
     <DropdownMenu>
@@ -82,6 +87,26 @@ export function SellerActions({
           >
             <CheckCircle className="h-4 w-4 mr-2" />
             Marcar verificado
+          </DropdownMenuItem>
+        )}
+
+        <DropdownMenuSeparator className="bg-slate-700" />
+
+        {isFounding ? (
+          <DropdownMenuItem
+            onClick={onUnmarkFounding}
+            className="text-amber-400 focus:bg-slate-700 focus:text-amber-400"
+          >
+            <Star className="h-4 w-4 mr-2" />
+            Quitar insignia Fundador
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem
+            onClick={onMarkFounding}
+            className="text-amber-400 focus:bg-slate-700 focus:text-amber-400"
+          >
+            <Star className="h-4 w-4 mr-2 fill-current" />
+            Marcar como Fundador
           </DropdownMenuItem>
         )}
 

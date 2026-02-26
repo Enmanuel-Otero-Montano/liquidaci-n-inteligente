@@ -16,6 +16,8 @@ import {
   useUnblockSeller,
   useVerifySeller,
   useUnverifySeller,
+  useSetFoundingPlan,
+  useUnsetFoundingPlan,
 } from '@/hooks/useAdminSellers';
 import { toast } from '@/hooks/use-toast';
 
@@ -38,6 +40,8 @@ export function SellersPage() {
   const unblockMutation = useUnblockSeller();
   const verifyMutation = useVerifySeller();
   const unverifyMutation = useUnverifySeller();
+  const setFoundingMutation = useSetFoundingPlan();
+  const unsetFoundingMutation = useUnsetFoundingPlan();
 
   // Calculate status counts from unfiltered data
   const { data: allSellers = [] } = useAllSellers({});
@@ -138,6 +142,38 @@ export function SellersPage() {
     }
   };
 
+  const handleMarkFounding = async (seller: SellerWithStats) => {
+    try {
+      await setFoundingMutation.mutateAsync(seller.id);
+      toast({
+        title: 'Insignia asignada',
+        description: `${seller.nombre_comercial} ahora es Vendedor Fundador.`,
+      });
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'No se pudo asignar la insignia.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleUnmarkFounding = async (seller: SellerWithStats) => {
+    try {
+      await unsetFoundingMutation.mutateAsync(seller.id);
+      toast({
+        title: 'Insignia removida',
+        description: `Se quitó la insignia Fundador de ${seller.nombre_comercial}.`,
+      });
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'No se pudo quitar la insignia.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const handleConfirmVerify = async (notes?: string) => {
     if (!selectedSeller) return;
 
@@ -182,6 +218,8 @@ export function SellersPage() {
             onUnblock={handleUnblock}
             onVerify={handleVerify}
             onUnverify={handleUnverify}
+            onMarkFounding={handleMarkFounding}
+            onUnmarkFounding={handleUnmarkFounding}
           />
         )}
 
@@ -194,6 +232,8 @@ export function SellersPage() {
           onUnblock={() => selectedSeller && handleUnblock(selectedSeller)}
           onVerify={() => setVerifyDialogOpen(true)}
           onUnverify={() => selectedSeller && handleUnverify(selectedSeller)}
+          onMarkFounding={() => selectedSeller && handleMarkFounding(selectedSeller)}
+          onUnmarkFounding={() => selectedSeller && handleUnmarkFounding(selectedSeller)}
         />
 
         <BlockSellerDialog

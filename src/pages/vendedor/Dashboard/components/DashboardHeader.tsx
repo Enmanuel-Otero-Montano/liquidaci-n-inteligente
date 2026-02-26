@@ -1,5 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { SellerAvatar } from '@/components/seller/SellerAvatar';
+import { FoundingBadge } from '@/components/seller/FoundingBadge';
 
 export function DashboardHeader() {
   const { seller } = useAuth();
@@ -22,9 +23,12 @@ export function DashboardHeader() {
         />
       )}
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-          {getGreeting()}, {seller?.responsable?.split(' ')[0] || seller?.nombre_comercial}
-        </h1>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+            {getGreeting()}, {seller?.responsable?.split(' ')[0] || seller?.nombre_comercial}
+          </h1>
+          {seller?.plan === 'founding' && <FoundingBadge className="text-sm" />}
+        </div>
         <p className="text-muted-foreground mt-1">
           Aquí está el resumen de tu tienda
         </p>

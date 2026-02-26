@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Seller } from '@/types/seller';
+import { FoundingBadge } from '@/components/seller/FoundingBadge';
 
 interface ProfileHeaderProps {
   user: Seller;
@@ -22,10 +23,13 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
         </AvatarFallback>
       </Avatar>
       <div>
-        <h1 className="text-2xl font-bold">{user.nombre_comercial}</h1>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-2xl font-bold">{user.nombre_comercial}</h1>
+          {user.plan === 'founding' && <FoundingBadge />}
+        </div>
         <p className="text-muted-foreground">{user.email}</p>
         {user.status && (
-          <Badge 
+          <Badge
             variant={user.status === 'active' ? 'default' : 'secondary'}
             className="mt-1"
           >

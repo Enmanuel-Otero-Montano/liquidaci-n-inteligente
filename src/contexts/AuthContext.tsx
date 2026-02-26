@@ -15,6 +15,7 @@ interface SellerProfile {
   horario_retiro: string | null;
   whatsapp_message: string | null;
   seller_type: string | null;
+  plan: 'standard' | 'founding';
   profile_image_url: string | null;
   status: 'active' | 'pending' | 'suspended';
   is_verified: boolean;

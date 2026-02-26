@@ -25,9 +25,11 @@ import {
   Ban,
   Unlock,
   UserCheck,
+  Star,
 } from 'lucide-react';
 import { SellerWithStats, SellerAction } from '@/types/adminSeller';
 import { SellerStatusBadge } from './SellerStatusBadge';
+import { FoundingBadge } from '@/components/seller/FoundingBadge';
 import { useSellerActions } from '@/hooks/useAdminSellers';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -41,6 +43,8 @@ interface SellerDetailSheetProps {
   onUnblock: () => void;
   onVerify: () => void;
   onUnverify: () => void;
+  onMarkFounding: () => void;
+  onUnmarkFounding: () => void;
 }
 
 export function SellerDetailSheet({
@@ -52,6 +56,8 @@ export function SellerDetailSheet({
   onUnblock,
   onVerify,
   onUnverify,
+  onMarkFounding,
+  onUnmarkFounding,
 }: SellerDetailSheetProps) {
   const { data: actions = [] } = useSellerActions(seller?.id || '');
 
@@ -120,6 +126,7 @@ export function SellerDetailSheet({
                     Verificado
                   </Badge>
                 )}
+                {seller.plan === 'founding' && <FoundingBadge />}
               </div>
               <p className="text-slate-400 text-sm mt-1">{seller.responsable}</p>
               <div className="mt-2">
@@ -263,7 +270,27 @@ export function SellerDetailSheet({
           </div>
         </ScrollArea>
 
-        <SheetFooter className="p-6 pt-4 border-t border-slate-700 gap-2">
+        <SheetFooter className="p-6 pt-4 border-t border-slate-700 gap-2 flex-wrap">
+          {seller.plan === 'founding' ? (
+            <Button
+              variant="outline"
+              onClick={onUnmarkFounding}
+              className="flex-1 border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+            >
+              <Star className="h-4 w-4 mr-2 fill-current" />
+              Quitar Fundador
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={onMarkFounding}
+              className="flex-1 border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+            >
+              <Star className="h-4 w-4 mr-2" />
+              Marcar Fundador
+            </Button>
+          )}
+
           {seller.status === 'pending' && (
             <Button
               onClick={onApprove}

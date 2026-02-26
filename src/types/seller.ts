@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export type SellerStatus = 'active' | 'pending' | 'suspended';
 
+export type SellerPlan = 'standard' | 'founding';
+
 export type SellerType = 'tienda_fisica' | 'marca_emprendimiento';
 
 export const SELLER_TYPES: { value: SellerType; label: string; description: string }[] = [
@@ -29,6 +31,7 @@ export interface Seller {
   horario_retiro?: string;
   whatsapp_message?: string;
   seller_type?: SellerType;
+  plan?: SellerPlan;
   status?: SellerStatus;
   created_at?: string;
   password_changed_at?: string;

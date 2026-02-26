@@ -6,6 +6,7 @@ import { SellerWithStats } from '@/types/adminSeller';
 import { SellerStatusBadge } from './SellerStatusBadge';
 import { SellerTypeBadge } from '@/components/seller/SellerTypeBadge';
 import { SellerActions } from './SellerActions';
+import { FoundingBadge } from '@/components/seller/FoundingBadge';
 import { format, isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
 
@@ -17,6 +18,8 @@ interface SellerCardProps {
   onUnblock: () => void;
   onVerify: () => void;
   onUnverify: () => void;
+  onMarkFounding: () => void;
+  onUnmarkFounding: () => void;
 }
 
 export function SellerCard({
@@ -27,6 +30,8 @@ export function SellerCard({
   onUnblock,
   onVerify,
   onUnverify,
+  onMarkFounding,
+  onUnmarkFounding,
 }: SellerCardProps) {
   const initials = seller.nombre_comercial
     .split(' ')
@@ -64,6 +69,7 @@ export function SellerCard({
                   {seller.is_verified && (
                     <BadgeCheck className="h-4 w-4 text-green-400 flex-shrink-0" />
                   )}
+                  {seller.plan === 'founding' && <FoundingBadge />}
                   {isNew && (
                     <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">
                       Nuevo
@@ -81,6 +87,8 @@ export function SellerCard({
                 onUnblock={onUnblock}
                 onVerify={onVerify}
                 onUnverify={onUnverify}
+                onMarkFounding={onMarkFounding}
+                onUnmarkFounding={onUnmarkFounding}
               />
             </div>
 

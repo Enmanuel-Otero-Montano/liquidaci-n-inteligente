@@ -37,6 +37,7 @@ export function ProfilePage() {
     politicas: seller.politicas ?? undefined,
     horario_retiro: seller.horario_retiro ?? undefined,
     whatsapp_message: seller.whatsapp_message ?? undefined,
+    plan: seller.plan,
     status: seller.status,
     created_at: seller.created_at,
     profile_image: seller.profile_image_url ?? undefined,
