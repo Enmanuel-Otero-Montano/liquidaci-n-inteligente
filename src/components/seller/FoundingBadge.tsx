@@ -10,7 +10,7 @@ export function FoundingBadge({ className }: FoundingBadgeProps) {
   return (
     <Badge
       className={cn(
-        'bg-amber-500/20 text-amber-400 border-amber-500/30 gap-1',
+        'bg-amber-500 text-white border-amber-600 gap-1',
         className
       )}
     >
