@@ -35,7 +35,7 @@ const CategoriesSection = ({ minDiscount = 20, categories = defaultCategories }:
             Categorías
           </h2>
           <p className="text-lg text-muted-foreground">
-            Encontrá liquidaciones en todas estas categorías
+            Encontrá liquidaciones en todas estas categorías. Proximamente más categorías.
           </p>
         </div>
 
