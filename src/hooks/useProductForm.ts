@@ -59,7 +59,8 @@ export function useCreateProduct() {
         delivery_type = 'shipping';
       }
 
-      // Generate slug
+      // Generate slug (title + timestamp for uniqueness)
+      const timestamp = Date.now();
       const { data: slug } = await supabase.rpc('generate_slug', { title: data.title });
 
       const verification_status = calculateVerificationStatus(
@@ -71,7 +72,7 @@ export function useCreateProduct() {
         .from('products')
         .insert({
           seller_id: seller.id,
-          slug: slug || `product-${Date.now()}`,
+          slug: slug || `producto-${timestamp}`,
           title: data.title,
           description: data.description,
           category: data.category,
