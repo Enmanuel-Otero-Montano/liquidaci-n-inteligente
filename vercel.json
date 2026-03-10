@@ -1,8 +1,12 @@
 {
-    "rewrites": [
-      {
-        "source": "/(.*)",
-        "destination": "/index.html"
-      }
-    ]
-  }
+  "functions": {
+    "api/product-page.ts": {
+      "includeFiles": "dist/index.html"
+    }
+  },
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
+    { "source": "/p/:slug", "destination": "/api/product-page?slug=:slug" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

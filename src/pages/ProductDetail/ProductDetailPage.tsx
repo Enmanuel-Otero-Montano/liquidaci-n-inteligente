@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProduct, useSeller } from '@/hooks/useProduct';
@@ -10,6 +11,8 @@ import { ProductInfo } from './components/ProductInfo';
 import { ProductDetailSkeleton } from './components/ProductDetailSkeleton';
 import { ProductNotFound } from './components/ProductNotFound';
 import { Breadcrumbs } from './components/Breadcrumbs';
+
+const SITE = 'https://liquioff.com.uy';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -25,9 +28,66 @@ export function ProductDetailPage() {
     isLoading: isSellerLoading 
   } = useSeller(product?.seller_id);
 
+  const productUrl = product ? `${SITE}/p/${product.slug}` : '';
+  const productImage = product?.images?.[0] || `${SITE}/liquioff-logo-og-1200x630.png`;
+  const productTitle = product ? `${product.title} - ${product.discount_pct}% OFF | LiquiOff` : '';
+  const productDescription = product
+    ? (product.description || '').substring(0, 155) || `${product.title} con ${product.discount_pct}% de descuento en LiquiOff Uruguay.`
+    : '';
+
+  const productSchema = product ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description,
+    "image": product.images || [],
+    "url": productUrl,
+    "brand": {
+      "@type": "Organization",
+      "name": product.seller?.nombre_comercial || '',
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": product.price_now,
+      "priceCurrency": "UYU",
+      "availability": product.stock_qty > 0
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      "url": productUrl,
+      "seller": {
+        "@type": "Organization",
+        "name": product.seller?.nombre_comercial || '',
+      },
+    },
+  } : null;
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
+
+      {product && (
+        <Helmet>
+          <title>{productTitle}</title>
+          <meta name="description" content={productDescription} />
+          <link rel="canonical" href={productUrl} />
+          <meta property="og:type" content="product" />
+          <meta property="og:title" content={productTitle} />
+          <meta property="og:description" content={productDescription} />
+          <meta property="og:image" content={productImage} />
+          <meta property="og:url" content={productUrl} />
+          <meta property="og:locale" content="es_UY" />
+          <meta property="og:site_name" content="LiquiOff" />
+          <meta property="product:price:amount" content={String(product.price_now)} />
+          <meta property="product:price:currency" content="UYU" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={productTitle} />
+          <meta name="twitter:description" content={productDescription} />
+          <meta name="twitter:image" content={productImage} />
+          <script type="application/ld+json">
+            {JSON.stringify(productSchema)}
+          </script>
+        </Helmet>
+      )}
 
       <main className="flex-1">
         {isProductLoading ? (
