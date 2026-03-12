@@ -35,31 +35,59 @@ export function ProductDetailPage() {
     ? (product.description || '').substring(0, 155) || `${product.title} con ${product.discount_pct}% de descuento en LiquiOff Uruguay.`
     : '';
 
-  const productSchema = product ? {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": product.title,
-    "description": product.description,
-    "image": product.images || [],
-    "url": productUrl,
-    "brand": {
-      "@type": "Organization",
-      "name": product.seller?.nombre_comercial || '',
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": product.price_now,
-      "priceCurrency": "UYU",
-      "availability": product.stock_qty > 0
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      "url": productUrl,
-      "seller": {
-        "@type": "Organization",
-        "name": product.seller?.nombre_comercial || '',
+  const productSchema = product ? (() => {
+    const updatedAt = new Date(product.updated_at);
+    const priceValidUntil = new Date(updatedAt.getTime() + 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split('T')[0];
+    const sellerName = product.seller?.nombre_comercial || '';
+    const pickupShipping = { "@type": "OfferShippingDetails", "doesNotShip": true };
+    const paidShipping = {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": product.shipping_cost ?? 0,
+        "currency": "UYU",
       },
-    },
-  } : null;
+      "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "UY" },
+    };
+    const shippingDetails =
+      product.delivery_type === 'pickup' ? pickupShipping
+      : product.delivery_type === 'both' ? [pickupShipping, paidShipping]
+      : paidShipping;
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.title,
+      "description": product.description,
+      "image": product.images || [],
+      "url": productUrl,
+      "brand": {
+        "@type": "Brand",
+        "name": sellerName,
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": product.price_now,
+        "priceCurrency": "UYU",
+        "priceValidUntil": priceValidUntil,
+        "availability": product.stock_qty > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        "url": productUrl,
+        "seller": {
+          "@type": "Organization",
+          "name": sellerName,
+        },
+        "shippingDetails": shippingDetails,
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "UY",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnUnspecified",
+        },
+      },
+    };
+  })() : null;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

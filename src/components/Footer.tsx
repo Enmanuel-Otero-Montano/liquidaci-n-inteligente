@@ -35,6 +35,12 @@ const Footer = () => {
                   Ayuda
                 </a>
                 <a
+                  href="/blog"
+                  className="text-background/70 hover:text-background transition-colors"
+                >
+                  Blog
+                </a>
+                <a
                   href="/vendedor/login"
                   className="text-background/70 hover:text-background transition-colors"
                 >

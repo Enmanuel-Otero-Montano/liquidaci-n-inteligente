@@ -29,6 +29,8 @@ import { ReportsPage } from "./pages/admin/Reports";
 import { SubscribersPage } from "./pages/admin/Subscribers";
 import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import { AyudaPage } from "./pages/Ayuda";
+import { BlogListPage } from "./pages/Blog";
+import { BlogDetailPage } from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react"
 import { HelmetProvider } from 'react-helmet-async';
@@ -55,6 +57,8 @@ const App = () => (
               <Route path="/terminos" element={<TerminosPage />} />
               <Route path="/privacidad" element={<PrivacidadPage />} />
               <Route path="/ayuda" element={<AyudaPage />} />
+              <Route path="/blog" element={<BlogListPage />} />
+              <Route path="/blog/:slug" element={<BlogDetailPage />} />
               
               {/* Auth vendedor */}
               <Route path="/vendedor/login" element={<SellerLoginPage />} />

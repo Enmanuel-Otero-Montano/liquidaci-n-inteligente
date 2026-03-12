@@ -10,7 +10,6 @@ const supabase = createClient(supabaseUrl!, supabaseKey!);
 
 const SITE = 'https://liquioff.com.uy';
 
-// Read the built index.html once at cold start
 let indexHtml = '';
 try {
   indexHtml = readFileSync(join(process.cwd(), 'dist', 'index.html'), 'utf-8');
@@ -34,78 +33,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).send(indexHtml || '<!doctype html><html><body></body></html>');
   }
 
-  const { data: product } = await supabase
-    .from('products')
-    .select('*, sellers!inner(nombre_comercial, zona)')
+  const { data: post } = await supabase
+    .from('blog_posts')
+    .select('*')
     .eq('slug', slug)
-    .eq('status', 'approved')
+    .eq('published', true)
     .maybeSingle();
 
-  if (!product) {
-    // Product not found — serve original HTML, let React handle the 404
+  if (!post) {
     res.setHeader('Content-Type', 'text/html');
     return res.status(200).send(indexHtml);
   }
 
-  const title = `${product.title} - ${product.discount_pct}% OFF | LiquiOff`;
-  const description = (product.description || '').substring(0, 155)
-    || `${product.title} con ${product.discount_pct}% de descuento en LiquiOff Uruguay.`;
-  const image = product.images?.[0] || `${SITE}/liquioff-logo-og-1200x630.png`;
-  const url = `${SITE}/p/${product.slug}`;
-  const price = Number(product.price_now);
-  const priceBefore = Number(product.price_before);
-  const sellerName = product.sellers?.nombre_comercial || '';
+  const title = `${post.title} | LiquiOff`;
+  const description = (post.excerpt || '').substring(0, 155);
+  const image = post.cover_image_url || `${SITE}/liquioff-logo-og-1200x630.png`;
+  const url = `${SITE}/blog/${post.slug}`;
+  const isoPublished = post.published_at ? new Date(post.published_at).toISOString() : undefined;
+  const isoUpdated = post.updated_at ? new Date(post.updated_at).toISOString() : isoPublished;
 
-  const updatedAt = new Date(product.updated_at);
-  const priceValidUntil = new Date(updatedAt.getTime() + 30 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .split('T')[0];
-
-  const pickupShipping = { "@type": "OfferShippingDetails", "doesNotShip": true };
-  const paidShipping = {
-    "@type": "OfferShippingDetails",
-    "shippingRate": {
-      "@type": "MonetaryAmount",
-      "value": product.shipping_cost ?? 0,
-      "currency": "UYU",
-    },
-    "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "UY" },
-  };
-  const shippingDetails =
-    product.delivery_type === 'pickup' ? pickupShipping
-    : product.delivery_type === 'both' ? [pickupShipping, paidShipping]
-    : paidShipping;
-
-  const productSchema = JSON.stringify({
+  const articleSchema = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": product.title,
-    "description": product.description,
-    "image": product.images || [],
-    "url": url,
-    "brand": {
-      "@type": "Brand",
-      "name": sellerName,
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.excerpt,
+    "image": post.cover_image_url || undefined,
+    "datePublished": isoPublished,
+    "dateModified": isoUpdated,
+    "author": {
+      "@type": "Person",
+      "name": post.author || 'LiquiOff',
     },
-    "offers": {
-      "@type": "Offer",
-      "price": price,
-      "priceCurrency": "UYU",
-      "priceValidUntil": priceValidUntil,
-      "availability": product.stock_qty > 0
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      "url": url,
-      "seller": {
-        "@type": "Organization",
-        "name": sellerName,
-      },
-      "shippingDetails": shippingDetails,
-      "hasMerchantReturnPolicy": {
-        "@type": "MerchantReturnPolicy",
-        "applicableCountry": "UY",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnUnspecified",
-      },
+    "publisher": {
+      "@type": "Organization",
+      "name": "LiquiOff",
+      "url": SITE,
     },
   });
 
@@ -113,22 +75,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}" />
     <link rel="canonical" href="${url}" />
-    <meta property="og:type" content="product" />
+    <meta property="og:type" content="article" />
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:image" content="${escapeHtml(image)}" />
     <meta property="og:url" content="${url}" />
     <meta property="og:locale" content="es_UY" />
     <meta property="og:site_name" content="LiquiOff" />
-    <meta property="product:price:amount" content="${price}" />
-    <meta property="product:price:currency" content="UYU" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${escapeHtml(image)}" />
-    <script type="application/ld+json">${productSchema}</script>`;
+    <script type="application/ld+json">${articleSchema}</script>`;
 
-  // Remove default generic meta tags and inject product-specific ones
   let html = indexHtml;
   html = html.replace(/<title>.*?<\/title>/, '');
   html = html.replace(/<meta name="description"[^>]*\/>/, '');
@@ -142,6 +101,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   html = html.replace('</head>', `${metaTags}\n</head>`);
 
   res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=60');
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=300');
   res.status(200).send(html);
 }
