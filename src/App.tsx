@@ -31,6 +31,7 @@ import { TerminosPage, PrivacidadPage } from "./pages/Legal";
 import { AyudaPage } from "./pages/Ayuda";
 import { BlogListPage } from "./pages/Blog";
 import { BlogDetailPage } from "./pages/Blog";
+import { MLCallbackPage } from "./pages/vendedor/MLCallbackPage";
 import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react"
 import { HelmetProvider } from 'react-helmet-async';
@@ -65,6 +66,7 @@ const App = () => (
               <Route path="/vendedor/registro" element={<SellerRegisterPage />} />
               <Route path="/vendedor/recuperar-contrasena" element={<ForgotPasswordPage />} />
               <Route path="/vendedor/nueva-contrasena" element={<ResetPasswordPage />} />
+              <Route path="/vendedor/ml-callback" element={<MLCallbackPage />} />
               
               {/* Rutas protegidas vendedor */}
               <Route 

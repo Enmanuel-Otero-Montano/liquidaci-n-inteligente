@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
@@ -19,19 +19,46 @@ import { productFormSchema, ProductFormData } from '@/types/productForm';
 import { useProductForEdit, useCreateProduct, useUpdateProduct } from '@/hooks/useProductForm';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { MLProductPicker } from '@/components/MLProductPicker';
 import { calculateQuantityPromoInfo } from '@/utils/quantityPromo';
 
 export function ProductFormPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
   const isEditing = !!id;
+
+  const [mlPickerOpen, setMlPickerOpen] = useState(false);
 
   const { data: existingProduct, isLoading: isLoadingProduct } = useProductForEdit(id);
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
 
   const [wasApproved, setWasApproved] = useState(false);
+
+  // Handle ML callback query params
+  useEffect(() => {
+    const mlConnected = searchParams.get('ml_connected');
+    const mlError = searchParams.get('ml_error');
+
+    if (mlConnected === 'true') {
+      toast({
+        title: 'MercadoLibre conectado correctamente',
+        description: 'Ahora podés importar tus publicaciones',
+      });
+      setMlPickerOpen(true);
+      setSearchParams({}, { replace: true });
+    } else if (mlError === 'true') {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudo conectar con MercadoLibre. Intentá de nuevo.',
+      });
+      setSearchParams({}, { replace: true });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
@@ -59,6 +86,22 @@ export function ProductFormPage() {
       quantity_discount_percent: undefined,
     },
   });
+
+  const handleMLProductSelect = useCallback((product: {
+    title: string;
+    price: number;
+    images: string[];
+    permalink: string;
+  }) => {
+    form.setValue('title', product.title, { shouldValidate: true });
+    form.setValue('price_before', product.price, { shouldValidate: true });
+    form.setValue('images', product.images.slice(0, 5), { shouldValidate: true });
+    form.setValue('evidence_url', product.permalink, { shouldValidate: true });
+    toast({
+      title: 'Producto importado',
+      description: 'Completá el precio de oferta y los datos restantes',
+    });
+  }, [form, toast]);
 
   // Load existing product data for editing
   useEffect(() => {
@@ -304,10 +347,44 @@ export function ProductFormPage() {
   return (
     <SellerLayout>
       <div className="max-w-3xl mx-auto space-y-6">
-        <ProductFormHeader 
-          isEditing={isEditing} 
+        <ProductFormHeader
+          isEditing={isEditing}
           productTitle={existingProduct?.title}
         />
+
+        {!isEditing && (
+          <>
+            <Card className="bg-muted/50 border-dashed">
+              <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5">
+                <p className="text-sm text-muted-foreground text-center sm:text-left">
+                  ¿Tenés productos en MercadoLibre? Importalos en 2 clics
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setMlPickerOpen(true)}
+                  className="shrink-0"
+                >
+                  Importar desde ML
+                </Button>
+              </CardContent>
+            </Card>
+
+            <div className="relative flex items-center gap-4">
+              <div className="flex-1 border-t border-border" />
+              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                o completá manualmente
+              </span>
+              <div className="flex-1 border-t border-border" />
+            </div>
+
+            <MLProductPicker
+              open={mlPickerOpen}
+              onOpenChange={setMlPickerOpen}
+              onSelectProduct={handleMLProductSelect}
+            />
+          </>
+        )}
 
         <Form {...form}>
           <form className="space-y-6">
